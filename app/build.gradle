@@ -10,7 +10,7 @@ android {
         applicationId "com.newport.app"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 21
+        versionCode 25
         versionName "1.1.12"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

@@ -37,7 +37,7 @@ import com.squareup.picasso.Picasso;
 public class NewDetailFragment extends Fragment implements NewDetailContract.View {
 
     private static final String ARG_PARAM1 = "idDetailEvent";
-    private static final String VIDEO_ID = "nNoyT7DZzmQ";
+    private static final String VIDEO_ID = "QwievZ1Tx-8";
 
     private NewDetailPresenter newDetailPresenter;
 
@@ -147,7 +147,7 @@ public class NewDetailFragment extends Fragment implements NewDetailContract.Vie
         }
 
         /** Initializating Youtube Player View **/
-        if (newResponse.getId() != 9) {
+        if (newResponse.getId() != 34) {
             youtube_player.setVisibility(View.GONE);
             return;
         }
@@ -193,7 +193,7 @@ public class NewDetailFragment extends Fragment implements NewDetailContract.Vie
         youTubePlayerFragment.initialize(Constant.API_KEY, new YouTubePlayer.OnInitializedListener() {
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
-                /** Start Buffering **/
+                /* Start Buffering */
                 if (!b) {
                     youTubePlayer.cueVideo(youtubeVideoId);
                 }
