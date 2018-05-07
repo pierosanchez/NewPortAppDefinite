@@ -14,6 +14,7 @@ import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -52,7 +53,9 @@ public class PhotoGalleryActivity extends AppCompatActivity {
     private boolean firstTouch = false;
     private boolean imageLoaded = false;
 
-    private ImageView imgGalleryPhoto;
+    //private ImageView imgGalleryPhoto;
+    private ViewPager viewPagerImages;
+    private List<PhotoGalleryEventResponse> photoGalleryEventResponseList;
 
     private static Context context;
 
@@ -70,7 +73,8 @@ public class PhotoGalleryActivity extends AppCompatActivity {
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         photoGalleryEventResponse = (PhotoGalleryEventResponse) getIntent().getSerializableExtra(Constant.EXTRA_PHOTO_ITEM);
 
-        imgGalleryPhoto = findViewById(R.id.imgGalleryPhoto);
+        //imgGalleryPhoto = findViewById(R.id.imgGalleryPhoto);
+        viewPagerImages = findViewById(R.id.view_pager_images);
         TextView lblNamePhoto = findViewById(R.id.lblNamePhoto);
         TextView lblHourPhoto = findViewById(R.id.lblHourPhoto);
 
@@ -80,9 +84,13 @@ public class PhotoGalleryActivity extends AppCompatActivity {
         gestureDetector = new ScaleGestureDetector(this, new ScaleListener());
 
         String imageTransitionName = getIntent().getStringExtra(Constant.EXTRA_PHOTO_TRANSITION_NAME);
-        imgGalleryPhoto.setTransitionName(imageTransitionName);
+        photoGalleryEventResponseList = (List<PhotoGalleryEventResponse>) getIntent().getSerializableExtra("photoEventsList");
 
-        Picasso.with(this)
+        PhotoGalleryAdapter adapter = new PhotoGalleryAdapter(this, photoGalleryEventResponseList, photoGalleryEventResponse.getId());
+        viewPagerImages.setAdapter(adapter);
+        //imgGalleryPhoto.setTransitionName(imageTransitionName);
+
+        /*Picasso.with(this)
                 .load(photoGalleryEventResponse.getImage_url())
                 .noFade()
                 .into(imgGalleryPhoto, new Callback() {
@@ -96,7 +104,7 @@ public class PhotoGalleryActivity extends AppCompatActivity {
                     public void onError() {
                         supportStartPostponedEnterTransition();
                     }
-                });
+                });*/
     }
 
     private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
@@ -106,7 +114,7 @@ public class PhotoGalleryActivity extends AppCompatActivity {
             scale = scale * detector.getScaleFactor();
             scale = Math.max(0.1f, Math.min(scale, 5f));
             matrix.setScale(scale, scale);
-            imgGalleryPhoto.setImageMatrix(matrix);
+            //imgGalleryPhoto.setImageMatrix(matrix);
             return true;
         }
     }
@@ -115,7 +123,7 @@ public class PhotoGalleryActivity extends AppCompatActivity {
     public boolean onTouchEvent(MotionEvent event) {
         if (!firstTouch && imageLoaded){
             firstTouch = true;
-            imgGalleryPhoto.setScaleType(ImageView.ScaleType.MATRIX);
+            //imgGalleryPhoto.setScaleType(ImageView.ScaleType.MATRIX);
         }
         gestureDetector.onTouchEvent(event);
         return true;

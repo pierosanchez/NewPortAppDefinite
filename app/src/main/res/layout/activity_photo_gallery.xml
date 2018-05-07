@@ -16,13 +16,20 @@
         android:layout_weight="1"
         android:gravity="center">
 
-        <ImageView
+        <!--<ImageView
             android:id="@+id/imgGalleryPhoto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:contentDescription="@null"
-            tools:src="@drawable/people" />
+            tools:src="@drawable/people" />-->
+
+        <android.support.v4.view.ViewPager
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/view_pager_images">
+
+        </android.support.v4.view.ViewPager>
     </RelativeLayout>
 
     <RelativeLayout

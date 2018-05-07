@@ -52,6 +52,7 @@ import com.newport.app.util.UBitmap;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,7 +68,6 @@ public class EventsGalleryFragment extends Fragment implements EventsGalleryCont
 
     private static final int REQUEST_PERMISSIONS_FOT_GALLERY = 201;
 
-    private int contador = 1;
     private Context mContext;
 
     private EventsGalleryPresenter eventsGalleryPresenter;
@@ -88,6 +88,7 @@ public class EventsGalleryFragment extends Fragment implements EventsGalleryCont
     private CoordinatorLayout crdGallery;
 
     private String absolutPath;
+    private List<PhotoGalleryEventResponse> photoGalleryEventList;
 
     public EventsGalleryFragment() {
         // Required empty public constructor
@@ -195,13 +196,17 @@ public class EventsGalleryFragment extends Fragment implements EventsGalleryCont
         Intent intent = new Intent(getActivity(), PhotoGalleryActivity.class);
         intent.putExtra(Constant.EXTRA_PHOTO_ITEM, photoGalleryEventResponse);
         intent.putExtra(Constant.EXTRA_PHOTO_TRANSITION_NAME, ViewCompat.getTransitionName(imgItemGalleryPhoto));
+        intent.putExtra("photoEventsList", (Serializable) photoGalleryEventList);
 
-        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+        Log.d("photoEventsList", String.valueOf(photoGalleryEventList.size()));
+
+        /*ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
                 getActivity(),
                 imgItemGalleryPhoto,
-                ViewCompat.getTransitionName(imgItemGalleryPhoto));
+                ViewCompat.getTransitionName(imgItemGalleryPhoto));*/
 
-        startActivity(intent, options.toBundle());
+        //startActivity(intent, options.toBundle());
+        startActivity(intent);
     }
 
     @Override
@@ -221,6 +226,7 @@ public class EventsGalleryFragment extends Fragment implements EventsGalleryCont
 
     @Override
     public void showPhotosEvent(List<PhotoGalleryEventResponse> photoGalleryEventResponseList) {
+        photoGalleryEventList = photoGalleryEventResponseList;
         eventsGalleryAdapter.addData(photoGalleryEventResponseList);
         if (uploadPhotos != 0) {
             fab.show();
@@ -540,5 +546,4 @@ public class EventsGalleryFragment extends Fragment implements EventsGalleryCont
 
         return Bitmap.createBitmap(bitmap, 0, 0, w, h, mtx, true);
     }
-
 }
