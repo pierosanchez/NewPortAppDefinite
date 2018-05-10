@@ -196,9 +196,8 @@ public class EventsGalleryFragment extends Fragment implements EventsGalleryCont
         Intent intent = new Intent(getActivity(), PhotoGalleryActivity.class);
         intent.putExtra(Constant.EXTRA_PHOTO_ITEM, photoGalleryEventResponse);
         intent.putExtra(Constant.EXTRA_PHOTO_TRANSITION_NAME, ViewCompat.getTransitionName(imgItemGalleryPhoto));
-        intent.putExtra("photoEventsList", (Serializable) photoGalleryEventList);
+        intent.putExtra("photoEventsList", (Serializable) listFixedPositions(photoGalleryEventResponse));
 
-        Log.d("photoEventsList", String.valueOf(photoGalleryEventList.size()));
 
         /*ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
                 getActivity(),
@@ -545,5 +544,38 @@ public class EventsGalleryFragment extends Fragment implements EventsGalleryCont
         mtx.setRotate(degree);
 
         return Bitmap.createBitmap(bitmap, 0, 0, w, h, mtx, true);
+    }
+
+    private List<PhotoGalleryEventResponse> listFixedPositions(PhotoGalleryEventResponse photoGalleryEventResponse){
+        List<PhotoGalleryEventResponse> listTemp1 = new ArrayList<>();
+        List<PhotoGalleryEventResponse> listTemp2 = new ArrayList<>();
+        List<PhotoGalleryEventResponse> listFinal = new ArrayList<>();
+        int idphoto = photoGalleryEventResponse.getId();
+        Log.d("idPhoto", String.valueOf(idphoto));
+
+        for (int i = 0; i < photoGalleryEventList.size(); i++){
+            if (photoGalleryEventList.get(i).getId() < idphoto){
+                listTemp1.add(photoGalleryEventList.get(i));
+            } else {
+                listTemp2.add(photoGalleryEventList.get(i));
+            }
+        }
+
+        for (int p = 0; p < listTemp1.size(); p++) {
+            Log.d("listTemp1", String.valueOf(listTemp1.get(p).getId()));
+        }
+        for (int j = 0; j < listTemp2.size(); j++) {
+            Log.d("listTemp2", String.valueOf(listTemp2.get(j).getId()));
+        }
+
+        listFinal.clear();
+        listFinal.addAll(listTemp2);
+        listFinal.addAll(listTemp1);
+
+        for (int i = 0; i < listFinal.size(); i++){
+            Log.d("list", String.valueOf(listFinal.get(i).getId()));
+        }
+
+        return listFinal;
     }
 }

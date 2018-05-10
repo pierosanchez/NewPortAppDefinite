@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.newport.app.NewPortApplication;
 import com.newport.app.R;
 import com.newport.app.data.models.response.PhotoGalleryEventResponse;
 import com.newport.app.util.Constant;
@@ -56,6 +57,8 @@ public class PhotoGalleryActivity extends AppCompatActivity {
     //private ImageView imgGalleryPhoto;
     private ViewPager viewPagerImages;
     private List<PhotoGalleryEventResponse> photoGalleryEventResponseList;
+    public TextView lblNamePhoto;
+    public TextView lblHourPhoto;
 
     private static Context context;
 
@@ -75,19 +78,21 @@ public class PhotoGalleryActivity extends AppCompatActivity {
 
         //imgGalleryPhoto = findViewById(R.id.imgGalleryPhoto);
         viewPagerImages = findViewById(R.id.view_pager_images);
-        TextView lblNamePhoto = findViewById(R.id.lblNamePhoto);
-        TextView lblHourPhoto = findViewById(R.id.lblHourPhoto);
+        /*lblNamePhoto = findViewById(R.id.lblNamePhoto);
+        lblHourPhoto = findViewById(R.id.lblHourPhoto);
 
         lblNamePhoto.setText(photoGalleryEventResponse.getNews_title());
-        lblHourPhoto.setText(photoGalleryEventResponse.getCreated_at());
+        lblHourPhoto.setText(photoGalleryEventResponse.getCreated_at());*/
 
         gestureDetector = new ScaleGestureDetector(this, new ScaleListener());
 
         String imageTransitionName = getIntent().getStringExtra(Constant.EXTRA_PHOTO_TRANSITION_NAME);
         photoGalleryEventResponseList = (List<PhotoGalleryEventResponse>) getIntent().getSerializableExtra("photoEventsList");
 
-        PhotoGalleryAdapter adapter = new PhotoGalleryAdapter(this, photoGalleryEventResponseList, photoGalleryEventResponse.getId());
+        PhotoGalleryAdapter adapter = new PhotoGalleryAdapter(this, photoGalleryEventResponseList, lblHourPhoto, lblNamePhoto);
+        //adapter.instantiateItem(viewPagerImages, 1);
         viewPagerImages.setAdapter(adapter);
+
         //imgGalleryPhoto.setTransitionName(imageTransitionName);
 
         /*Picasso.with(this)
