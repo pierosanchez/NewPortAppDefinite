@@ -551,7 +551,6 @@ public class EventsGalleryFragment extends Fragment implements EventsGalleryCont
         List<PhotoGalleryEventResponse> listTemp2 = new ArrayList<>();
         List<PhotoGalleryEventResponse> listFinal = new ArrayList<>();
         int idphoto = photoGalleryEventResponse.getId();
-        Log.d("idPhoto", String.valueOf(idphoto));
 
         for (int i = 0; i < photoGalleryEventList.size(); i++){
             if (photoGalleryEventList.get(i).getId() < idphoto){
@@ -561,20 +560,9 @@ public class EventsGalleryFragment extends Fragment implements EventsGalleryCont
             }
         }
 
-        for (int p = 0; p < listTemp1.size(); p++) {
-            Log.d("listTemp1", String.valueOf(listTemp1.get(p).getId()));
-        }
-        for (int j = 0; j < listTemp2.size(); j++) {
-            Log.d("listTemp2", String.valueOf(listTemp2.get(j).getId()));
-        }
-
         listFinal.clear();
         listFinal.addAll(listTemp2);
         listFinal.addAll(listTemp1);
-
-        for (int i = 0; i < listFinal.size(); i++){
-            Log.d("list", String.valueOf(listFinal.get(i).getId()));
-        }
 
         return listFinal;
     }

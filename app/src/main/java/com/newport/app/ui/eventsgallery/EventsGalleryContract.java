@@ -24,7 +24,6 @@ interface EventsGalleryContract {
 
         void showPhotosEmpty(String message);
         void showPhotosError(String error);
-
     }
 
     interface Presenter extends BasePresenter<View> {
@@ -35,7 +34,6 @@ interface EventsGalleryContract {
     }
 
     interface Callback {
-
         void getPhotosGallerySucces(List<PhotoGalleryEventResponse> body);
         void getPhotosGalleryError(String error);
         void getPhotosGalleryFailure(String message);

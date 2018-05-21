@@ -1,6 +1,7 @@
 package com.newport.app.ui.schedules;
 
 import com.newport.app.data.models.response.ScheduleResponse;
+import com.newport.app.data.models.response.UserScheduleResponse;
 import com.newport.app.util.BasePresenter;
 
 import java.util.List;
@@ -21,11 +22,17 @@ public interface ScheduleContract {
 
         void showSchedulesError(String error);
 
+        void showUserSchedules(UserScheduleResponse userScheduleResponse);
+
+        void showUserSchedulesError(String Error);
+
     }
 
     interface Presenter extends BasePresenter<View> {
 
         void getSchedules();
+
+        void getUserSchedules(String dni);
 
     }
 
@@ -33,9 +40,15 @@ public interface ScheduleContract {
 
         void getSchedulesSucces(List<ScheduleResponse> scheduleResponseList);
 
+        void getUserSchedulesSuccess(UserScheduleResponse userScheduleResponse);
+
         void getSchedulesError(String error);
 
         void getSchedulesFailure(String message);
+
+        void getUserSchedulesError(String error);
+
+        void getUserSchedulesFailure(String message);
     }
 
 }

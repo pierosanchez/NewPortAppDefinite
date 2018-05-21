@@ -8,9 +8,11 @@ import com.newport.app.data.models.response.HomeResponse;
 import com.newport.app.data.models.response.LoginResponse;
 import com.newport.app.data.models.response.NewResponse;
 import com.newport.app.data.models.response.PhotoGalleryEventResponse;
+import com.newport.app.data.models.response.PhotoLikeResponse;
 import com.newport.app.data.models.response.PhotoUploadedResponse;
 import com.newport.app.data.models.response.ScheduleResponse;
 import com.newport.app.data.models.response.UserResponse;
+import com.newport.app.data.models.response.UserScheduleResponse;
 
 import java.util.List;
 
@@ -64,4 +66,20 @@ public interface NewPortApi {
     @Headers(HEADER_AUTHORIZATION)
     @GET(BuildConfig.SCHEDULES)
     Call<List<ScheduleResponse>> getSchedules();
+
+    @Headers(HEADER_AUTHORIZATION)
+    @GET(BuildConfig.USERSCHEDULES)
+    Call<UserScheduleResponse> getUserSchedule(@Path("dni") String dni);
+
+    @Headers(HEADER_AUTHORIZATION)
+    @GET(BuildConfig.PHOTOLIKE)
+    Call<PhotoLikeResponse> setPhotoLike(@Path("photoId") int photoId, @Path("userDni") String userDni);
+
+    @Headers(HEADER_AUTHORIZATION)
+    @GET(BuildConfig.COUNTLIKES)
+    Call<PhotoLikeResponse> getPhotoLikes(@Path("photoId") int photoId);
+
+    @Headers(HEADER_AUTHORIZATION)
+    @GET(BuildConfig.PHOTOLIKEDBY)
+    Call<PhotoLikeResponse> getPhotoLikedBy(@Path("photoId") int photoId, @Path("userDni") String userDni);
 }

@@ -25,9 +25,9 @@
             tools:src="@drawable/people" />-->
 
         <android.support.v4.view.ViewPager
+            android:id="@+id/view_pager_images"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/view_pager_images">
+            android:layout_height="match_parent">
 
         </android.support.v4.view.ViewPager>
     </RelativeLayout>
@@ -62,17 +62,41 @@
 
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/imgDownloadImage"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginBottom="24dp"
             android:layout_marginEnd="24dp"
-            android:contentDescription="@null"
-            android:onClick="checkPermissions"
-            android:src="@drawable/ic_download_image" />
+            android:contentDescription="@null">
+
+            <TextView
+                android:id="@+id/lblLikeCount"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginRight="5dp"
+                android:gravity="center"
+                android:text="0"
+                android:textAlignment="center"
+                android:textColor="@android:color/white" />
+
+            <ImageView
+                android:id="@+id/imgLikeButton"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/circulo_sin_fondo" />
+
+            <ImageView
+                android:id="@+id/imgDownloadImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="checkPermissions"
+                android:src="@drawable/ic_download_image" />
+
+        </LinearLayout>
+
     </RelativeLayout>
 
 </LinearLayout>

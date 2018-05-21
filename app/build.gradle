@@ -37,6 +37,10 @@ android {
             buildConfigField "String", "SEND_PHOTO", "\"gallery\""
             buildConfigField "String", "DIRECTORY", "\"directory-by-sections\""
             buildConfigField "String", "SCHEDULES", "\"workinghours\""
+            buildConfigField "String", "USERSCHEDULES", "\"users/schedule/{dni}\""
+            buildConfigField "String", "PHOTOLIKE", "\"gallery/likephoto/{photoId}/{photoLikeCount}\""
+            buildConfigField "String", "COUNTLIKES", "\"gallery/likes/{photoId}\""
+            buildConfigField "String", "PHOTOLIKEDBY", "\"/gallery/likes/likedby/{photoId}/{userDni}\""
         }
 
         debug {
@@ -58,6 +62,11 @@ android {
             buildConfigField "String", "SEND_PHOTO", "\"gallery\""
             buildConfigField "String", "DIRECTORY", "\"directory-by-sections\""
             buildConfigField "String", "SCHEDULES", "\"workinghours\""
+            buildConfigField "String", "USERSCHEDULES", "\"users/schedule/{dni}\""
+            buildConfigField "String", "PHOTOLIKE", "\"gallery/likephoto/{photoId}/{userDni}\""
+            buildConfigField "String", "COUNTLIKES", "\"gallery/likes/{photoId}\""
+            buildConfigField "String", "PHOTOLIKEDBY", "\"gallery/likes/likedby/{photoId}/{userDni}\""
+
         }
     }
 }

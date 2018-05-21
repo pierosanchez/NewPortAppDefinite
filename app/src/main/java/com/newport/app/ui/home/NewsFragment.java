@@ -206,7 +206,7 @@ public class NewsFragment extends Fragment implements NewsContract.View, NewsAda
                 }
                 rcvNewsCategory.smoothScrollToPosition(currentPosition);
             }
-        },1000,5000);
+        },1000,10000);
 
         //Second Section
         lnlAtTime.setOnClickListener(this);

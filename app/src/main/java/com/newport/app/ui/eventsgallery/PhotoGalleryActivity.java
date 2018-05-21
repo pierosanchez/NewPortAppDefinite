@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
@@ -29,6 +30,8 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.newport.app.NewPortApplication;
 import com.newport.app.R;
 import com.newport.app.data.models.response.PhotoGalleryEventResponse;
+import com.newport.app.data.models.response.PhotoLikeResponse;
+import com.newport.app.ui.eventsgallery.photolikes.EventsGalleryPhotoLikeContract;
 import com.newport.app.util.Constant;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -42,7 +45,7 @@ import java.util.List;
 
 import static com.newport.app.util.Constant.REQUEST_GROUP_PERMISSIONS;
 
-public class PhotoGalleryActivity extends AppCompatActivity {
+public class PhotoGalleryActivity extends AppCompatActivity implements EventsGalleryContract.View {
 
     private PhotoGalleryEventResponse photoGalleryEventResponse;
     private FirebaseAnalytics mFirebaseAnalytics;
@@ -59,6 +62,8 @@ public class PhotoGalleryActivity extends AppCompatActivity {
     private List<PhotoGalleryEventResponse> photoGalleryEventResponseList;
     public TextView lblNamePhoto;
     public TextView lblHourPhoto;
+    public TextView lblLikeCount;
+    private ImageView imgLikeButton;
 
     private static Context context;
 
@@ -78,6 +83,8 @@ public class PhotoGalleryActivity extends AppCompatActivity {
 
         //imgGalleryPhoto = findViewById(R.id.imgGalleryPhoto);
         viewPagerImages = findViewById(R.id.view_pager_images);
+        imgLikeButton = findViewById(R.id.imgLikeButton);
+        lblLikeCount = findViewById(R.id.lblLikeCount);
         /*lblNamePhoto = findViewById(R.id.lblNamePhoto);
         lblHourPhoto = findViewById(R.id.lblHourPhoto);
 
@@ -89,7 +96,7 @@ public class PhotoGalleryActivity extends AppCompatActivity {
         String imageTransitionName = getIntent().getStringExtra(Constant.EXTRA_PHOTO_TRANSITION_NAME);
         photoGalleryEventResponseList = (List<PhotoGalleryEventResponse>) getIntent().getSerializableExtra("photoEventsList");
 
-        PhotoGalleryAdapter adapter = new PhotoGalleryAdapter(this, photoGalleryEventResponseList, lblHourPhoto, lblNamePhoto);
+        PhotoGalleryAdapter adapter = new PhotoGalleryAdapter(this, photoGalleryEventResponseList, lblHourPhoto, lblNamePhoto, lblLikeCount, imgLikeButton);
         //adapter.instantiateItem(viewPagerImages, 1);
         viewPagerImages.setAdapter(adapter);
 
@@ -279,5 +286,35 @@ public class PhotoGalleryActivity extends AppCompatActivity {
 
             }
         };
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
+    }
+
+    @Override
+    public void showPhotosEvent(List<PhotoGalleryEventResponse> photoGalleryEventResponseList) {
+
+    }
+
+    @Override
+    public void reloadGalleryPhotos() {
+
+    }
+
+    @Override
+    public void showPhotosEmpty(String message) {
+
+    }
+
+    @Override
+    public void showPhotosError(String error) {
+
     }
 }

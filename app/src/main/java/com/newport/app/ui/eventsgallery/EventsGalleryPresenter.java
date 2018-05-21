@@ -1,5 +1,7 @@
 package com.newport.app.ui.eventsgallery;
 
+import android.util.Log;
+
 import com.newport.app.data.models.response.PhotoGalleryEventResponse;
 import com.newport.app.data.models.response.PhotoUploadedResponse;
 

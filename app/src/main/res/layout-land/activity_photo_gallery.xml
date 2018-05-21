@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/linearLayout2"
     android:layout_width="match_parent"
@@ -14,13 +15,18 @@
         android:layout_height="match_parent"
         android:gravity="center">
 
-        <ImageView
+        <!--<ImageView
             android:id="@+id/imgGalleryPhoto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:contentDescription="@null"
-            tools:src="@drawable/people" />
+            tools:src="@drawable/people" />-->
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/view_pager_images"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -28,7 +34,68 @@
         android:layout_height="wrap_content"
         android:visibility="gone">
 
-        <TextView
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/lblNamePhoto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintBottom_toTopOf="@+id/lblHourPhoto"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="Renzo Huamán" />
+
+            <TextView
+                android:id="@+id/lblHourPhoto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:textColor="@android:color/white"
+                tools:text="13:00" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="24dp"
+            android:layout_marginEnd="24dp"
+            android:contentDescription="@null">
+
+            <TextView
+                android:id="@+id/lblLikeCount"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginRight="5dp"
+                android:gravity="center"
+                android:text="0"
+                android:textAlignment="center"
+                android:textColor="@android:color/white" />
+
+            <ImageView
+                android:id="@+id/imgLikeButton"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/circulo_sin_fondo" />
+
+            <ImageView
+                android:id="@+id/imgDownloadImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="checkPermissions"
+                android:src="@drawable/ic_download_image" />
+
+        </LinearLayout>
+
+        <!--<TextView
             android:id="@+id/lblNamePhoto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -43,7 +110,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@null"
-            android:onClick="checkPermissions" />
+            android:onClick="checkPermissions" />-->
 
     </RelativeLayout>
 

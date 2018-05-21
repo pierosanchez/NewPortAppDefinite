@@ -32,6 +32,7 @@ public class PhotoGalleryEventResponse implements Serializable {
     private String image_url;
     private String news_title;
     private String status_name;
+    private int likePhoto;
 
     public int getId() {
         return id;
@@ -111,5 +112,13 @@ public class PhotoGalleryEventResponse implements Serializable {
 
     public void setStatus_name(String status_name) {
         this.status_name = status_name;
+    }
+
+    public int getLikePhoto() {
+        return likePhoto;
+    }
+
+    public void setLikePhoto(int likePhoto) {
+        this.likePhoto = likePhoto;
     }
 }

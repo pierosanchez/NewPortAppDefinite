@@ -8,7 +8,9 @@ import com.newport.app.R;
 import com.newport.app.data.api.NewPortApiManager;
 import com.newport.app.data.models.request.PhotoRequest;
 import com.newport.app.data.models.response.PhotoGalleryEventResponse;
+import com.newport.app.data.models.response.PhotoLikeResponse;
 import com.newport.app.data.models.response.PhotoUploadedResponse;
+import com.newport.app.ui.eventsgallery.photolikes.EventsGalleryPhotoLikeContract;
 import com.newport.app.util.PreferencesHeper;
 
 import java.util.List;
