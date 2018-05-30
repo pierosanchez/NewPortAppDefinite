@@ -32,7 +32,9 @@ import com.newport.app.R;
 import com.newport.app.data.models.response.PhotoGalleryEventResponse;
 import com.newport.app.data.models.response.PhotoLikeResponse;
 import com.newport.app.ui.eventsgallery.photolikes.EventsGalleryPhotoLikeContract;
+import com.newport.app.ui.eventsgallery.photolikes.EventsGalleryPhotoLikePresenter;
 import com.newport.app.util.Constant;
+import com.newport.app.util.PreferencesHeper;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -45,19 +47,20 @@ import java.util.List;
 
 import static com.newport.app.util.Constant.REQUEST_GROUP_PERMISSIONS;
 
-public class PhotoGalleryActivity extends AppCompatActivity implements EventsGalleryContract.View {
+public class PhotoGalleryActivity extends AppCompatActivity implements EventsGalleryPhotoLikeContract.View {
 
     private PhotoGalleryEventResponse photoGalleryEventResponse;
+    private EventsGalleryPhotoLikePresenter eventsGalleryPhotoLikePresenter;
     private FirebaseAnalytics mFirebaseAnalytics;
 
     private Matrix matrix = new Matrix();
     private Float scale = 1f;
     private ScaleGestureDetector gestureDetector;
+    private int pos;
 
     private boolean firstTouch = false;
     private boolean imageLoaded = false;
 
-    //private ImageView imgGalleryPhoto;
     private ViewPager viewPagerImages;
     private List<PhotoGalleryEventResponse> photoGalleryEventResponseList;
     public TextView lblNamePhoto;
@@ -80,43 +83,109 @@ public class PhotoGalleryActivity extends AppCompatActivity implements EventsGal
         context = this;
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         photoGalleryEventResponse = (PhotoGalleryEventResponse) getIntent().getSerializableExtra(Constant.EXTRA_PHOTO_ITEM);
+        photoGalleryEventResponseList = (List<PhotoGalleryEventResponse>) getIntent().getSerializableExtra("photoEventsList");
 
-        //imgGalleryPhoto = findViewById(R.id.imgGalleryPhoto);
+        eventsGalleryPhotoLikePresenter = new EventsGalleryPhotoLikePresenter();
+        eventsGalleryPhotoLikePresenter.attachedView(this);
+
         viewPagerImages = findViewById(R.id.view_pager_images);
         imgLikeButton = findViewById(R.id.imgLikeButton);
         lblLikeCount = findViewById(R.id.lblLikeCount);
-        /*lblNamePhoto = findViewById(R.id.lblNamePhoto);
-        lblHourPhoto = findViewById(R.id.lblHourPhoto);
 
-        lblNamePhoto.setText(photoGalleryEventResponse.getNews_title());
-        lblHourPhoto.setText(photoGalleryEventResponse.getCreated_at());*/
+        imgLikeButton = findViewById(R.id.imgLikeButton);
 
         gestureDetector = new ScaleGestureDetector(this, new ScaleListener());
+        onClickImageLikePhotoListener();
 
-        String imageTransitionName = getIntent().getStringExtra(Constant.EXTRA_PHOTO_TRANSITION_NAME);
-        photoGalleryEventResponseList = (List<PhotoGalleryEventResponse>) getIntent().getSerializableExtra("photoEventsList");
+        eventsGalleryPhotoLikePresenter.getPhotoLikedBy(photoGalleryEventResponseList.get(0).getId(), PreferencesHeper.getDniUser(NewPortApplication.getAppContext()));
+        //eventsGalleryPhotoLikePresenter.getPhotoLikes(photoGalleryEventResponseList.get(0).getId());
 
         PhotoGalleryAdapter adapter = new PhotoGalleryAdapter(this, photoGalleryEventResponseList, lblHourPhoto, lblNamePhoto, lblLikeCount, imgLikeButton);
-        //adapter.instantiateItem(viewPagerImages, 1);
         viewPagerImages.setAdapter(adapter);
+        viewPagerImages.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-        //imgGalleryPhoto.setTransitionName(imageTransitionName);
+            }
 
-        /*Picasso.with(this)
-                .load(photoGalleryEventResponse.getImage_url())
-                .noFade()
-                .into(imgGalleryPhoto, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        supportStartPostponedEnterTransition();
-                        imageLoaded = true;
-                    }
+            @Override
+            public void onPageSelected(int position) {
+                pos = position;
+                eventsGalleryPhotoLikePresenter.getPhotoLikedBy(photoGalleryEventResponseList.get(position).getId(), PreferencesHeper.getDniUser(NewPortApplication.getAppContext()));
+            }
 
-                    @Override
-                    public void onError() {
-                        supportStartPostponedEnterTransition();
-                    }
-                });*/
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+    }
+
+    private void onClickImageLikePhotoListener(){
+        imgLikeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int id = photoGalleryEventResponseList.get(pos).getId();
+                eventsGalleryPhotoLikePresenter.setPhotoLike(id, PreferencesHeper.getDniUser(NewPortApplication.getAppContext()));
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+
+    @Override
+    public void showPhotoLikes(PhotoLikeResponse photoLikeResponse) {
+        lblLikeCount.setText(String.valueOf(photoLikeResponse.getLikes()));
+    }
+
+    @Override
+    public void showPhotoLikesError(String error) {
+        //Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showPhotoLikesFailure(String failure) {
+        Toast.makeText(context, failure, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showPhotoLikeError(String error) {
+        //Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showPhotoLikeSuccess(PhotoLikeResponse photoLikeResponse) {
+        if (photoLikeResponse.getMessage().equals("disliked")) {
+            imgLikeButton.setImageResource(R.drawable.like_manito_de_horacio_byn);
+            //eventsGalleryPhotoLikePresenter.getPhotoLikes(photoGalleryEventResponseList.get(pos).getId());
+            lblLikeCount.setText(String.valueOf(photoLikeResponse.getLikes()));
+        } else {
+            imgLikeButton.setImageResource(R.drawable.like_manito_de_horacio);
+            //eventsGalleryPhotoLikePresenter.getPhotoLikes(photoGalleryEventResponseList.get(pos).getId());
+            lblLikeCount.setText(String.valueOf(photoLikeResponse.getLikes()));
+        }
+    }
+
+    @Override
+    public void showPhotoLikedBySuccess(PhotoLikeResponse photoLikeResponse) {
+        if (photoLikeResponse.getMessage().equals("liked")) {
+            imgLikeButton.setImageResource(R.drawable.like_manito_de_horacio);
+            //eventsGalleryPhotoLikePresenter.getPhotoLikes(photoGalleryEventResponseList.get(pos).getId());
+            lblLikeCount.setText(String.valueOf(photoLikeResponse.getLikes()));
+        } else {
+            imgLikeButton.setImageResource(R.drawable.like_manito_de_horacio_byn);
+            //eventsGalleryPhotoLikePresenter.getPhotoLikes(photoGalleryEventResponseList.get(pos).getId());
+            lblLikeCount.setText(String.valueOf(photoLikeResponse.getLikes()));
+        }
+    }
+
+    @Override
+    public void showPhotoLikedByError(String error) {
+        //Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
     }
 
     private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
@@ -126,7 +195,6 @@ public class PhotoGalleryActivity extends AppCompatActivity implements EventsGal
             scale = scale * detector.getScaleFactor();
             scale = Math.max(0.1f, Math.min(scale, 5f));
             matrix.setScale(scale, scale);
-            //imgGalleryPhoto.setImageMatrix(matrix);
             return true;
         }
     }
@@ -135,7 +203,6 @@ public class PhotoGalleryActivity extends AppCompatActivity implements EventsGal
     public boolean onTouchEvent(MotionEvent event) {
         if (!firstTouch && imageLoaded){
             firstTouch = true;
-            //imgGalleryPhoto.setScaleType(ImageView.ScaleType.MATRIX);
         }
         gestureDetector.onTouchEvent(event);
         return true;
@@ -286,35 +353,5 @@ public class PhotoGalleryActivity extends AppCompatActivity implements EventsGal
 
             }
         };
-    }
-
-    @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
-    }
-
-    @Override
-    public void showPhotosEvent(List<PhotoGalleryEventResponse> photoGalleryEventResponseList) {
-
-    }
-
-    @Override
-    public void reloadGalleryPhotos() {
-
-    }
-
-    @Override
-    public void showPhotosEmpty(String message) {
-
-    }
-
-    @Override
-    public void showPhotosError(String error) {
-
     }
 }

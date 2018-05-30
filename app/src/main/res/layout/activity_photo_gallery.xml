@@ -86,7 +86,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginRight="5dp"
-                android:src="@drawable/circulo_sin_fondo" />
+                android:src="@drawable/like_manito_de_horacio_byn" />
 
             <ImageView
                 android:id="@+id/imgDownloadImage"

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -51,6 +52,11 @@ public class PhotoGalleryAdapter extends PagerAdapter implements EventsGalleryPh
     }
 
     @Override
+    public int getItemPosition(@NonNull Object object) {
+        return POSITION_NONE;
+    }
+
+    @Override
     public int getCount() {
         return imageUrls.size();
     }
@@ -78,36 +84,20 @@ public class PhotoGalleryAdapter extends PagerAdapter implements EventsGalleryPh
         lblHour.setText(imageUrls.get(position).getCreated_at());
         lblName.setText(imageUrls.get(position).getNews_title());
 
-        eventsGalleryPhotoLikePresenter.getPhotoLikedBy(imageUrls.get(position).getId(), PreferencesHeper.getDniUser(NewPortApplication.getAppContext()));
-        eventsGalleryPhotoLikePresenter.getPhotoLikes(imageUrls.get(position).getId());
-
-        onClickImageLikePhotoListener();
 
         Picasso.with(context)
                 .load(imageUrls.get(position).getImage_url())
                 .noFade()
                 .into(imageView);
+
         container.addView(imageView);
 
         return imageView;
     }
 
-
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-        container.removeView((View) object);
-    }
-
-    private void onClickImageLikePhotoListener(){
-        imgLikeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int id = imageUrls.get(position).getId();
-                imgLikeButton.setImageResource(R.drawable.circulo_con_fondo);
-                eventsGalleryPhotoLikePresenter.setPhotoLike(id, PreferencesHeper.getDniUser(NewPortApplication.getAppContext()));
-                eventsGalleryPhotoLikePresenter.getPhotoLikes(imageUrls.get(position).getId());
-            }
-        });
+        ((ViewPager) container).removeView((View) object);
     }
 
 
@@ -118,7 +108,7 @@ public class PhotoGalleryAdapter extends PagerAdapter implements EventsGalleryPh
 
     @Override
     public void showPhotoLikesError(String error) {
-        Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -128,14 +118,13 @@ public class PhotoGalleryAdapter extends PagerAdapter implements EventsGalleryPh
 
     @Override
     public void showPhotoLikeError(String error) {
-        Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void showPhotoLikeSuccess(PhotoLikeResponse photoLikeResponse) {
         if (photoLikeResponse.getMessage().equals("disliked")) {
             imgLikeButton.setImageResource(R.drawable.circulo_sin_fondo);
-            eventsGalleryPhotoLikePresenter.getPhotoLikes(imageUrls.get(position).getId());
         }
     }
 
@@ -143,15 +132,13 @@ public class PhotoGalleryAdapter extends PagerAdapter implements EventsGalleryPh
     public void showPhotoLikedBySuccess(PhotoLikeResponse photoLikeResponse) {
         if (photoLikeResponse.getMessage().equals("liked")) {
             imgLikeButton.setImageResource(R.drawable.circulo_con_fondo);
-            eventsGalleryPhotoLikePresenter.getPhotoLikes(imageUrls.get(position).getId());
         } else {
             imgLikeButton.setImageResource(R.drawable.circulo_sin_fondo);
-            eventsGalleryPhotoLikePresenter.getPhotoLikes(imageUrls.get(position).getId());
         }
     }
 
     @Override
     public void showPhotoLikedByError(String error) {
-        Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
     }
 }

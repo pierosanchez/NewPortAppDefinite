@@ -24,7 +24,7 @@ public class EventsGalleryPhotoLikeInteractor {
                 if (response.isSuccessful()){
                     callback.getPhotoLikesSuccess(response.body());
                 } else {
-                    callback.getPhotoLikesError("Sin Conexión");
+                    Log.d("onResponse", response.message());
                 }
             }
 
@@ -46,7 +46,7 @@ public class EventsGalleryPhotoLikeInteractor {
                     if (response.body() != null){
                         callback.getPhotoLikeSuccess(response.body());
                     } else {
-                        callback.getPhotoLikeError("Sin Conexión");
+                        Log.d("onResponse", response.message());
                     }
                 }
             }
@@ -68,7 +68,7 @@ public class EventsGalleryPhotoLikeInteractor {
                 if (response.isSuccessful()){
                     callback.getPhotoLikedBySuccess(response.body());
                 } else {
-                    callback.getPhotoLikedByError("Conexión no disponible");
+                    Log.d("onResponse", response.message());
                 }
             }
 
