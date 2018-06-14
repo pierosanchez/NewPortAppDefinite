@@ -15,10 +15,15 @@
     <string name="menu_item_profile">Perfil</string>
     <string name="news_title_fragment">Noticias</string>
     <string name="last_news_home_subtitle">ÚLTIMAS NOTICIAS</string>
+    <string name="save_desition_button">GUARDAR</string>
+    <string name="logout_app_button">CERRAR SESIÓN</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="news_event_fragment">Eventos</string>
     <string name="gallery_event_fragment">Eventos - Galería</string>
+    <string name="mundial_event_fragment">Cartilla Mundialista</string>
+    <string name="winner_label">Ganador</string>
+    <string name="empate_label">Empate</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="internal_policies_tab">Políticas Internas</string>
     <string name="directory_tab">Directorio</string>
@@ -35,7 +40,6 @@
     <string name="surname_hint">Apellido</string>
     <string name="birthday_hint">Cumpleaños</string>
     <string name="area_hint">Área</string>
-    <string name="logout_app_button">CERRAR SESIÓN</string>
     <string name="position_hint">Cargo</string>
     <string name="date_join_enterprise_hint">Fecha de ingreso a la empresa</string>
     <string name="carnet_sanidad_hint">dd / mm / aaaa</string>

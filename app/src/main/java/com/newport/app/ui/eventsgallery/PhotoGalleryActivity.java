@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
@@ -35,7 +34,6 @@ import com.newport.app.ui.eventsgallery.photolikes.EventsGalleryPhotoLikeContrac
 import com.newport.app.ui.eventsgallery.photolikes.EventsGalleryPhotoLikePresenter;
 import com.newport.app.util.Constant;
 import com.newport.app.util.PreferencesHeper;
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -98,7 +96,6 @@ public class PhotoGalleryActivity extends AppCompatActivity implements EventsGal
         onClickImageLikePhotoListener();
 
         eventsGalleryPhotoLikePresenter.getPhotoLikedBy(photoGalleryEventResponseList.get(0).getId(), PreferencesHeper.getDniUser(NewPortApplication.getAppContext()));
-        //eventsGalleryPhotoLikePresenter.getPhotoLikes(photoGalleryEventResponseList.get(0).getId());
 
         PhotoGalleryAdapter adapter = new PhotoGalleryAdapter(this, photoGalleryEventResponseList, lblHourPhoto, lblNamePhoto, lblLikeCount, imgLikeButton);
         viewPagerImages.setAdapter(adapter);
@@ -161,11 +158,9 @@ public class PhotoGalleryActivity extends AppCompatActivity implements EventsGal
     public void showPhotoLikeSuccess(PhotoLikeResponse photoLikeResponse) {
         if (photoLikeResponse.getMessage().equals("disliked")) {
             imgLikeButton.setImageResource(R.drawable.like_manito_de_horacio_byn);
-            //eventsGalleryPhotoLikePresenter.getPhotoLikes(photoGalleryEventResponseList.get(pos).getId());
             lblLikeCount.setText(String.valueOf(photoLikeResponse.getLikes()));
         } else {
             imgLikeButton.setImageResource(R.drawable.like_manito_de_horacio);
-            //eventsGalleryPhotoLikePresenter.getPhotoLikes(photoGalleryEventResponseList.get(pos).getId());
             lblLikeCount.setText(String.valueOf(photoLikeResponse.getLikes()));
         }
     }
@@ -174,11 +169,9 @@ public class PhotoGalleryActivity extends AppCompatActivity implements EventsGal
     public void showPhotoLikedBySuccess(PhotoLikeResponse photoLikeResponse) {
         if (photoLikeResponse.getMessage().equals("liked")) {
             imgLikeButton.setImageResource(R.drawable.like_manito_de_horacio);
-            //eventsGalleryPhotoLikePresenter.getPhotoLikes(photoGalleryEventResponseList.get(pos).getId());
             lblLikeCount.setText(String.valueOf(photoLikeResponse.getLikes()));
         } else {
             imgLikeButton.setImageResource(R.drawable.like_manito_de_horacio_byn);
-            //eventsGalleryPhotoLikePresenter.getPhotoLikes(photoGalleryEventResponseList.get(pos).getId());
             lblLikeCount.setText(String.valueOf(photoLikeResponse.getLikes()));
         }
     }

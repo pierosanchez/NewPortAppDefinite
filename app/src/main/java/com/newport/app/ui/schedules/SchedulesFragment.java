@@ -31,8 +31,8 @@ public class SchedulesFragment extends Fragment implements ScheduleContract.View
     private SchedulePresenter schedulePresenter;
     private ScheduleAdapter scheduleAdapter;
     private RelativeLayout rltProgress;
-    //private RecyclerView rcvScheduels;
-    private TextView lbluserSchedule;
+    private RecyclerView rcvScheduels;
+    //private TextView lbluserSchedule;
 
     private FirebaseAnalytics mFirebaseAnalytics;
 
@@ -58,17 +58,17 @@ public class SchedulesFragment extends Fragment implements ScheduleContract.View
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
 
         rltProgress = rootView.findViewById(R.id.rltProgress);
-        lbluserSchedule = rootView.findViewById(R.id.lbluserSchedule);
+        //lbluserSchedule = rootView.findViewById(R.id.lbluserSchedule);
 
-        //rcvScheduels = rootView.findViewById(R.id.rcvScheduels);
-        //rcvScheduels.setHasFixedSize(true);
+        rcvScheduels = rootView.findViewById(R.id.rcvScheduels);
+        rcvScheduels.setHasFixedSize(true);
 
         //Get width system
         int width = PreferencesHeper.getWidthSystem(getActivity());
 
         scheduleAdapter = new ScheduleAdapter(width);
         scheduleAdapter.setOnScheduleClickListener(this);
-        //rcvScheduels.setAdapter(scheduleAdapter);
+        rcvScheduels.setAdapter(scheduleAdapter);
 
         schedulePresenter = new SchedulePresenter();
         schedulePresenter.attachedView(this);
@@ -77,22 +77,22 @@ public class SchedulesFragment extends Fragment implements ScheduleContract.View
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //schedulePresenter.getSchedules();
-        schedulePresenter.getUserSchedules(PreferencesHeper.getDniUser(NewPortApplication.getAppContext()));
+        schedulePresenter.getSchedules();
+        //schedulePresenter.getUserSchedules(PreferencesHeper.getDniUser(NewPortApplication.getAppContext()));
     }
 
     @Override
     public void showLoading() {
         rltProgress.setVisibility(View.VISIBLE);
-        //rcvScheduels.setVisibility(View.GONE);
-        lbluserSchedule.setVisibility(View.VISIBLE);
+        rcvScheduels.setVisibility(View.GONE);
+        //lbluserSchedule.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideLoading() {
         rltProgress.setVisibility(View.GONE);
-        //rcvScheduels.setVisibility(View.VISIBLE);
-        lbluserSchedule.setVisibility(View.VISIBLE);
+        rcvScheduels.setVisibility(View.VISIBLE);
+        //lbluserSchedule.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -107,7 +107,7 @@ public class SchedulesFragment extends Fragment implements ScheduleContract.View
 
     @Override
     public void showUserSchedules(UserScheduleResponse userScheduleResponse) {
-        lbluserSchedule.setText(userScheduleResponse.getHorario());
+        //lbluserSchedule.setText(userScheduleResponse.getHorario());
         rltProgress.setVisibility(View.GONE);
     }
 

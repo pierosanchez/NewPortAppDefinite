@@ -3,6 +3,7 @@ package com.newport.app.ui.home;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,6 +13,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +26,7 @@ import com.newport.app.NewPortApplication;
 import com.newport.app.R;
 import com.newport.app.data.models.response.HomeResponse;
 import com.newport.app.ui.eventsgallery.EventsGalleryFragment;
+import com.newport.app.ui.mundialevent.MundialEventActivity;
 import com.newport.app.ui.newdetail.NewDetailFragment;
 import com.newport.app.util.Constant;
 import com.newport.app.util.PreferencesHeper;
@@ -196,9 +199,9 @@ public class NewsFragment extends Fragment implements NewsContract.View, NewsAda
 
         // Init
         //First Section
-        new Timer().scheduleAtFixedRate(new TimerTask(){
+        new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
-            public void run(){
+            public void run() {
                 if (currentPosition < adapterSize - 1) {
                     currentPosition++;
                 } else {
@@ -206,7 +209,7 @@ public class NewsFragment extends Fragment implements NewsContract.View, NewsAda
                 }
                 rcvNewsCategory.smoothScrollToPosition(currentPosition);
             }
-        },1000,10000);
+        }, 1000, 10000);
 
         //Second Section
         lnlAtTime.setOnClickListener(this);
@@ -300,7 +303,13 @@ public class NewsFragment extends Fragment implements NewsContract.View, NewsAda
 
     @Override
     public void onNewItemClick(HomeResponse.Section1Bean lastNew) {
-        callNewDetail(lastNew.getId());
+        /*if (lastNew.getId() == 38) {
+            Intent intent = new Intent(NewPortApplication.getAppContext(), MundialEventActivity.class);
+            startActivity(intent);
+            getActivity().finish();
+        } else {*/
+            callNewDetail(lastNew.getId());
+        //}
     }
 
     @Override
@@ -328,16 +337,23 @@ public class NewsFragment extends Fragment implements NewsContract.View, NewsAda
     }
 
     private void callNewDetail(int id) {
-        PreferencesHeper.setTypeTab(NewPortApplication.getAppContext(), 0);
-        PreferencesHeper.setLastFragmentTag(NewPortApplication.getAppContext(), Constant.MENU_NAME_ITEM_NEWS);
-        PreferencesHeper.setCurrentFragmentTag(NewPortApplication.getAppContext(), Constant.FRAGMENT_NEWS_DETAIL);
+        if (id == 22) {
+            Log.d("idDetailNews", String.valueOf(id));
+            Intent intent = new Intent(NewPortApplication.getAppContext(), MundialEventActivity.class);
+            startActivity(intent);
+            getActivity().finish();
+        } else {
+            PreferencesHeper.setTypeTab(NewPortApplication.getAppContext(), 0);
+            PreferencesHeper.setLastFragmentTag(NewPortApplication.getAppContext(), Constant.MENU_NAME_ITEM_NEWS);
+            PreferencesHeper.setCurrentFragmentTag(NewPortApplication.getAppContext(), Constant.FRAGMENT_NEWS_DETAIL);
 
-        NewDetailFragment newFragment = NewDetailFragment.newInstance(id);
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            NewDetailFragment newFragment = NewDetailFragment.newInstance(id);
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
-        transaction.hide(this);
-        transaction.add(R.id.content_fragments, newFragment, Constant.FRAGMENT_NEWS_DETAIL);
-        transaction.commit();
+            transaction.hide(this);
+            transaction.add(R.id.content_fragments, newFragment, Constant.FRAGMENT_NEWS_DETAIL);
+            transaction.commit();
+        }
     }
 
     private void callGalleryNew(int idDetailEvent, int uploadPhotos) {

@@ -6,11 +6,13 @@ import com.newport.app.data.models.response.DirectoryResponse;
 import com.newport.app.data.models.response.EventsResponse;
 import com.newport.app.data.models.response.HomeResponse;
 import com.newport.app.data.models.response.LoginResponse;
+import com.newport.app.data.models.response.MatchsResponse;
 import com.newport.app.data.models.response.NewResponse;
 import com.newport.app.data.models.response.PhotoGalleryEventResponse;
 import com.newport.app.data.models.response.PhotoLikeResponse;
 import com.newport.app.data.models.response.PhotoUploadedResponse;
 import com.newport.app.data.models.response.ScheduleResponse;
+import com.newport.app.data.models.response.UserElectionResponse;
 import com.newport.app.data.models.response.UserResponse;
 import com.newport.app.data.models.response.UserScheduleResponse;
 
@@ -82,4 +84,18 @@ public interface NewPortApi {
     @Headers(HEADER_AUTHORIZATION)
     @GET(BuildConfig.PHOTOLIKEDBY)
     Call<PhotoLikeResponse> getPhotoLikedBy(@Path("photoId") int photoId, @Path("userDni") String userDni);
+
+    @Headers(HEADER_AUTHORIZATION)
+    @GET(BuildConfig.MATCHS)
+    Call<List<MatchsResponse>> getMatchs();
+
+    @Headers(HEADER_AUTHORIZATION)
+    @GET(BuildConfig.VALIDATEUSERELECTION)
+    Call<UserElectionResponse> validateUserElection(@Path("dni") String dni, @Path("idpartido") String idpartido);
+
+    @Headers(HEADER_AUTHORIZATION)
+    @GET(BuildConfig.USERELECTION)
+    Call<UserElectionResponse> setUserElection(@Path("dni") String dni, @Path("election1") String election1, @Path("election2") String election2,
+                                               @Path("election3") String election3, @Path("election4") String election4, @Path("id_partido1") String id_partido1,
+                                               @Path("id_partido2") String id_partido2, @Path("id_partido3") String id_partido3, @Path("id_partido4") String id_partido4);
 }
