@@ -66,8 +66,7 @@ class MundialEventInteractor {
 
             @Override
             public void onFailure(@NonNull Call<UserElectionResponse> call, @NonNull Throwable t) {
-                Log.d("onFailure", t.getMessage());
-                callback.setUserElectionFailure(t.getMessage());
+                callback.setUserElectionFailure(NewPortApplication.getAppContext().getString(R.string.conectivity_error));
             }
         });
     }
@@ -96,7 +95,7 @@ class MundialEventInteractor {
             @Override
             public void onFailure(@NonNull Call<UserElectionResponse> call, @NonNull Throwable t) {
                 Log.d("onFailure", t.getMessage());
-                callback.validateUserElectionFaulure(t.getMessage());
+                callback.validateUserElectionFaulure(NewPortApplication.getAppContext().getString(R.string.conectivity_error));
             }
         });
     }

@@ -16,6 +16,7 @@
     <string name="news_title_fragment">Noticias</string>
     <string name="last_news_home_subtitle">ÚLTIMAS NOTICIAS</string>
     <string name="save_desition_button">GUARDAR</string>
+    <string name="status_mundial_rank">CONOCE LOS MÁS RANKEADOS</string>
     <string name="logout_app_button">CERRAR SESIÓN</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>

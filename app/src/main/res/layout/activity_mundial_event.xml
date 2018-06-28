@@ -481,6 +481,16 @@
 
                 </LinearLayout>
 
+                <Button
+                    android:id="@+id/btnSeeStatusMundial"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/yellow_square_button"
+                    android:text="@string/status_mundial_rank"
+                    android:textColor="@android:color/white" />
+
             </LinearLayout>
 
         </android.support.v4.widget.NestedScrollView>

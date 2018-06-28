@@ -77,7 +77,12 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-        <activity android:name=".ui.mundialevent.MundialEventActivity"></activity>
+        <activity
+            android:name=".ui.mundialevent.MundialEventActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity android:name=".StatusMundialActivity"></activity>
     </application>
 
 </manifest>

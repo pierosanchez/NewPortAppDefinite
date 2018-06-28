@@ -3,10 +3,8 @@ package com.newport.app.ui.mundialevent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.TimeUtils;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -18,6 +16,7 @@ import android.widget.Toast;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.newport.app.NewPortApplication;
 import com.newport.app.R;
+import com.newport.app.StatusMundialActivity;
 import com.newport.app.data.models.response.MatchsResponse;
 import com.newport.app.data.models.response.UserElectionResponse;
 import com.newport.app.ui.BaseActivity;
@@ -26,12 +25,9 @@ import com.newport.app.util.PreferencesHeper;
 import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class MundialEventActivity extends BaseActivity implements MundialEventContract.View {
@@ -95,6 +91,7 @@ public class MundialEventActivity extends BaseActivity implements MundialEventCo
 
     private ProgressBar progressBar;
     private Button btnSave;
+    private Button btnSeeStatusMundial;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,6 +151,7 @@ public class MundialEventActivity extends BaseActivity implements MundialEventCo
 
         progressBar = findViewById(R.id.prgMundial);
         btnSave = findViewById(R.id.btnSave);
+        btnSeeStatusMundial = findViewById(R.id.btnSeeStatusMundial);
 
         mundialEventPresenter.getMundialEventMatches();
 
@@ -298,6 +296,15 @@ public class MundialEventActivity extends BaseActivity implements MundialEventCo
                 }
             }
         });
+
+        btnSeeStatusMundial.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MundialEventActivity.this, StatusMundialActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
     @Override
@@ -337,6 +344,7 @@ public class MundialEventActivity extends BaseActivity implements MundialEventCo
     @Override
     public void showMundialMatchesSuccess(List<MatchsResponse> matchsResponse) {
         currentMatchs = matchsResponse;
+
         List<MatchsResponse> listCurrentMatchs = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();
         DateFormat timeFormat = new SimpleDateFormat("HH:MM");
@@ -363,145 +371,153 @@ public class MundialEventActivity extends BaseActivity implements MundialEventCo
             }
         }*/
 
-        if (matchsResponse.size() == 0) {
-            Toast.makeText(this, "No hay partidos para el dia de hoy", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            finish();
-        }
+        if (matchsResponse.get(0).getPartido().equals("empty")){
+            //Toast.makeText(this, "No hay partidos para el dia de hoy", Toast.LENGTH_SHORT).show();
+            imgBannerError.setImageResource(R.drawable.nopartidosedited);
+            generalContainerLayout.setVisibility(View.GONE);
+            imgBannerError.setVisibility(View.VISIBLE);
+        } else {
+            if (matchsResponse.size() == 0) {
+                Toast.makeText(this, "No hay partidos para el dia de hoy", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
 
-        if (matchsResponse.size() == 1) {
-            mundialEventPresenter.validateUserElection(PreferencesHeper.getDniUser(NewPortApplication.getAppContext()), matchsResponse.get(0).getId_partido());
+            if (matchsResponse.size() == 1) {
+                mundialEventPresenter.validateUserElection(PreferencesHeper.getDniUser(NewPortApplication.getAppContext()), matchsResponse.get(0).getId_partido());
 
-            group1Country1Label.setText(matchsResponse.get(0).getPais1());
-            group1Country2Label.setText(matchsResponse.get(0).getPais2());
+                group1Country1Label.setText(matchsResponse.get(0).getPais1());
+                group1Country2Label.setText(matchsResponse.get(0).getPais2());
 
-            Picasso.with(NewPortApplication.getAppContext())
-                    .load(matchsResponse.get(0).getPais1_image())
-                    .placeholder(R.drawable.newport_gray)
-                    .error(android.R.drawable.ic_dialog_alert)
-                    .fit()
-                    .into(group1Country1Image);
-            Picasso.with(NewPortApplication.getAppContext())
-                    .load(matchsResponse.get(0).getPais2_image())
-                    .placeholder(R.drawable.newport_gray)
-                    .error(android.R.drawable.ic_dialog_alert)
-                    .fit()
-                    .into(group1Country2Image);
-            partido2Layer.setVisibility(View.GONE);
-            partido3Layer.setVisibility(View.GONE);
-            partido4Layer.setVisibility(View.GONE);
-        }
+                Picasso.with(NewPortApplication.getAppContext())
+                        .load(matchsResponse.get(0).getPais1_image())
+                        .placeholder(R.drawable.newport_gray)
+                        .error(android.R.drawable.ic_dialog_alert)
+                        .fit()
+                        .into(group1Country1Image);
+                Picasso.with(NewPortApplication.getAppContext())
+                        .load(matchsResponse.get(0).getPais2_image())
+                        .placeholder(R.drawable.newport_gray)
+                        .error(android.R.drawable.ic_dialog_alert)
+                        .fit()
+                        .into(group1Country2Image);
+                partido2Layer.setVisibility(View.GONE);
+                partido3Layer.setVisibility(View.GONE);
+                partido4Layer.setVisibility(View.GONE);
+            }
 
-        if (matchsResponse.size() == 3) {
-            mundialEventPresenter.validateUserElection(PreferencesHeper.getDniUser(NewPortApplication.getAppContext()), matchsResponse.get(0).getId_partido());
+            if (matchsResponse.size() == 3) {
+                mundialEventPresenter.validateUserElection(PreferencesHeper.getDniUser(NewPortApplication.getAppContext()), matchsResponse.get(0).getId_partido());
 
-            group1Country1Label.setText(matchsResponse.get(0).getPais1());
-            group1Country2Label.setText(matchsResponse.get(0).getPais2());
-            group2Country1Label.setText(matchsResponse.get(1).getPais1());
-            group2Country2Label.setText(matchsResponse.get(1).getPais2());
-            group3Country1Label.setText(matchsResponse.get(2).getPais1());
-            group3Country2Label.setText(matchsResponse.get(2).getPais2());
+                group1Country1Label.setText(matchsResponse.get(0).getPais1());
+                group1Country2Label.setText(matchsResponse.get(0).getPais2());
+                group2Country1Label.setText(matchsResponse.get(1).getPais1());
+                group2Country2Label.setText(matchsResponse.get(1).getPais2());
+                group3Country1Label.setText(matchsResponse.get(2).getPais1());
+                group3Country2Label.setText(matchsResponse.get(2).getPais2());
 
-            Picasso.with(NewPortApplication.getAppContext())
-                    .load(matchsResponse.get(0).getPais1_image())
-                    .placeholder(R.drawable.newport_gray)
-                    .error(android.R.drawable.ic_dialog_alert)
-                    .fit()
-                    .into(group1Country1Image);
-            Picasso.with(NewPortApplication.getAppContext())
-                    .load(matchsResponse.get(0).getPais2_image())
-                    .placeholder(R.drawable.newport_gray)
-                    .error(android.R.drawable.ic_dialog_alert)
-                    .fit()
-                    .into(group1Country2Image);
-            Picasso.with(NewPortApplication.getAppContext())
-                    .load(matchsResponse.get(1).getPais1_image())
-                    .placeholder(R.drawable.newport_gray)
-                    .error(android.R.drawable.ic_dialog_alert)
-                    .fit()
-                    .into(group2Country1Image);
-            Picasso.with(NewPortApplication.getAppContext())
-                    .load(matchsResponse.get(1).getPais2_image())
-                    .placeholder(R.drawable.newport_gray)
-                    .error(android.R.drawable.ic_dialog_alert)
-                    .fit()
-                    .into(group2Country2Image);
-            Picasso.with(NewPortApplication.getAppContext())
-                    .load(matchsResponse.get(2).getPais1_image())
-                    .placeholder(R.drawable.newport_gray)
-                    .error(android.R.drawable.ic_dialog_alert)
-                    .fit()
-                    .into(group3Country1Image);
-            Picasso.with(NewPortApplication.getAppContext())
-                    .load(matchsResponse.get(2).getPais2_image())
-                    .placeholder(R.drawable.newport_gray)
-                    .error(android.R.drawable.ic_dialog_alert)
-                    .fit()
-                    .into(group3Country2Image);
-            partido4Layer.setVisibility(View.GONE);
-        }
+                Picasso.with(NewPortApplication.getAppContext())
+                        .load(matchsResponse.get(0).getPais1_image())
+                        .placeholder(R.drawable.newport_gray)
+                        .error(android.R.drawable.ic_dialog_alert)
+                        .fit()
+                        .into(group1Country1Image);
+                Picasso.with(NewPortApplication.getAppContext())
+                        .load(matchsResponse.get(0).getPais2_image())
+                        .placeholder(R.drawable.newport_gray)
+                        .error(android.R.drawable.ic_dialog_alert)
+                        .fit()
+                        .into(group1Country2Image);
+                Picasso.with(NewPortApplication.getAppContext())
+                        .load(matchsResponse.get(1).getPais1_image())
+                        .placeholder(R.drawable.newport_gray)
+                        .error(android.R.drawable.ic_dialog_alert)
+                        .fit()
+                        .into(group2Country1Image);
+                Picasso.with(NewPortApplication.getAppContext())
+                        .load(matchsResponse.get(1).getPais2_image())
+                        .placeholder(R.drawable.newport_gray)
+                        .error(android.R.drawable.ic_dialog_alert)
+                        .fit()
+                        .into(group2Country2Image);
+                Picasso.with(NewPortApplication.getAppContext())
+                        .load(matchsResponse.get(2).getPais1_image())
+                        .placeholder(R.drawable.newport_gray)
+                        .error(android.R.drawable.ic_dialog_alert)
+                        .fit()
+                        .into(group3Country1Image);
+                Picasso.with(NewPortApplication.getAppContext())
+                        .load(matchsResponse.get(2).getPais2_image())
+                        .placeholder(R.drawable.newport_gray)
+                        .error(android.R.drawable.ic_dialog_alert)
+                        .fit()
+                        .into(group3Country2Image);
+                partido4Layer.setVisibility(View.GONE);
+            }
 
-        if (matchsResponse.size() == 4) {
-            mundialEventPresenter.validateUserElection(PreferencesHeper.getDniUser(NewPortApplication.getAppContext()), matchsResponse.get(0).getId_partido());
+            if (matchsResponse.size() == 4) {
+                mundialEventPresenter.validateUserElection(PreferencesHeper.getDniUser(NewPortApplication.getAppContext()), matchsResponse.get(0).getId_partido());
 
-            group1Country1Label.setText(matchsResponse.get(0).getPais1());
-            group1Country2Label.setText(matchsResponse.get(0).getPais2());
-            group2Country1Label.setText(matchsResponse.get(1).getPais1());
-            group2Country2Label.setText(matchsResponse.get(1).getPais2());
-            group3Country1Label.setText(matchsResponse.get(2).getPais1());
-            group3Country2Label.setText(matchsResponse.get(2).getPais2());
-            group4Country1Label.setText(matchsResponse.get(3).getPais1());
-            group4Country2Label.setText(matchsResponse.get(3).getPais2());
+                group1Country1Label.setText(matchsResponse.get(0).getPais1());
+                group1Country2Label.setText(matchsResponse.get(0).getPais2());
+                group2Country1Label.setText(matchsResponse.get(1).getPais1());
+                group2Country2Label.setText(matchsResponse.get(1).getPais2());
+                group3Country1Label.setText(matchsResponse.get(2).getPais1());
+                group3Country2Label.setText(matchsResponse.get(2).getPais2());
+                group4Country1Label.setText(matchsResponse.get(3).getPais1());
+                group4Country2Label.setText(matchsResponse.get(3).getPais2());
 
-            Picasso.with(NewPortApplication.getAppContext())
-                    .load(matchsResponse.get(0).getPais1_image())
-                    .placeholder(R.drawable.newport_gray)
-                    .error(android.R.drawable.ic_dialog_alert)
-                    .fit()
-                    .into(group1Country1Image);
-            Picasso.with(NewPortApplication.getAppContext())
-                    .load(matchsResponse.get(0).getPais2_image())
-                    .placeholder(R.drawable.newport_gray)
-                    .error(android.R.drawable.ic_dialog_alert)
-                    .fit()
-                    .into(group1Country2Image);
-            Picasso.with(NewPortApplication.getAppContext())
-                    .load(matchsResponse.get(1).getPais1_image())
-                    .placeholder(R.drawable.newport_gray)
-                    .error(android.R.drawable.ic_dialog_alert)
-                    .fit()
-                    .into(group2Country1Image);
-            Picasso.with(NewPortApplication.getAppContext())
-                    .load(matchsResponse.get(1).getPais2_image())
-                    .placeholder(R.drawable.newport_gray)
-                    .error(android.R.drawable.ic_dialog_alert)
-                    .fit()
-                    .into(group2Country2Image);
-            Picasso.with(NewPortApplication.getAppContext())
-                    .load(matchsResponse.get(2).getPais1_image())
-                    .placeholder(R.drawable.newport_gray)
-                    .error(android.R.drawable.ic_dialog_alert)
-                    .fit()
-                    .into(group3Country1Image);
-            Picasso.with(NewPortApplication.getAppContext())
-                    .load(matchsResponse.get(2).getPais2_image())
-                    .placeholder(R.drawable.newport_gray)
-                    .error(android.R.drawable.ic_dialog_alert)
-                    .fit()
-                    .into(group3Country2Image);
-            Picasso.with(NewPortApplication.getAppContext())
-                    .load(matchsResponse.get(3).getPais1_image())
-                    .placeholder(R.drawable.newport_gray)
-                    .error(android.R.drawable.ic_dialog_alert)
-                    .fit()
-                    .into(group4Country1Image);
-            Picasso.with(NewPortApplication.getAppContext())
-                    .load(matchsResponse.get(3).getPais2_image())
-                    .placeholder(R.drawable.newport_gray)
-                    .error(android.R.drawable.ic_dialog_alert)
-                    .fit()
-                    .into(group4Country2Image);
+                Picasso.with(NewPortApplication.getAppContext())
+                        .load(matchsResponse.get(0).getPais1_image())
+                        .placeholder(R.drawable.newport_gray)
+                        .error(android.R.drawable.ic_dialog_alert)
+                        .fit()
+                        .into(group1Country1Image);
+                Picasso.with(NewPortApplication.getAppContext())
+                        .load(matchsResponse.get(0).getPais2_image())
+                        .placeholder(R.drawable.newport_gray)
+                        .error(android.R.drawable.ic_dialog_alert)
+                        .fit()
+                        .into(group1Country2Image);
+                Picasso.with(NewPortApplication.getAppContext())
+                        .load(matchsResponse.get(1).getPais1_image())
+                        .placeholder(R.drawable.newport_gray)
+                        .error(android.R.drawable.ic_dialog_alert)
+                        .fit()
+                        .into(group2Country1Image);
+                Picasso.with(NewPortApplication.getAppContext())
+                        .load(matchsResponse.get(1).getPais2_image())
+                        .placeholder(R.drawable.newport_gray)
+                        .error(android.R.drawable.ic_dialog_alert)
+                        .fit()
+                        .into(group2Country2Image);
+                Picasso.with(NewPortApplication.getAppContext())
+                        .load(matchsResponse.get(2).getPais1_image())
+                        .placeholder(R.drawable.newport_gray)
+                        .error(android.R.drawable.ic_dialog_alert)
+                        .fit()
+                        .into(group3Country1Image);
+                Picasso.with(NewPortApplication.getAppContext())
+                        .load(matchsResponse.get(2).getPais2_image())
+                        .placeholder(R.drawable.newport_gray)
+                        .error(android.R.drawable.ic_dialog_alert)
+                        .fit()
+                        .into(group3Country2Image);
+                Picasso.with(NewPortApplication.getAppContext())
+                        .load(matchsResponse.get(3).getPais1_image())
+                        .placeholder(R.drawable.newport_gray)
+                        .error(android.R.drawable.ic_dialog_alert)
+                        .fit()
+                        .into(group4Country1Image);
+                Picasso.with(NewPortApplication.getAppContext())
+                        .load(matchsResponse.get(3).getPais2_image())
+                        .placeholder(R.drawable.newport_gray)
+                        .error(android.R.drawable.ic_dialog_alert)
+                        .fit()
+                        .into(group4Country2Image);
+            }
+
         }
     }
 
