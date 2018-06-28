@@ -178,6 +178,28 @@ public class MundialEventActivity extends BaseActivity implements MundialEventCo
                         election1 = "2";
                         idPartido1 = currentMatchs.get(0).getId_partido();
                     }
+                } else if (currentMatchs.size() == 2) {
+                    if (selectedId1 == R.id.group1Country1Checkbox) {
+                        election1 = "1";
+                        idPartido1 = currentMatchs.get(0).getId_partido();
+                    } else if (selectedId1 == R.id.group1Country2Checkbox) {
+                        election1 = "3";
+                        idPartido1 = currentMatchs.get(0).getId_partido();
+                    } else {
+                        election1 = "2";
+                        idPartido1 = currentMatchs.get(0).getId_partido();
+                    }
+
+                    if (selectedId2 == R.id.group2Country1Checkbox) {
+                        election2 = "1";
+                        idPartido2 = currentMatchs.get(1).getId_partido();
+                    } else if (selectedId2 == R.id.group2Country2Checkbox) {
+                        election2 = "3";
+                        idPartido2 = currentMatchs.get(1).getId_partido();
+                    } else {
+                        election2 = "2";
+                        idPartido2 = currentMatchs.get(1).getId_partido();
+                    }
                 } else if (currentMatchs.size() == 3) {
                     if (selectedId1 == R.id.group1Country1Checkbox) {
                         election1 = "1";
@@ -270,6 +292,14 @@ public class MundialEventActivity extends BaseActivity implements MundialEventCo
                         } else {
                             onClickButtonSave();
                         }
+                    } else if (currentMatchs.size() == 2) {
+                        if (!group1Country1Checkbox.isChecked() && !group1Country2Checkbox.isChecked() && !group1EmpateCheckbox.isChecked()) {
+                            Toast.makeText(NewPortApplication.getAppContext(), "Seleccione alguna casilla, por favor.", Toast.LENGTH_SHORT).show();
+                        } else if (!group2Country1Checkbox.isChecked() && !group2Country2Checkbox.isChecked() && !group2EmpateCheckbox.isChecked()) {
+                            Toast.makeText(NewPortApplication.getAppContext(), "Seleccione alguna casilla, por favor.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            onClickButtonSave();
+                        }
                     } else if (currentMatchs.size() == 3) {
                         if (!group1Country1Checkbox.isChecked() && !group1Country2Checkbox.isChecked() && !group1EmpateCheckbox.isChecked()) {
                             Toast.makeText(NewPortApplication.getAppContext(), "Seleccione alguna casilla, por favor.", Toast.LENGTH_SHORT).show();
@@ -344,6 +374,7 @@ public class MundialEventActivity extends BaseActivity implements MundialEventCo
     @Override
     public void showMundialMatchesSuccess(List<MatchsResponse> matchsResponse) {
         currentMatchs = matchsResponse;
+        Log.d("respuesta", matchsResponse.get(0).getPartido());
 
         List<MatchsResponse> listCurrentMatchs = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();
@@ -403,6 +434,42 @@ public class MundialEventActivity extends BaseActivity implements MundialEventCo
                         .fit()
                         .into(group1Country2Image);
                 partido2Layer.setVisibility(View.GONE);
+                partido3Layer.setVisibility(View.GONE);
+                partido4Layer.setVisibility(View.GONE);
+            }
+
+            if (matchsResponse.size() == 2) {
+                mundialEventPresenter.validateUserElection(PreferencesHeper.getDniUser(NewPortApplication.getAppContext()), matchsResponse.get(0).getId_partido());
+
+                group1Country1Label.setText(matchsResponse.get(0).getPais1());
+                group1Country2Label.setText(matchsResponse.get(0).getPais2());
+                group2Country1Label.setText(matchsResponse.get(1).getPais1());
+                group2Country2Label.setText(matchsResponse.get(1).getPais2());
+
+                Picasso.with(NewPortApplication.getAppContext())
+                        .load(matchsResponse.get(0).getPais1_image())
+                        .placeholder(R.drawable.newport_gray)
+                        .error(android.R.drawable.ic_dialog_alert)
+                        .fit()
+                        .into(group1Country1Image);
+                Picasso.with(NewPortApplication.getAppContext())
+                        .load(matchsResponse.get(0).getPais2_image())
+                        .placeholder(R.drawable.newport_gray)
+                        .error(android.R.drawable.ic_dialog_alert)
+                        .fit()
+                        .into(group1Country2Image);
+                Picasso.with(NewPortApplication.getAppContext())
+                        .load(matchsResponse.get(1).getPais1_image())
+                        .placeholder(R.drawable.newport_gray)
+                        .error(android.R.drawable.ic_dialog_alert)
+                        .fit()
+                        .into(group2Country1Image);
+                Picasso.with(NewPortApplication.getAppContext())
+                        .load(matchsResponse.get(1).getPais2_image())
+                        .placeholder(R.drawable.newport_gray)
+                        .error(android.R.drawable.ic_dialog_alert)
+                        .fit()
+                        .into(group2Country2Image);
                 partido3Layer.setVisibility(View.GONE);
                 partido4Layer.setVisibility(View.GONE);
             }
