@@ -1,12 +1,14 @@
 package com.newport.app.ui.schedules;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -127,7 +129,10 @@ public class SchedulesFragment extends Fragment implements ScheduleContract.View
             Toast.makeText(getActivity(), "Horario aún no disponible", Toast.LENGTH_SHORT).show();
             bundle.putString("schedule", "not available");
         } else {
-            bundle.putString("schedule", "available");
+            Intent intent = new Intent(NewPortApplication.getAppContext(), ScheduleViewer.class);
+            intent.putExtra("pdfUrl", scheduleResponse.getFile_url());
+            startActivity(intent);
+            /*bundle.putString("schedule", "available");
 
             CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
             CustomTabsIntent customTabsIntent = builder.build();
@@ -135,7 +140,7 @@ public class SchedulesFragment extends Fragment implements ScheduleContract.View
             builder.setShowTitle(true);
             builder.setStartAnimations(getActivity(), android.R.anim.fade_in, android.R.anim.fade_out);
             builder.setExitAnimations(getActivity(), android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-            customTabsIntent.launchUrl(getActivity(), Uri.parse(scheduleResponse.getFile_url()));
+            customTabsIntent.launchUrl(getActivity(), Uri.parse(scheduleResponse.getFile_url()));*/
         }
 
         mFirebaseAnalytics.logEvent("see_schedule", bundle);

@@ -23,6 +23,7 @@
     <string name="news_event_fragment">Eventos</string>
     <string name="gallery_event_fragment">Eventos - Galería</string>
     <string name="mundial_event_fragment">Cartilla Mundialista</string>
+    <string name="schedule_viewer">Horario</string>
     <string name="winner_label">Ganador</string>
     <string name="empate_label">Empate</string>
     <string name="title_activity_main2">Main2Activity</string>
