@@ -62,10 +62,14 @@ public class EventsGalleryPhotoLikeInteractor {
     static void getPhotoLikedBy(int photoId, String userDni, final EventsGalleryPhotoLikeContract.Callback callback) {
         Call<PhotoLikeResponse> call = NewPortApiManager.apiManager().getPhotoLikedBy(photoId, userDni);
 
+        final int x = photoId;
+        Log.d("ctm onResponse1", String.valueOf(x));
+
         call.enqueue(new Callback<PhotoLikeResponse>() {
             @Override
             public void onResponse(@NonNull Call<PhotoLikeResponse> call, @NonNull Response<PhotoLikeResponse> response) {
                 if (response.isSuccessful()){
+                    Log.d("ctm onResponse2", String.valueOf(x));
                     callback.getPhotoLikedBySuccess(response.body());
                 } else {
                     Log.d("onResponse", response.message());

@@ -8,14 +8,22 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
+import android.media.MediaScannerConnection;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.text.emoji.EmojiCompat;
+import android.support.text.emoji.FontRequestEmojiCompatConfig;
+import android.support.text.emoji.bundled.BundledEmojiCompatConfig;
+import android.support.text.emoji.widget.EmojiTextView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.PagerSnapHelper;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SnapHelper;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
@@ -60,10 +68,15 @@ public class PhotoGalleryActivity extends AppCompatActivity implements EventsGal
     private boolean imageLoaded = false;
 
     private ViewPager viewPagerImages;
+    private RecyclerView rcvPhotoGallery;
+    private PhotoGalleryAdapterR photoGalleryAdapterR;
+    private int currentPosition = -1;
+    private int adapterSize = 0;
     private List<PhotoGalleryEventResponse> photoGalleryEventResponseList;
     public TextView lblNamePhoto;
     public TextView lblHourPhoto;
     public TextView lblLikeCount;
+    private EmojiTextView lblComent;
     private ImageView imgLikeButton;
 
     private static Context context;
@@ -71,9 +84,10 @@ public class PhotoGalleryActivity extends AppCompatActivity implements EventsGal
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EmojiCompat.Config config = new BundledEmojiCompatConfig(NewPortApplication.getAppContext());
+        EmojiCompat.init(config);
         setContentView(R.layout.activity_photo_gallery);
         supportPostponeEnterTransition();
-
         init();
     }
 
@@ -89,16 +103,34 @@ public class PhotoGalleryActivity extends AppCompatActivity implements EventsGal
         viewPagerImages = findViewById(R.id.view_pager_images);
         imgLikeButton = findViewById(R.id.imgLikeButton);
         lblLikeCount = findViewById(R.id.lblLikeCount);
+        lblComent = findViewById(R.id.lblComent);
+        //rcvPhotoGallery = findViewById(R.id.rcvPhotoGallery);
 
         imgLikeButton = findViewById(R.id.imgLikeButton);
 
+        /*photoGalleryAdapterR = new PhotoGalleryAdapterR();
+        photoGalleryAdapterR.addData(photoGalleryEventResponseList);*/
+
+        //adapterSize = photoGalleryEventResponseList.size();
+
+        //final SnapHelper snapHelper = new PagerSnapHelper();
+
+        /*rcvPhotoGallery.setHasFixedSize(true);
+        rcvPhotoGallery.setAdapter(photoGalleryAdapterR);
+        snapHelper.attachToRecyclerView(rcvPhotoGallery);*/
+
         gestureDetector = new ScaleGestureDetector(this, new ScaleListener());
+
+
         onClickImageLikePhotoListener();
+
+        //adapter.setOnNewClickListener(this);
 
         eventsGalleryPhotoLikePresenter.getPhotoLikedBy(photoGalleryEventResponseList.get(0).getId(), PreferencesHeper.getDniUser(NewPortApplication.getAppContext()));
 
-        PhotoGalleryAdapter adapter = new PhotoGalleryAdapter(this, photoGalleryEventResponseList, lblHourPhoto, lblNamePhoto, lblLikeCount, imgLikeButton);
+        PhotoGalleryAdapter adapter = new PhotoGalleryAdapter(this, photoGalleryEventResponseList, lblHourPhoto, lblNamePhoto, lblLikeCount, imgLikeButton, lblComent);
         viewPagerImages.setAdapter(adapter);
+
         viewPagerImages.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -158,22 +190,27 @@ public class PhotoGalleryActivity extends AppCompatActivity implements EventsGal
     public void showPhotoLikeSuccess(PhotoLikeResponse photoLikeResponse) {
         if (photoLikeResponse.getMessage().equals("disliked")) {
             imgLikeButton.setImageResource(R.drawable.like_manito_de_horacio_byn);
-            lblLikeCount.setText(String.valueOf(photoLikeResponse.getLikes()));
         } else {
             imgLikeButton.setImageResource(R.drawable.like_manito_de_horacio);
-            lblLikeCount.setText(String.valueOf(photoLikeResponse.getLikes()));
         }
+        lblLikeCount.setText(String.valueOf(photoLikeResponse.getLikes()));
     }
 
     @Override
     public void showPhotoLikedBySuccess(PhotoLikeResponse photoLikeResponse) {
         if (photoLikeResponse.getMessage().equals("liked")) {
             imgLikeButton.setImageResource(R.drawable.like_manito_de_horacio);
-            lblLikeCount.setText(String.valueOf(photoLikeResponse.getLikes()));
         } else {
             imgLikeButton.setImageResource(R.drawable.like_manito_de_horacio_byn);
-            lblLikeCount.setText(String.valueOf(photoLikeResponse.getLikes()));
         }
+        if (photoLikeResponse.getComent().equals("coment") || photoLikeResponse.getComent().equals("")){
+            lblComent.setVisibility(View.GONE);
+        } else {
+            //CharSequence charSequence = EmojiCompat.get().process(photoLikeResponse.getComent());
+            lblComent.setText(photoLikeResponse.getComent());
+            lblComent.setVisibility(View.VISIBLE);
+        }
+        lblLikeCount.setText(String.valueOf(photoLikeResponse.getLikes()));
     }
 
     @Override
@@ -301,19 +338,26 @@ public class PhotoGalleryActivity extends AppCompatActivity implements EventsGal
                         File folderDirectory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "/NewportImages");
                         if (!folderDirectory.exists()) {
                             folderDirectory.mkdir();
+                            if (!folderDirectory.mkdir()){
+                                Log.d("file route: ", "No se creo el directorio!!");
+                            }
                         }
 
                         File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getPath() + "/NewportImages/" + imageName);
                         FileOutputStream ostream = null;
                         try {
                             ostream = new FileOutputStream(file);
+                            Log.d("file route: ", file.getAbsolutePath());
+                            Log.d("file stream: ", ostream.toString());
                             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, ostream);
+                            MediaScannerConnection.scanFile(PhotoGalleryActivity.context, new String[] { file.getPath() }, new String[] { "image/jpeg" }, null);
                         } catch (IOException e) {
                             Crashlytics.logException(e);
                             result = false;
                             Log.e("IOException", e.getLocalizedMessage());
                         } finally {
                             try {
+                                MediaScannerConnection.scanFile(PhotoGalleryActivity.context, new String[] { file.getPath() }, new String[] { "image/jpeg" }, null);
                                 ostream.close();
                             } catch (IOException e) {
                                 Crashlytics.logException(e);

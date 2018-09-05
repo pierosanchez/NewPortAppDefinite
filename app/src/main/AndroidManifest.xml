@@ -83,7 +83,8 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity android:name=".StatusMundialActivity" />
-        <activity android:name=".ui.schedules.ScheduleViewer"
+        <activity
+            android:name=".ui.schedules.ScheduleViewer"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />

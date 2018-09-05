@@ -35,6 +35,7 @@ public class PhotoGalleryAdapter extends PagerAdapter implements EventsGalleryPh
     private TextView lblHour;
     private TextView lblName;
     private TextView lblLikes;
+    private TextView lblComent;
     private ImageView imgLikeButton;
 
     private int position;
@@ -42,12 +43,13 @@ public class PhotoGalleryAdapter extends PagerAdapter implements EventsGalleryPh
     private EventsGalleryPhotoLikePresenter eventsGalleryPhotoLikePresenter;
 
     PhotoGalleryAdapter(Context context, List<PhotoGalleryEventResponse> imageUrls, TextView lblHour,
-                        TextView lblName, TextView lblLikes, ImageView imgLikeButton) {
+                        TextView lblName, TextView lblLikes, ImageView imgLikeButton, TextView lblComent) {
         this.context = context;
         this.imageUrls = imageUrls;
         this.lblHour = lblHour;
         this.lblName = lblName;
         this.lblLikes = lblLikes;
+        this.lblComent = lblComent;
         this.imgLikeButton = imgLikeButton;
     }
 
@@ -79,11 +81,20 @@ public class PhotoGalleryAdapter extends PagerAdapter implements EventsGalleryPh
         lblHour = (TextView) ((Activity)context).findViewById(R.id.lblHourPhoto);
         lblName = (TextView) ((Activity)context).findViewById(R.id.lblNamePhoto);
         lblLikes = (TextView) ((Activity)context).findViewById(R.id.lblLikeCount);
+        //lblComent = (TextView) ((Activity)context).findViewById(R.id.lblComent);
         imgLikeButton = (ImageView) ((Activity)context).findViewById(R.id.imgLikeButton);
 
         lblHour.setText(imageUrls.get(position).getCreated_at());
         lblName.setText(imageUrls.get(position).getNews_title());
 
+
+        /*if (imageUrls.get(position).getComent() != null){
+            Log.d("positioninstantiateitem", String.valueOf(position));
+            lblComent.setVisibility(View.VISIBLE);
+            lblComent.setText(imageUrls.get(position).getComent());
+        } else {
+            lblComent.setVisibility(View.GONE);
+        }*/
 
         Picasso.with(context)
                 .load(imageUrls.get(position).getImage_url())

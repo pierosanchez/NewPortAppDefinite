@@ -17,6 +17,7 @@ public class PhotoRequest {
     private String user_code;
     private String image;
     private String news_id;
+    private String coment;
 
     public String getUser_code() {
         return user_code;
@@ -40,5 +41,13 @@ public class PhotoRequest {
 
     public void setNews_id(String news_id) {
         this.news_id = news_id;
+    }
+
+    public String getComent() {
+        return coment;
+    }
+
+    public void setComent(String coment) {
+        this.coment = coment;
     }
 }

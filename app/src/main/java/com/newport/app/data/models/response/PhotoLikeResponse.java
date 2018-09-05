@@ -9,6 +9,7 @@ public class PhotoLikeResponse implements Serializable {
     private int likeStatus;
     private String message;
     private int likes;
+    private String coment;
 
     public int getPhotoId() {
         return photoId;
@@ -48,5 +49,13 @@ public class PhotoLikeResponse implements Serializable {
 
     public void setLikes(int likes) {
         this.likes = likes;
+    }
+
+    public String getComent() {
+        return coment;
+    }
+
+    public void setComent(String coment) {
+        this.coment = coment;
     }
 }

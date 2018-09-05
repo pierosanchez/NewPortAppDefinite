@@ -57,12 +57,13 @@ class EventsGalleryInteractor {
     }
 
     @AddTrace(name = "savePhotoGallery")
-    static void savePhotoGallery(int newId, String image64, final EventsGalleryContract.Callback callback) {
+    static void savePhotoGallery(int newId, String image64, String coment, final EventsGalleryContract.Callback callback) {
 
         PhotoRequest photoRequest = new PhotoRequest();
         photoRequest.setUser_code(PreferencesHeper.getSapCodeUser(NewPortApplication.getAppContext()));
         photoRequest.setImage(image64);
         photoRequest.setNews_id(String.valueOf(newId));
+        photoRequest.setComent(coment);
 
         Call<PhotoUploadedResponse> call = NewPortApiManager.apiManager().sendPhoto(photoRequest);
 

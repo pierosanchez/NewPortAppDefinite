@@ -71,7 +71,7 @@ public interface NewPortApi {
 
     @Headers(HEADER_AUTHORIZATION)
     @GET(BuildConfig.USERSCHEDULES)
-    Call<UserScheduleResponse> getUserSchedule(@Path("dni") String dni);
+    Call<UserScheduleResponse> getUserSchedules(@Path("sap_code") String sap_code);
 
     @Headers(HEADER_AUTHORIZATION)
     @GET(BuildConfig.PHOTOLIKE)
@@ -98,4 +98,16 @@ public interface NewPortApi {
     Call<UserElectionResponse> setUserElection(@Path("dni") String dni, @Path("election1") String election1, @Path("election2") String election2,
                                                @Path("election3") String election3, @Path("election4") String election4, @Path("id_partido1") String id_partido1,
                                                @Path("id_partido2") String id_partido2, @Path("id_partido3") String id_partido3, @Path("id_partido4") String id_partido4);
+
+    @Headers(HEADER_AUTHORIZATION)
+    @GET(BuildConfig.DATASCHEDULE)
+    Call<UserResponse> getScheduleData(@Path("dni") String dni);
+
+    @Headers(HEADER_AUTHORIZATION)
+    @GET(BuildConfig.USERSOFF)
+    Call<List<UserScheduleResponse>> getUsersOff(@Path("day_off") String day_off);
+
+    @Headers(HEADER_AUTHORIZATION)
+    @GET(BuildConfig.USERSWORK)
+    Call<List<UserScheduleResponse>> getUserWork(@Path("day_work") String day_work);
 }

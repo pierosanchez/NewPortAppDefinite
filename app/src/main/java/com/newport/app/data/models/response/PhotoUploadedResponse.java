@@ -27,6 +27,7 @@ public class PhotoUploadedResponse {
     private int id;
     private String image_url;
     private String status_name;
+    private String coment;
 
     public String getNews_id() {
         return news_id;
@@ -98,5 +99,13 @@ public class PhotoUploadedResponse {
 
     public void setStatus_name(String status_name) {
         this.status_name = status_name;
+    }
+
+    public String getComent() {
+        return coment;
+    }
+
+    public void setComent(String coment) {
+        this.coment = coment;
     }
 }

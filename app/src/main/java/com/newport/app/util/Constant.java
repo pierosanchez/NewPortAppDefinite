@@ -12,6 +12,7 @@ public class Constant {
     public static final String MENU_NAME_ITEM_QUESTIONS = "tabQuestions";
     public static final String MENU_NAME_ITEM_SCHEDULES = "tabSchedules";
     public static final String MENU_NAME_ITEM_PROFILE = "tabPerfil";
+    public static final String MENU_NAME_ITEM_SWITCH_SCHEDULE = "tabSwitchSchedule";
 
     public static final String FRAGMENT_NEWS_DETAIL = "fragmentNewDetail";
     public static final String FRAGMENT_NEWS_DETAIL_GALLERY = "fragmentNewDetailGallery";

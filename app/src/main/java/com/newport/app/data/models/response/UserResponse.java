@@ -32,7 +32,16 @@ public class UserResponse {
     private String telephone;
     private String email;
     private String date_entry;
+    private String texo;
     private TardinessBean tardiness;
+
+    public String getTexo() {
+        return texo;
+    }
+
+    public void setTexo(String texo) {
+        this.texo = texo;
+    }
 
     public String getDni() {
         return dni;

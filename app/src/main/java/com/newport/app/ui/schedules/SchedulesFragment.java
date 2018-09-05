@@ -1,17 +1,22 @@
 package com.newport.app.ui.schedules;
 
 import android.app.Fragment;
+import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.customtabs.CustomTabsIntent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +26,11 @@ import com.newport.app.NewPortApplication;
 import com.newport.app.R;
 import com.newport.app.data.models.response.ScheduleResponse;
 import com.newport.app.data.models.response.UserScheduleResponse;
+import com.newport.app.ui.newdetail.NewDetailFragment;
+import com.newport.app.ui.scheduleprocess.SeeSwitchScheduleRequestFragment;
+import com.newport.app.ui.scheduleprocess.SwitchScheduleFragment;
+import com.newport.app.ui.scheduleprocess.SwitchTurnFragment;
+import com.newport.app.util.Constant;
 import com.newport.app.util.PreferencesHeper;
 
 import java.util.List;
@@ -28,7 +38,9 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SchedulesFragment extends Fragment implements ScheduleContract.View, ScheduleAdapter.OnClickSchedulerListener {
+public class SchedulesFragment extends Fragment implements ScheduleContract.View,
+        ScheduleAdapter.OnClickSchedulerListener, ScheduleAdapter.OnClickSchedulerSwitchListener,
+        ScheduleAdapter.OnClickSeeScheduleRequest {
 
     private SchedulePresenter schedulePresenter;
     private ScheduleAdapter scheduleAdapter;
@@ -39,6 +51,7 @@ public class SchedulesFragment extends Fragment implements ScheduleContract.View
     private FirebaseAnalytics mFirebaseAnalytics;
 
     private View rootView;
+    private AlertDialog dialog;
 
     public SchedulesFragment() {
         // Required empty public constructor
@@ -70,6 +83,8 @@ public class SchedulesFragment extends Fragment implements ScheduleContract.View
 
         scheduleAdapter = new ScheduleAdapter(width);
         scheduleAdapter.setOnScheduleClickListener(this);
+        scheduleAdapter.setOnScheduleSwitchClickListener(this);
+        scheduleAdapter.setOnSeeScheduleRequestClickListener(this);
         rcvScheduels.setAdapter(scheduleAdapter);
 
         schedulePresenter = new SchedulePresenter();
@@ -144,5 +159,64 @@ public class SchedulesFragment extends Fragment implements ScheduleContract.View
         }
 
         mFirebaseAnalytics.logEvent("see_schedule", bundle);
+    }
+
+    @Override
+    public void onScheduleSwtichItemClick() {
+        final SchedulesFragment activity = this;
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this.getActivity());
+        final View mView = this.getActivity().getLayoutInflater().inflate(R.layout.dialog_switch_schedule, null);
+        Button btnSwitchTurn = mView.findViewById(R.id.btnSwitchTurn);
+        Button btnSwitchOff = mView.findViewById(R.id.btnSwitchOff);
+        Button btnClosePopUp = mView.findViewById(R.id.btnClosePopUp);
+
+        btnClosePopUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        btnSwitchTurn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SwitchTurnFragment switchTurnFragment = SwitchTurnFragment.newInstance();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+                transaction.hide(activity);
+                transaction.add(R.id.content_fragments, switchTurnFragment, Constant.FRAGMENT_NEWS_DETAIL);
+                transaction.commit();
+
+                dialog.dismiss();
+            }
+        });
+
+        btnSwitchOff.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SwitchScheduleFragment switchScheduleFragment = SwitchScheduleFragment.newInstance();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+                transaction.hide(activity);
+                transaction.add(R.id.content_fragments, switchScheduleFragment, Constant.FRAGMENT_NEWS_DETAIL);
+                transaction.commit();
+
+                dialog.dismiss();
+            }
+        });
+
+        builder.setView(mView);
+        dialog = builder.create();
+        dialog.show();
+    }
+
+    @Override
+    public void onSeeScheduleRequestItemClick() {
+        SeeSwitchScheduleRequestFragment seeSwitchScheduleRequestFragment = SeeSwitchScheduleRequestFragment.newInstance();
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+        transaction.hide(this);
+        transaction.add(R.id.content_fragments, seeSwitchScheduleRequestFragment, Constant.FRAGMENT_NEWS_DETAIL);
+        transaction.commit();
     }
 }

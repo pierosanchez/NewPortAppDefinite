@@ -7,11 +7,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.perf.metrics.AddTrace;
 import com.newport.app.NewPortApplication;
 import com.newport.app.R;
@@ -31,6 +33,7 @@ public class MainActivity extends BaseActivity implements
     private MenuItem logoPrincipal;
     private boolean sensibleFragment = false;
     private FirebaseAnalytics mFirebaseAnalytics;
+    private String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +47,9 @@ public class MainActivity extends BaseActivity implements
     private void init(Bundle savedInstanceState) {
         // Obtain the FirebaseAnalytics instance.
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        token = FirebaseInstanceId.getInstance().getToken();
+
+        Log.d("token", "* " + token);
 
         BottomNavigationView bnvMenu = findViewById(R.id.bnvMenu);
         BottomNavigationViewHelper.disableShiftMode(bnvMenu);

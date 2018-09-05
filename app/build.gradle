@@ -10,8 +10,8 @@ android {
         applicationId "com.newport.app"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 34
-        versionName "1.1.21"
+        versionCode 43
+        versionName "1.1.26"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -37,13 +37,16 @@ android {
             buildConfigField "String", "SEND_PHOTO", "\"gallery\""
             buildConfigField "String", "DIRECTORY", "\"directory-by-sections\""
             buildConfigField "String", "SCHEDULES", "\"workinghours\""
-            buildConfigField "String", "USERSCHEDULES", "\"users/schedule/{dni}\""
+            buildConfigField "String", "USERSCHEDULES", "\"users/schedule/{sap_code}\""
             buildConfigField "String", "PHOTOLIKE", "\"gallery/likephoto/{photoId}/{userDni}\""
             buildConfigField "String", "COUNTLIKES", "\"gallery/likes/{photoId}\""
             buildConfigField "String", "PHOTOLIKEDBY", "\"gallery/likes/likedby/{photoId}/{userDni}\""
             buildConfigField "String", "MATCHS", "\"matchs\""
             buildConfigField "String", "VALIDATEUSERELECTION", "\"matchs/validation/{dni}/{idpartido}\""
             buildConfigField "String", "USERELECTION", "\"matchs/setElection/{dni}/{election1}/{election2}/{election3}/{election4}/{id_partido1}/{id_partido2}/{id_partido3}/{id_partido4}\""
+            buildConfigField "String", "DATASCHEDULE", "\"users/dataschedule/{dni}\""
+            buildConfigField "String", "USERSOFF", "\"users/findusersoff/{day_off}\""
+            buildConfigField "String", "USERSWORK", "\"users/findusersdaywork/{day_work}\""
         }
 
         debug {
@@ -65,13 +68,16 @@ android {
             buildConfigField "String", "SEND_PHOTO", "\"gallery\""
             buildConfigField "String", "DIRECTORY", "\"directory-by-sections\""
             buildConfigField "String", "SCHEDULES", "\"workinghours\""
-            buildConfigField "String", "USERSCHEDULES", "\"users/schedule/{dni}\""
+            buildConfigField "String", "USERSCHEDULES", "\"users/schedule/{sap_code}\""
             buildConfigField "String", "PHOTOLIKE", "\"gallery/likephoto/{photoId}/{userDni}\""
             buildConfigField "String", "COUNTLIKES", "\"gallery/likes/{photoId}\""
             buildConfigField "String", "PHOTOLIKEDBY", "\"gallery/likes/likedby/{photoId}/{userDni}\""
             buildConfigField "String", "MATCHS", "\"matchs\""
             buildConfigField "String", "VALIDATEUSERELECTION", "\"matchs/validation/{dni}/{idpartido}\""
             buildConfigField "String", "USERELECTION", "\"matchs/setElection/{dni}/{election1}/{election2}/{election3}/{election4}/{id_partido1}/{id_partido2}/{id_partido3}/{id_partido4}\""
+            buildConfigField "String", "DATASCHEDULE", "\"users/dataschedule/{dni}\""
+            buildConfigField "String", "USERSOFF", "\"users/findusersoff/{day_off}\""
+            buildConfigField "String", "USERSWORK", "\"users/findusersdaywork/{day_work}\""
 
         }
     }
@@ -90,6 +96,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:11.8.0'
     implementation 'com.google.firebase:firebase-perf:11.8.0'
     implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
+    compile 'com.android.support:support-emoji-appcompat:27.0.2'
+    compile 'com.android.support:support-emoji-bundled:27.0.2'
     implementation('com.crashlytics.sdk.android:crashlytics:2.7.1@aar') {
         transitive = true
     }

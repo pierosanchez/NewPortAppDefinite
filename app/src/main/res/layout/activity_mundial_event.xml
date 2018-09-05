@@ -121,14 +121,14 @@
                                         android:id="@+id/group1Country1Image"
                                         android:layout_width="35dp"
                                         android:layout_height="35dp"
-                                        android:src="@drawable/russiaflag" />
+                                        android:src="@drawable/newport_gray" />
 
                                     <TextView
                                         android:id="@+id/group1Country1Label"
                                         android:layout_width="70dp"
                                         android:layout_height="wrap_content"
                                         android:gravity="center"
-                                        android:text="Arabia Saudita"
+                                        android:text="Cargando..."
                                         android:textSize="11sp" />
 
                                 </LinearLayout>
@@ -169,14 +169,14 @@
                                         android:id="@+id/group1Country2Image"
                                         android:layout_width="35dp"
                                         android:layout_height="35dp"
-                                        android:src="@drawable/russiaflag" />
+                                        android:src="@drawable/newport_gray" />
 
                                     <TextView
                                         android:id="@+id/group1Country2Label"
                                         android:layout_width="70dp"
                                         android:layout_height="wrap_content"
                                         android:gravity="center"
-                                        android:text="Arabia Saudita"
+                                        android:text="Cargando..."
                                         android:textSize="11sp" />
 
                                 </LinearLayout>
@@ -215,14 +215,14 @@
                                         android:id="@+id/group2Country1Image"
                                         android:layout_width="35dp"
                                         android:layout_height="35dp"
-                                        android:src="@drawable/russiaflag" />
+                                        android:src="@drawable/newport_gray" />
 
                                     <TextView
                                         android:id="@+id/group2Country1Label"
                                         android:layout_width="70dp"
                                         android:layout_height="wrap_content"
                                         android:gravity="center"
-                                        android:text="Arabia Saudita"
+                                        android:text="Cargando..."
                                         android:textSize="11sp" />
 
                                 </LinearLayout>
@@ -263,14 +263,14 @@
                                         android:id="@+id/group2Country2Image"
                                         android:layout_width="35dp"
                                         android:layout_height="35dp"
-                                        android:src="@drawable/russiaflag" />
+                                        android:src="@drawable/newport_gray" />
 
                                     <TextView
                                         android:id="@+id/group2Country2Label"
                                         android:layout_width="70dp"
                                         android:layout_height="wrap_content"
                                         android:gravity="center"
-                                        android:text="Arabia Saudita"
+                                        android:text="Cargando..."
                                         android:textSize="11sp" />
 
                                 </LinearLayout>
@@ -309,14 +309,14 @@
                                         android:id="@+id/group3Country1Image"
                                         android:layout_width="35dp"
                                         android:layout_height="35dp"
-                                        android:src="@drawable/russiaflag" />
+                                        android:src="@drawable/newport_gray" />
 
                                     <TextView
                                         android:id="@+id/group3Country1Label"
                                         android:layout_width="70dp"
                                         android:layout_height="wrap_content"
                                         android:gravity="center"
-                                        android:text="Arabia Saudita"
+                                        android:text="Cargando..."
                                         android:textSize="11sp" />
 
                                 </LinearLayout>
@@ -357,14 +357,14 @@
                                         android:id="@+id/group3Country2Image"
                                         android:layout_width="35dp"
                                         android:layout_height="35dp"
-                                        android:src="@drawable/russiaflag" />
+                                        android:src="@drawable/newport_gray" />
 
                                     <TextView
                                         android:id="@+id/group3Country2Label"
                                         android:layout_width="70dp"
                                         android:layout_height="wrap_content"
                                         android:gravity="center"
-                                        android:text="Arabia Saudita"
+                                        android:text="Cargando..."
                                         android:textSize="11sp" />
 
                                 </LinearLayout>
@@ -403,14 +403,14 @@
                                         android:id="@+id/group4Country1Image"
                                         android:layout_width="35dp"
                                         android:layout_height="35dp"
-                                        android:src="@drawable/russiaflag" />
+                                        android:src="@drawable/newport_gray" />
 
                                     <TextView
                                         android:id="@+id/group4Country1Label"
                                         android:layout_width="70dp"
                                         android:layout_height="wrap_content"
                                         android:gravity="center"
-                                        android:text="Arabia Saudita"
+                                        android:text="Cargando..."
                                         android:textSize="11sp" />
 
                                 </LinearLayout>
@@ -451,14 +451,14 @@
                                         android:id="@+id/group4Country2Image"
                                         android:layout_width="35dp"
                                         android:layout_height="35dp"
-                                        android:src="@drawable/russiaflag" />
+                                        android:src="@drawable/newport_gray" />
 
                                     <TextView
                                         android:id="@+id/group4Country2Label"
                                         android:layout_width="70dp"
                                         android:layout_height="wrap_content"
                                         android:gravity="center"
-                                        android:text="Arabia Saudita"
+                                        android:text="Cargando..."
                                         android:textSize="11sp" />
 
                                 </LinearLayout>

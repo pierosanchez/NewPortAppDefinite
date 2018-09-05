@@ -16,13 +16,21 @@
         android:layout_weight="1"
         android:gravity="center">
 
-        <!--<ImageView
+        <ImageView
             android:id="@+id/imgGalleryPhoto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:contentDescription="@null"
-            tools:src="@drawable/people" />-->
+            tools:src="@drawable/people" />
+
+        <!--<android.support.v7.widget.RecyclerView
+            android:id="@+id/rcvPhotoGallery"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_home_new" />-->
 
         <android.support.v4.view.ViewPager
             android:id="@+id/view_pager_images"
@@ -30,6 +38,30 @@
             android:layout_height="match_parent">
 
         </android.support.v4.view.ViewPager>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!--<TextView
+            android:visibility="gone"
+            android:id="@+id/lblComent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="Cargando..."
+            android:textColor="@android:color/white" />-->
+
+        <android.support.text.emoji.widget.EmojiTextView
+            android:visibility="gone"
+            android:id="@+id/lblComent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="Cargando..."
+            android:textColor="@android:color/white" />
+
     </RelativeLayout>
 
     <RelativeLayout

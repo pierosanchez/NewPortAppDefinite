@@ -33,6 +33,8 @@ public class PhotoGalleryEventResponse implements Serializable {
     private String news_title;
     private String status_name;
     private int likePhoto;
+    private String coment;
+    private int position;
 
     public int getId() {
         return id;
@@ -120,5 +122,21 @@ public class PhotoGalleryEventResponse implements Serializable {
 
     public void setLikePhoto(int likePhoto) {
         this.likePhoto = likePhoto;
+    }
+
+    public String getComent() {
+        return coment;
+    }
+
+    public void setComent(String coment) {
+        this.coment = coment;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 }

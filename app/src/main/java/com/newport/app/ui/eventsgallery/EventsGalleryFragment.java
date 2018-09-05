@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
@@ -43,8 +44,10 @@ import android.widget.Toast;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.perf.metrics.AddTrace;
 import com.newport.app.BuildConfig;
+import com.newport.app.NewPortApplication;
 import com.newport.app.R;
 import com.newport.app.data.models.response.PhotoGalleryEventResponse;
+import com.newport.app.data.models.response.PhotoUploadedResponse;
 import com.newport.app.util.Constant;
 import com.newport.app.util.PreferencesHeper;
 import com.newport.app.util.UBitmap;
@@ -264,6 +267,11 @@ public class EventsGalleryFragment extends Fragment implements EventsGalleryCont
     }
 
     @Override
+    public void sendPhotosSuccess(PhotoUploadedResponse photo) {
+
+    }
+
+    @Override
     public void onClick(View view) {
         requestPermission();
     }
@@ -444,7 +452,7 @@ public class EventsGalleryFragment extends Fragment implements EventsGalleryCont
                 @Override
                 protected void onPreExecute() {
                     super.onPreExecute();
-                    Toast.makeText(getActivity(), "Subiendo foto", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getActivity(), "Subiendo foto", Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
@@ -474,7 +482,16 @@ public class EventsGalleryFragment extends Fragment implements EventsGalleryCont
 
                 @Override
                 protected void onPostExecute(String base64Data) {
-                    eventsGalleryPresenter.savePhotoGalleryEvent(idDetailEvent, base64Data);
+                    //eventsGalleryPresenter.savePhotoGalleryEvent(idDetailEvent, base64Data, "");
+                    PreferencesHeper.setLastFragmentTag(NewPortApplication.getAppContext(), Constant.FRAGMENT_NEWS_DETAIL);
+                    PreferencesHeper.setCurrentFragmentTag(NewPortApplication.getAppContext(), Constant.FRAGMENT_NEWS_DETAIL_GALLERY);
+
+                    PhotoComentFragment newFragment = PhotoComentFragment.newInstance(absolutPath, String.valueOf(idDetailEvent), base64Data, uploadPhotos);
+                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+                    transaction.hide(EventsGalleryFragment.this);
+                    transaction.add(R.id.content_fragments, newFragment, Constant.FRAGMENT_NEWS_DETAIL_GALLERY);
+                    transaction.commit();
                 }
             }.execute();
 
@@ -488,7 +505,7 @@ public class EventsGalleryFragment extends Fragment implements EventsGalleryCont
                 @Override
                 protected void onPreExecute() {
                     super.onPreExecute();
-                    Toast.makeText(getActivity(), "Subiendo foto", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getActivity(), "Subiendo foto", Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
@@ -521,7 +538,16 @@ public class EventsGalleryFragment extends Fragment implements EventsGalleryCont
 
                 @Override
                 protected void onPostExecute(String base64Data) {
-                    eventsGalleryPresenter.savePhotoGalleryEvent(idDetailEvent, base64Data);
+                    //eventsGalleryPresenter.savePhotoGalleryEvent(idDetailEvent, base64Data, "");
+                    PreferencesHeper.setLastFragmentTag(NewPortApplication.getAppContext(), Constant.FRAGMENT_NEWS_DETAIL);
+                    PreferencesHeper.setCurrentFragmentTag(NewPortApplication.getAppContext(), Constant.FRAGMENT_NEWS_DETAIL_GALLERY);
+
+                    PhotoComentFragment newFragment = PhotoComentFragment.newInstance(absolutPath, String.valueOf(idDetailEvent), base64Data, uploadPhotos);
+                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+                    transaction.hide(EventsGalleryFragment.this);
+                    transaction.add(R.id.content_fragments, newFragment, Constant.FRAGMENT_NEWS_DETAIL_GALLERY);
+                    transaction.commit();
                 }
             }.execute();
 

@@ -22,9 +22,9 @@ public class EventsGalleryPresenter implements EventsGalleryContract.Presenter, 
     }
 
     @Override
-    public void savePhotoGalleryEvent(int newId, String image64) {
+    public void savePhotoGalleryEvent(int newId, String image64, String coment) {
         //view.showLoading();
-        EventsGalleryInteractor.savePhotoGallery(newId, image64, this);
+        EventsGalleryInteractor.savePhotoGallery(newId, image64, coment,this);
     }
 
     @Override
@@ -58,6 +58,7 @@ public class EventsGalleryPresenter implements EventsGalleryContract.Presenter, 
     @Override
     public void getSendPhotosGallerySucces(PhotoUploadedResponse photo) {
         view.reloadGalleryPhotos();
+        view.sendPhotosSuccess(photo);
         view.hideLoading();
     }
 

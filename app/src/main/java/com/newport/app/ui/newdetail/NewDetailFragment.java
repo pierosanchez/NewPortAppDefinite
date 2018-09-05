@@ -37,7 +37,7 @@ import com.squareup.picasso.Picasso;
 public class NewDetailFragment extends Fragment implements NewDetailContract.View {
 
     private static final String ARG_PARAM1 = "idDetailEvent";
-    private static final String VIDEO_ID = "QwievZ1Tx-8";
+    private static final String VIDEO_ID = "wU_7k0OLDsw";
 
     private NewDetailPresenter newDetailPresenter;
 
@@ -147,12 +147,17 @@ public class NewDetailFragment extends Fragment implements NewDetailContract.Vie
         }
 
         /** Initializating Youtube Player View **/
-        if (newResponse.getId() != 34) {
+        /*if (newResponse.getId() != 34) {
             youtube_player.setVisibility(View.GONE);
             return;
-        }
+        }*/
 
-        loadYoutubeVideo(VIDEO_ID);
+        if (newResponse.getYoutubeId() == null || newResponse.getYoutubeId().equals("-")
+                || newResponse.getYoutubeId().equals("")) {
+            youtube_player.setVisibility(View.GONE);
+        } else {
+            loadYoutubeVideo(newResponse.getYoutubeId());
+        }
 
     }
 

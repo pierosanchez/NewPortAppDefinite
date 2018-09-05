@@ -24,12 +24,14 @@ interface EventsGalleryContract {
 
         void showPhotosEmpty(String message);
         void showPhotosError(String error);
+
+        void sendPhotosSuccess(PhotoUploadedResponse photo);
     }
 
     interface Presenter extends BasePresenter<View> {
 
         void getPhotosGalleryEvent(int newId);
-        void savePhotoGalleryEvent(int newId, String image64);
+        void savePhotoGalleryEvent(int newId, String image64, String coment);
 
     }
 

@@ -28,6 +28,7 @@ import com.newport.app.data.models.response.HomeResponse;
 import com.newport.app.ui.eventsgallery.EventsGalleryFragment;
 import com.newport.app.ui.mundialevent.MundialEventActivity;
 import com.newport.app.ui.newdetail.NewDetailFragment;
+import com.newport.app.ui.newportmagazine.MagazineFragment;
 import com.newport.app.util.Constant;
 import com.newport.app.util.PreferencesHeper;
 import com.squareup.picasso.Picasso;
@@ -209,7 +210,7 @@ public class NewsFragment extends Fragment implements NewsContract.View, NewsAda
                 }
                 rcvNewsCategory.smoothScrollToPosition(currentPosition);
             }
-        }, 1000, 10000);
+        }, 10000, 10000);
 
         //Second Section
         lnlAtTime.setOnClickListener(this);
@@ -337,12 +338,23 @@ public class NewsFragment extends Fragment implements NewsContract.View, NewsAda
     }
 
     private void callNewDetail(int id) {
-        if (id == 22) {
-            Log.d("idDetailNews", String.valueOf(id));
+        /*if (id == 22) {
+            *//*Log.d("idDetailNews", String.valueOf(id));
             Intent intent = new Intent(NewPortApplication.getAppContext(), MundialEventActivity.class);
             startActivity(intent);
-            getActivity().finish();
-        } else {
+            getActivity().finish();*//*
+
+            PreferencesHeper.setTypeTab(NewPortApplication.getAppContext(), 0);
+            PreferencesHeper.setLastFragmentTag(NewPortApplication.getAppContext(), Constant.MENU_NAME_ITEM_NEWS);
+            PreferencesHeper.setCurrentFragmentTag(NewPortApplication.getAppContext(), Constant.FRAGMENT_NEWS_DETAIL);
+
+            MagazineFragment newFragment = MagazineFragment.newInstance();
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+            transaction.hide(this);
+            transaction.add(R.id.content_fragments, newFragment, Constant.FRAGMENT_NEWS_DETAIL);
+            transaction.commit();
+        } else {*/
             PreferencesHeper.setTypeTab(NewPortApplication.getAppContext(), 0);
             PreferencesHeper.setLastFragmentTag(NewPortApplication.getAppContext(), Constant.MENU_NAME_ITEM_NEWS);
             PreferencesHeper.setCurrentFragmentTag(NewPortApplication.getAppContext(), Constant.FRAGMENT_NEWS_DETAIL);
@@ -353,7 +365,7 @@ public class NewsFragment extends Fragment implements NewsContract.View, NewsAda
             transaction.hide(this);
             transaction.add(R.id.content_fragments, newFragment, Constant.FRAGMENT_NEWS_DETAIL);
             transaction.commit();
-        }
+        //}
     }
 
     private void callGalleryNew(int idDetailEvent, int uploadPhotos) {

@@ -13,6 +13,7 @@
     <string name="menu_item_question">Preguntas</string>
     <string name="menu_item_schedule">Horario</string>
     <string name="menu_item_profile">Perfil</string>
+    <string name="menu_item_operations">Operaciones</string>
     <string name="news_title_fragment">Noticias</string>
     <string name="last_news_home_subtitle">ÚLTIMAS NOTICIAS</string>
     <string name="save_desition_button">GUARDAR</string>
@@ -24,6 +25,7 @@
     <string name="gallery_event_fragment">Eventos - Galería</string>
     <string name="mundial_event_fragment">Cartilla Mundialista</string>
     <string name="schedule_viewer">Horario</string>
+    <string name="newport_magazine">Revista</string>
     <string name="winner_label">Ganador</string>
     <string name="empate_label">Empate</string>
     <string name="title_activity_main2">Main2Activity</string>
@@ -35,8 +37,11 @@
     <string name="celular_example">\u2022 Celular 999999999</string>
     <string name="title_section_directory">Sección %s</string>
     <string name="schedule_fragment">Horarios</string>
-    <string name="see_schedule_button">Ver horario</string>
+    <string name="see_schedule_button">Ver</string>
+    <string name="change_schedules">Solicitar Cambio</string>
     <string name="path_pathmorph_expandcollapse">M 1,-4 L 1,4 L -1,4 L -1,-4 Z</string>
+    <string name="dia_a_cambiar">Dia a cambiar:</string>
+    <string name="por_dia_a_cambiar">por:</string>
     <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
     <string name="perfil_fragment">Perfil</string>
     <string name="surname_hint">Apellido</string>
@@ -158,5 +163,26 @@
     <string name="conectivity_error">Existe problemas con su conexión a internet. Intente nuevamente</string>
     <string name="error_to_download_image">Ocurrió un error al realizar la descarga</string>
     <string name="fotos_empty">No hay fotos</string>
+    <string name="btnLeftPdf"><![CDATA[<<]]></string>
+    <string name="btnZoomMinPdf">-</string>
+    <string name="btnZoomMaxPdf">+</string>
+    <string name="btnRightPdf"><![CDATA[>>]]></string>
+    <string name="introduce_coment">Ingrese un comentario...</string>
+    <string name="lbl_horario">Horario:</string>
+    <string name="lbl_cambio_off">Cambio de dia Off</string>
+    <string name="see_request">VER SOLICITUDES</string>
+    <string name="btn_cambio_de_turno">Cambio de Turno</string>
+    <string name="btn_cambio_de_dia_off">Cambio de dia OFF</string>
+    <string name="lbl_cambio_de_turno">Cambio de Turno</string>
+    <string name="lbl_cambio_de">Cambio de:</string>
+    <string name="lbl_solicitante">Solicitante:</string>
+    <string name="lbl_horario_actual">Horario actual:</string>
+    <string name="lbl_cambia_con">Cambia con:</string>
+    <string name="lbl_area">Area</string>
+    <string name="lbl_fecha_de_cambio">Fecha de cambio:</string>
+    <string name="lbl_validado_por">Validado por:</string>
+    <string name="btn_aprobar">Aprobar</string>
+    <string name="btn_rechazar">Rechazar</string>
+    <string name="lbl_cambios_realizar_mes_vigente">Los cambios se podrán realizar dentro del mes vigente.</string>
 
 </resources>

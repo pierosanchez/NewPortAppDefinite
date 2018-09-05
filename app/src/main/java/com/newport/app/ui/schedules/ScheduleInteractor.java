@@ -52,7 +52,7 @@ class ScheduleInteractor {
 
     @AddTrace(name = "getUserSchedules")
     static void getUserSchedules(String dni, final ScheduleContract.Callback callback) {
-        Call<UserScheduleResponse> call = NewPortApiManager.apiManager().getUserSchedule(dni);
+        /*Call<UserScheduleResponse> call = NewPortApiManager.apiManager().getUserSchedule(dni);
 
         call.enqueue(new Callback<UserScheduleResponse>() {
             @SuppressWarnings("ConstantConditions")
@@ -73,6 +73,6 @@ class ScheduleInteractor {
             public void onFailure( @NonNull Call<UserScheduleResponse> call, @NonNull Throwable t) {
                 callback.getUserSchedulesFailure(NewPortApplication.getAppContext().getString(R.string.conectivity_error));
             }
-        });
+        });*/
     }
 }

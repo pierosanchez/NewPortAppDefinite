@@ -1,31 +1,30 @@
 package com.newport.app.ui.schedules;
 
 import com.github.barteksc.pdfviewer.PDFView;
+import com.github.barteksc.pdfviewer.listener.OnTapListener;
 import com.newport.app.R;
 import com.newport.app.ui.BaseActivity;
+import com.newport.app.util.OnSwipeTouchListener;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.webkit.WebView;
-
+import android.view.MotionEvent;
+import android.widget.RelativeLayout;
 import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 
 public class ScheduleViewer extends BaseActivity {
 
-    PDFView pdfViewer;
-    //WebView pdfViewer;
-    String pdfUrl;
+    private PDFView pdfViewer;
+    private String pdfUrl;
+    private RelativeLayout layProgress;
+    private ProgressDialog pb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +38,7 @@ public class ScheduleViewer extends BaseActivity {
         pdfUrl = extra.getStringExtra("pdfUrl");
 
         pdfViewer = (PDFView) findViewById(R.id.pdfViewer);
+        layProgress = (RelativeLayout) findViewById(R.id.layProgress);
 
         new RetrievePDFStream().execute(pdfUrl);
     }
@@ -62,7 +62,9 @@ public class ScheduleViewer extends BaseActivity {
 
         @Override
         protected void onPostExecute(InputStream inputStream) {
-            pdfViewer.fromStream(inputStream).load();
+            pdfViewer.fromStream(inputStream).swipeHorizontal(true).spacing(5).load();
         }
     }
 }
+
+

@@ -22,13 +22,40 @@
             android:contentDescription="@null"
             tools:src="@drawable/casino" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/lbl_horario"/>
+
         <Button
             android:id="@+id/btnSeeSchedule"
             android:layout_width="match_parent"
             android:layout_height="30dp"
+            android:layout_marginTop="5dp"
             android:background="@drawable/blue_rounded_button"
             android:text="@string/see_schedule_button"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:textSize="13sp"/>
+
+        <Button
+            android:id="@+id/btnScheduleOperations"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/blue_rounded_button"
+            android:text="@string/change_schedules"
+            android:textColor="@android:color/white"
+            android:textSize="13sp"/>
+
+        <Button
+            android:id="@+id/btnSeeSwitchScheduleRequest"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/blue_rounded_button"
+            android:text="@string/see_request"
+            android:textColor="@android:color/white"
+            android:textSize="13sp"/>
 
     </LinearLayout>
 </android.support.v7.widget.CardView>
