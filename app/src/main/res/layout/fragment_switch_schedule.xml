@@ -121,6 +121,21 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center">
+
+                    <View
+                        android:layout_width="200dp"
+                        android:layout_height="3dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp"
+                        android:background="@color/colorButton" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp">
@@ -130,7 +145,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="116dp"
                         app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-                        tools:listitem="@layout/days_offs"/>
+                        tools:listitem="@layout/days_offs"
+                        android:background="@drawable/margin_see_request_data"/>
 
                 </LinearLayout>
 
@@ -156,8 +172,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:layout_marginBottom="5dp"
-                        android:gravity="center"
-                        android:visibility="gone"/>
+                        android:gravity="center" />
 
                 </LinearLayout>
 
@@ -169,12 +184,12 @@
                     android:layout_marginTop="20dp"
                     android:orientation="vertical">
 
-                    <TextView
+                    <!--<TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="@string/lbl_cambios_realizar_mes_vigente"
-                        android:textColor="@android:color/black"/>
+                        android:textColor="@android:color/black"/>-->
 
                     <Button
                         android:id="@+id/btnSendSwitchRequest"

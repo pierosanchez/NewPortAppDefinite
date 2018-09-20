@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.newport.app.NewPortApplication;
 import com.newport.app.R;
+import com.newport.app.data.models.response.SwitchScheduleEmailResponse;
 import com.newport.app.data.models.response.UserResponse;
 import com.newport.app.data.models.response.UserScheduleResponse;
 
@@ -30,12 +31,13 @@ import java.util.List;
 
 public class SwitchScheduleFragment extends Fragment implements SwitchScheduleContract.View2,
         SwitchScheduleContract.View, AdapterView.OnItemSelectedListener, SwitchScheduleContract.View3,
-        SwitchScheduleOffsAdapter.OnClickUserListener {
+        SwitchScheduleOffsAdapter.OnClickUserListener, SwitchScheduleContract.View5, View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    private SwitchSchedule5Presenter switchSchedule5Presenter;
     private SwitchSchedule3Presenter switchSchedule3Presenter;
     private SwitchSchedule2Presenter switchSchedule2Presenter;
     private SwitchSchedulePresenter switchSchedulePresenter;
@@ -46,6 +48,14 @@ public class SwitchScheduleFragment extends Fragment implements SwitchScheduleCo
     private String mParam1;
     private String mParam2;
     private String[] dayToSwitch;
+    private String mailToSendEmail;
+    private String nameToSendEmail;
+    private String nameWhoSendEmail;
+    private String mailWhoSendEmail;
+    private String userScheduleForEmail;
+    private String otherUserSchedule;
+    private String userSala;
+    private String userArea;
 
     private Spinner spDayToSwitch;
     private Spinner spCompDay;
@@ -119,11 +129,15 @@ public class SwitchScheduleFragment extends Fragment implements SwitchScheduleCo
         switchSchedulePresenter.attachedView(this);
         switchSchedule3Presenter = new SwitchSchedule3Presenter();
         switchSchedule3Presenter.attachedView(this);
+        switchSchedule5Presenter = new SwitchSchedule5Presenter();
+        switchSchedule5Presenter.attachedView(this);
 
         switchSchedule2Presenter.getUserSchedule();
+        switchSchedulePresenter.getScheduleData();
         spCompDay.setOnItemSelectedListener(this);
 
         switchScheduleOffsAdapter.setOnUserClickListener(this);
+        btnSendSwitchRequest.setOnClickListener(this);
 
         lvCoworkerSchedule.setAdapter(switchScheduleOffsAdapter);
     }
@@ -211,7 +225,13 @@ public class SwitchScheduleFragment extends Fragment implements SwitchScheduleCo
 
     @Override
     public void showScheduleData(UserResponse userResponse) {
-
+        if (userResponse == null) {
+            Toast.makeText(NewPortApplication.getAppContext(), "El usuario no tiene su horario registrado", Toast.LENGTH_SHORT).show();
+        } else {
+            mailWhoSendEmail = userResponse.getEmail();
+            userSala = userResponse.getTexo();
+            userArea = userResponse.getArea();
+        }
     }
 
     @Override
@@ -221,28 +241,62 @@ public class SwitchScheduleFragment extends Fragment implements SwitchScheduleCo
 
     @Override
     public void showUserSchedulesSuccess(UserScheduleResponse userScheduleResponse) {
+        String schedule = "";
+        nameWhoSendEmail = userScheduleResponse.getUser_name();
+
         lblUserName.setText(userScheduleResponse.getUser_name());
-        if (userScheduleResponse.getLun().equals("OFF")) {
-            loadOffDates(2, "Lun - ");
+        if (userScheduleResponse.getLun() != null) {
+            schedule = userScheduleResponse.getLun();
+
+            if (userScheduleResponse.getLun().equals("OFF")) {
+                loadOffDates(2, "Lun - ");
+            }
         }
-        if (userScheduleResponse.getMar().equals("OFF")) {
-            loadOffDates(3, "Mar - ");
+        if (userScheduleResponse.getMar() != null) {
+            schedule = userScheduleResponse.getMar();
+
+            if (userScheduleResponse.getMar().equals("OFF")) {
+                loadOffDates(3, "Mar - ");
+            }
         }
-        if (userScheduleResponse.getMie().equals("OFF")) {
-            loadOffDates(4, "Mie - ");
+        if (userScheduleResponse.getMie() != null) {
+            schedule = userScheduleResponse.getMie();
+
+            if (userScheduleResponse.getMie().equals("OFF")) {
+                loadOffDates(4, "Mie - ");
+            }
         }
-        if (userScheduleResponse.getJue().equals("OFF")) {
-            loadOffDates(5, "Jue - ");
+        if (userScheduleResponse.getJue() != null) {
+            schedule = userScheduleResponse.getJue();
+
+            if (userScheduleResponse.getJue().equals("OFF")) {
+                loadOffDates(5, "Jue - ");
+            }
         }
-        if (userScheduleResponse.getVie().equals("OFF")) {
-            loadOffDates(6, "Vie - ");
+        if (userScheduleResponse.getVie() != null) {
+            schedule = userScheduleResponse.getVie();
+
+            if (userScheduleResponse.getVie().equals("OFF")) {
+                loadOffDates(6, "Vie - ");
+            }
         }
-        if (userScheduleResponse.getSab().equals("OFF")) {
-            loadOffDates(7, "Sab - ");
+        if (userScheduleResponse.getSab() != null) {
+            schedule = userScheduleResponse.getSab();
+
+            if (userScheduleResponse.getSab().equals("OFF")) {
+                loadOffDates(7, "Sab - ");
+            }
         }
-        if (userScheduleResponse.getDom().equals("OFF")) {
-            loadOffDates(1, "Dom - ");
+        if (userScheduleResponse.getDom() != null) {
+            schedule = userScheduleResponse.getDom();
+
+            if (userScheduleResponse.getDom().equals("OFF")) {
+                loadOffDates(1, "Dom - ");
+            }
         }
+
+        userScheduleForEmail = schedule;
+        //Toast.makeText(NewPortApplication.getAppContext(), "El usuario no tiene su horario registrado", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -299,9 +353,45 @@ public class SwitchScheduleFragment extends Fragment implements SwitchScheduleCo
                 break;
         }
 
+        mailToSendEmail = lastUser.getEMAIL();
+        nameToSendEmail = lastUser.getUser_name();
+        otherUserSchedule = lastUser.getUser_schedule();
+
         lblScheduleCoworker.setText(schedule);
-        if (lastUser.getEMAIL().equals("")){
+        lblUserMail.setText(lastUser.getUser_name());
+
+        /*if (lastUser.getEMAIL().equals("")) {
             lblUserMail.setText("NO REGISTRA CORREO");
+        }*/
+    }
+
+    @Override
+    public void showSendMailSwitchScheduleSuccess(SwitchScheduleEmailResponse switchScheduleEmailResponse) {
+        if (switchScheduleEmailResponse.getMessage().equals("success")) {
+            Toast.makeText(NewPortApplication.getAppContext(), "Solicitud enviada satisfactoriamente", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(NewPortApplication.getAppContext(), "Ocurrio un error al enviar la solicitud", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void showSendMailSwitchScheduleError(String error) {
+        Toast.makeText(NewPortApplication.getAppContext(), error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.btnSendSwitchRequest) {
+            switchSchedule5Presenter.sendMailSwitchSchedule(mailWhoSendEmail, nameWhoSendEmail, mailToSendEmail, nameToSendEmail, getDate(dayToSwitch[2]), userScheduleForEmail, otherUserSchedule, 1, /*"dgamarra@newport.com.pe", "DANIELA GAMARRA", "jromani@newport.com.pe", "JEAN ROMANI",*/ userSala, userArea);
+        }
+    }
+
+    private String getDate(String selected_day) {
+        Calendar calendar = Calendar.getInstance();
+        int month = calendar.get(Calendar.MONTH);
+        int year = calendar.get(Calendar.YEAR);
+        String date = "";
+        date = selected_day + "/" + month + "/" + year;
+        return date;
     }
 }

@@ -5,17 +5,20 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.newport.app.NewPortApplication;
 import com.newport.app.R;
+import com.newport.app.data.models.response.SwitchScheduleEmailResponse;
 import com.newport.app.data.models.response.UserResponse;
 import com.newport.app.data.models.response.UserScheduleResponse;
 
@@ -24,16 +27,18 @@ import java.util.Calendar;
 import java.util.List;
 
 public class SwitchTurnFragment extends Fragment implements SwitchScheduleContract.View2,
-        SwitchScheduleContract.View4, AdapterView.OnItemSelectedListener,
-        SwitchScheduleOffsAdapter.OnClickUserListener  {
+        SwitchScheduleContract.View4, AdapterView.OnItemSelectedListener, SwitchScheduleContract.View,
+        SwitchScheduleOffsAdapter.OnClickUserListener, View.OnClickListener, SwitchScheduleContract.View5 {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    private SwitchSchedulePresenter switchSchedulePresenter;
     private SwitchSchedule2Presenter switchSchedule2Presenter;
     private SwitchSchedule4Presenter switchSchedule4Presenter;
+    private SwitchSchedule5Presenter switchSchedule5Presenter;
 
     private SwitchScheduleOffsAdapter switchScheduleOffsAdapter;
 
@@ -41,6 +46,14 @@ public class SwitchTurnFragment extends Fragment implements SwitchScheduleContra
     private String mParam1;
     private String mParam2;
     private String[] dayToSwitch;
+    private String mailToSendEmail;
+    private String nameToSendEmail;
+    private String nameWhoSendEmail;
+    private String mailWhoSendEmail;
+    private String userScheduleForEmail;
+    private String otherUserSchedule;
+    private String userSala;
+    private String userArea;
 
     private View rootView;
     private Spinner spDayToSwitch;
@@ -48,6 +61,7 @@ public class SwitchTurnFragment extends Fragment implements SwitchScheduleContra
     private TextView lblUserName;
     private TextView lblScheduleCoworker;
     private TextView lblUserMail;
+    private Button btnSendSwitchRequest;
 
     private RecyclerView lvCoworkerSchedule;
 
@@ -93,10 +107,16 @@ public class SwitchTurnFragment extends Fragment implements SwitchScheduleContra
         lblScheduleCoworker = rootView.findViewById(R.id.lblScheduleCoworker);
         lblUserMail = rootView.findViewById(R.id.lblUserMail);
 
+        btnSendSwitchRequest = rootView.findViewById(R.id.btnSendSwitchRequest);
+
+        switchSchedulePresenter = new SwitchSchedulePresenter();
+        switchSchedulePresenter.attachedView(this);
         switchSchedule2Presenter = new SwitchSchedule2Presenter();
         switchSchedule2Presenter.attachedView(this);
         switchSchedule4Presenter = new SwitchSchedule4Presenter();
         switchSchedule4Presenter.attachedView(this);
+        switchSchedule5Presenter = new SwitchSchedule5Presenter();
+        switchSchedule5Presenter.attachedView(this);
 
         switchScheduleOffsAdapter = new SwitchScheduleOffsAdapter();
 
@@ -105,8 +125,11 @@ public class SwitchTurnFragment extends Fragment implements SwitchScheduleContra
 
         lvCoworkerSchedule.setAdapter(switchScheduleOffsAdapter);
 
+        switchSchedulePresenter.getScheduleData();
+
         switchScheduleOffsAdapter.setOnUserClickListener(this);
         spDayToSwitch.setOnItemSelectedListener(this);
+        btnSendSwitchRequest.setOnClickListener(this);
     }
 
     private List<String> loadDates() {
@@ -176,6 +199,18 @@ public class SwitchTurnFragment extends Fragment implements SwitchScheduleContra
     }
 
     @Override
+    public void showScheduleData(UserResponse userResponse) {
+        mailWhoSendEmail = userResponse.getEmail();
+        userSala = userResponse.getTexo();
+        userArea = userResponse.getArea();
+    }
+
+    @Override
+    public void showScheduleDataError(String error) {
+        Toast.makeText(NewPortApplication.getAppContext(), error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void showUserSchedulesSuccess(UserScheduleResponse userScheduleResponse) {
         String schedule = "";
         switch (dayToSwitch[0]) {
@@ -202,8 +237,11 @@ public class SwitchTurnFragment extends Fragment implements SwitchScheduleContra
                 break;
         }
 
+        userScheduleForEmail = schedule;
         lblUserSchedule.setText(schedule);
         lblUserName.setText(userScheduleResponse.getUser_name());
+
+        nameWhoSendEmail = userScheduleResponse.getUser_name();
     }
 
     @Override
@@ -218,7 +256,7 @@ public class SwitchTurnFragment extends Fragment implements SwitchScheduleContra
 
     @Override
     public void showUsersWorkError(String error) {
-
+        Toast.makeText(NewPortApplication.getAppContext(), error, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -248,7 +286,41 @@ public class SwitchTurnFragment extends Fragment implements SwitchScheduleContra
                 break;
         }
 
+        mailToSendEmail = lastUser.getEMAIL();
+        nameToSendEmail = lastUser.getUser_name();
+        otherUserSchedule = lastUser.getUser_schedule();
+
         lblScheduleCoworker.setText(schedule);
-        lblUserMail.setText(lastUser.getEMAIL());
+        lblUserMail.setText(lastUser.getUser_name());
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.btnSendSwitchRequest) {
+            switchSchedule5Presenter.sendMailSwitchSchedule(mailWhoSendEmail, nameWhoSendEmail, mailToSendEmail, nameToSendEmail, getDate(dayToSwitch[2]), userScheduleForEmail, otherUserSchedule, 1, /*"", "", "", "",*/ userSala, userArea);
+        }
+    }
+
+    @Override
+    public void showSendMailSwitchScheduleSuccess(SwitchScheduleEmailResponse switchScheduleEmailResponse) {
+        if (switchScheduleEmailResponse.getMessage().equals("success")) {
+            Toast.makeText(NewPortApplication.getAppContext(), "Solicitud enviada satisfactoriamente", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(NewPortApplication.getAppContext(), "Ocurrio un error al enviar la solicitud", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void showSendMailSwitchScheduleError(String error) {
+        Toast.makeText(NewPortApplication.getAppContext(), error, Toast.LENGTH_SHORT).show();
+    }
+
+    private String getDate(String selected_day) {
+        Calendar calendar = Calendar.getInstance();
+        int month = calendar.get(Calendar.MONTH);
+        int year = calendar.get(Calendar.YEAR);
+        String date = "";
+        date = selected_day + "/" + month + "/" + year;
+        return date;
     }
 }

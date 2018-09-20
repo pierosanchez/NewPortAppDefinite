@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TableRow>
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Lunes"
+                android:layout_marginStart="5dp"/>
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Martes"
+                android:layout_marginStart="10dp"/>
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Miercoles"
+                android:layout_marginStart="10dp"/>
+
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:layout_weight="1"
+                android:id="@+id/lblLunesScheduleUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Lunes"
+                android:layout_marginStart="5dp"/>
+            <TextView
+                android:layout_weight="1"
+                android:id="@+id/lblMartesScheduleUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Martes"
+                android:layout_marginStart="10dp"/>
+            <TextView
+                android:layout_weight="1"
+                android:id="@+id/lblMiercolesScheduleUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Miercoles"
+                android:layout_marginStart="10dp"/>
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Jueves"
+                android:layout_marginStart="5dp"/>
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Viernes"
+                android:layout_marginStart="10dp"/>
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sabado"
+                android:layout_marginStart="10dp"/>
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_weight="1"
+                android:id="@+id/lblJuevesScheduleUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Jueves"
+                android:layout_marginStart="5dp"/>
+            <TextView
+                android:layout_weight="1"
+                android:id="@+id/lblViernesScheduleUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Viernes"
+                android:layout_marginStart="10dp"/>
+            <TextView
+                android:layout_weight="1"
+                android:id="@+id/lblSabadoScheduleUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sabado"
+                android:layout_marginStart="10dp"/>
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Domingo"
+                android:layout_marginStart="5dp"/>
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:layout_weight="1"
+                android:id="@+id/lblDomingoScheduleUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Domingo"
+                android:layout_marginStart="5dp"/>
+        </TableRow>
+
+    </TableLayout>
+
+</LinearLayout>

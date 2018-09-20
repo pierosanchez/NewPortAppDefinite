@@ -11,11 +11,11 @@
         android:layout_marginStart="5dp"/>
 
     <TextView
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:id="@+id/lblDaysOff"
+        android:id="@+id/lblPendingRequest"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"/>
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="5dp" />
 
 </LinearLayout>

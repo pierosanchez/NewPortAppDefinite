@@ -47,6 +47,14 @@ android {
             buildConfigField "String", "DATASCHEDULE", "\"users/dataschedule/{dni}\""
             buildConfigField "String", "USERSOFF", "\"users/findusersoff/{day_off}\""
             buildConfigField "String", "USERSWORK", "\"users/findusersdaywork/{day_work}\""
+            buildConfigField "String", "USERSENDEMAILSWITCHSCHEDULE", "\"users/schedule/sendmail\""
+            buildConfigField "String", "USERSENDEMAILCOWOSWITCHSCHEDULE", "\"users/schedule/sendcowoswitchschedulemail\""
+            buildConfigField "String", "USERSENDEMAILBOSSSWITCHSCHEDULE", "\"users/schedule/sendbossswitchschedulemail\""
+            buildConfigField "String", "USERSENDEMAILMANAGERSWITCHSCHEDULE", "\"users/schedule/sendmanagerswitchschedulemail\""
+            buildConfigField "String", "USERSWITCHSCHEDULESPENDINGREQUEST", "\"users/schedule/pendingrequestswitchschedule/{user_mail}\""
+            buildConfigField "String", "BOSSSWITCHSCHEDULESPENDINGREQUEST", "\"users/schedule/bosspendingrequestswitchschedule/{boss_email}\""
+            buildConfigField "String", "MANAGERSWITCHSCHEDULESPENDINGREQUEST", "\"users/schedule/managerpendingrequestswitchschedule/{managers_email}\""
+            buildConfigField "String", "USERSCHEDULEBYNAME", "\"users/schedule/schedulebyname/{user_name}\""
         }
 
         debug {
@@ -78,7 +86,14 @@ android {
             buildConfigField "String", "DATASCHEDULE", "\"users/dataschedule/{dni}\""
             buildConfigField "String", "USERSOFF", "\"users/findusersoff/{day_off}\""
             buildConfigField "String", "USERSWORK", "\"users/findusersdaywork/{day_work}\""
-
+            buildConfigField "String", "USERSENDEMAILSWITCHSCHEDULE", "\"users/schedule/sendmail\""
+            buildConfigField "String", "USERSENDEMAILCOWOSWITCHSCHEDULE", "\"users/schedule/sendcowoswitchschedulemail\""
+            buildConfigField "String", "USERSENDEMAILBOSSSWITCHSCHEDULE", "\"users/schedule/sendbossswitchschedulemail\""
+            buildConfigField "String", "USERSENDEMAILMANAGERSWITCHSCHEDULE", "\"users/schedule/sendmanagerswitchschedulemail\""
+            buildConfigField "String", "USERSWITCHSCHEDULESPENDINGREQUEST", "\"users/schedule/pendingrequestswitchschedule/{user_mail}\""
+            buildConfigField "String", "BOSSSWITCHSCHEDULESPENDINGREQUEST", "\"users/schedule/bosspendingrequestswitchschedule/{boss_email}\""
+            buildConfigField "String", "MANAGERSWITCHSCHEDULESPENDINGREQUEST", "\"users/schedule/managerpendingrequestswitchschedule/{managers_email}\""
+            buildConfigField "String", "USERSCHEDULEBYNAME", "\"users/schedule/schedulebyname/{user_name}\""
         }
     }
 }

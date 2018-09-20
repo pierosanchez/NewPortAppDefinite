@@ -2,6 +2,7 @@ package com.newport.app.data.api;
 
 import com.newport.app.BuildConfig;
 import com.newport.app.data.models.request.PhotoRequest;
+import com.newport.app.data.models.request.SwitchScheduleEmailRequest;
 import com.newport.app.data.models.response.DirectoryResponse;
 import com.newport.app.data.models.response.EventsResponse;
 import com.newport.app.data.models.response.HomeResponse;
@@ -12,6 +13,8 @@ import com.newport.app.data.models.response.PhotoGalleryEventResponse;
 import com.newport.app.data.models.response.PhotoLikeResponse;
 import com.newport.app.data.models.response.PhotoUploadedResponse;
 import com.newport.app.data.models.response.ScheduleResponse;
+import com.newport.app.data.models.response.SwitchScheduleEmailResponse;
+import com.newport.app.data.models.response.SwitchSchedulesPendingRequestResponse;
 import com.newport.app.data.models.response.UserElectionResponse;
 import com.newport.app.data.models.response.UserResponse;
 import com.newport.app.data.models.response.UserScheduleResponse;
@@ -23,6 +26,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -110,4 +114,36 @@ public interface NewPortApi {
     @Headers(HEADER_AUTHORIZATION)
     @GET(BuildConfig.USERSWORK)
     Call<List<UserScheduleResponse>> getUserWork(@Path("day_work") String day_work);
+
+    @Headers(HEADER_AUTHORIZATION)
+    @POST(BuildConfig.USERSENDEMAILSWITCHSCHEDULE)
+    Call<SwitchScheduleEmailResponse> sendEmailSwitchSchedule(@Body SwitchScheduleEmailRequest switchScheduleEmailRequest);
+
+    @Headers(HEADER_AUTHORIZATION)
+    @GET(BuildConfig.USERSWITCHSCHEDULESPENDINGREQUEST)
+    Call<List<SwitchSchedulesPendingRequestResponse>> getUserSwitchSchedulePendingRequests(@Path("user_mail") String user_mail);
+
+    @Headers(HEADER_AUTHORIZATION)
+    @GET(BuildConfig.BOSSSWITCHSCHEDULESPENDINGREQUEST)
+    Call<List<SwitchSchedulesPendingRequestResponse>> getBossUserSwitchSchedulePendingRequests(@Path("boss_email") String boss_email);
+
+    @Headers(HEADER_AUTHORIZATION)
+    @GET(BuildConfig.MANAGERSWITCHSCHEDULESPENDINGREQUEST)
+    Call<List<SwitchSchedulesPendingRequestResponse>> getManagerUserSwitchSchedulePendingRequests(@Path("managers_email") String managers_email);
+
+    @Headers(HEADER_AUTHORIZATION)
+    @PUT(BuildConfig.USERSENDEMAILCOWOSWITCHSCHEDULE)
+    Call<SwitchScheduleEmailResponse> sendMailCoWoSwitchSchedule(@Body SwitchScheduleEmailRequest switchScheduleEmailRequest);
+
+    @Headers(HEADER_AUTHORIZATION)
+    @PUT(BuildConfig.USERSENDEMAILBOSSSWITCHSCHEDULE)
+    Call<SwitchScheduleEmailResponse> sendMailBossSwitchSchedule(@Body SwitchScheduleEmailRequest switchScheduleEmailRequest);
+
+    @Headers(HEADER_AUTHORIZATION)
+    @PUT(BuildConfig.USERSENDEMAILMANAGERSWITCHSCHEDULE)
+    Call<SwitchScheduleEmailResponse> sendMailManagerSwitchSchedule(@Body SwitchScheduleEmailRequest switchScheduleEmailRequest);
+
+    @Headers(HEADER_AUTHORIZATION)
+    @GET(BuildConfig.USERSCHEDULEBYNAME)
+    Call<UserScheduleResponse> getUserScheduleByName(@Path("user_name") String user_name);
 }

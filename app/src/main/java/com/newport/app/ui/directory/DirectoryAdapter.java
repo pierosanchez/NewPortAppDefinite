@@ -45,7 +45,8 @@ public class DirectoryAdapter extends RecyclerView.Adapter<DirectoryAdapter.Dire
 
     @Override
     public void onBindViewHolder(final DirectoryItemViewHolder holder, int position) {
-        holder.lblSectionName.setText(String.format(context.getString(R.string.title_section_directory), sectionDirectoryList.get(position).getSection()));
+        //holder.lblSectionName.setText(String.format(context.getString(R.string.title_section_directory), sectionDirectoryList.get(position).getSection()));
+        holder.lblSectionName.setText(sectionDirectoryList.get(position).getSection());
         holder.contactsAdapter.addData(sectionDirectoryList.get(position).getContacts());
 
         final boolean isExpanded = position == mExpandedPosition;

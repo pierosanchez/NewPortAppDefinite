@@ -22,7 +22,8 @@
             android:textAllCaps="true"
             android:textColor="@android:color/white"
             tools:ignore="RelativeOverlap"
-            tools:text="SECCIÓN GERENCIA" />
+            tools:text="SECCIÓN GERENCIA"
+            android:gravity="center"/>
 
         <ImageView
             android:id="@+id/imgArrow"

@@ -1,5 +1,7 @@
 package com.newport.app.ui.scheduleprocess;
 
+import com.newport.app.data.models.response.SwitchScheduleEmailResponse;
+import com.newport.app.data.models.response.SwitchSchedulesPendingRequestResponse;
 import com.newport.app.data.models.response.UserResponse;
 import com.newport.app.data.models.response.UserScheduleResponse;
 import com.newport.app.util.BasePresenter;
@@ -81,5 +83,110 @@ public interface SwitchScheduleContract {
         void getUserWorkSuccess(List<UserScheduleResponse> userScheduleResponseList);
 
         void getUserWorkError(String error);
+    }
+
+    interface View5 {
+        void showSendMailSwitchScheduleSuccess(SwitchScheduleEmailResponse switchScheduleEmailResponse);
+        void showSendMailSwitchScheduleError(String error);
+    }
+
+    interface Presenter5 extends BasePresenter<View5> {
+        void sendMailSwitchSchedule(String mailerAddress, String mailer, String toAddress,
+                                    String to, String dayToChange, String mailerSchedule, String otherUserSchedule,
+                                    int status, /*String bossAddress, String bossName, String managerAddress, String managerName,*/ String sala, String area);
+    }
+
+    interface CallBack5 {
+        void sendMailSwitchScheduleSuccess(SwitchScheduleEmailResponse switchScheduleEmailResponse);
+        void sendMailSwitchScheduleError(String error);
+    }
+
+
+    interface View6 {
+        void showUserSwitchSchedulePendingRequestsSuccess(List<SwitchSchedulesPendingRequestResponse> switchScheduleEmailResponseList);
+        void showUserSwitchSchedulePendingRequestsError(String error);
+
+        void showBossSwitchSchedulePendingRequestsSuccess(List<SwitchSchedulesPendingRequestResponse> switchScheduleEmailResponseList);
+        void showBossSwitchSchedulePendingRequestsError(String error);
+
+        void showManagerSwitchSchedulePendingRequestsSuccess(List<SwitchSchedulesPendingRequestResponse> switchScheduleEmailResponseList);
+        void showManagerSwitchSchedulePendingRequestsError(String error);
+    }
+
+    interface Presenter6 extends BasePresenter<View6> {
+        void getUserSwitchSchedulePendingRequests(String emailUser);
+
+        void getBossSwitchSchedulePendingRequests(String emailBoss);
+
+        void getManagerSwitchSchedulePendingRequests(String emailBoss);
+    }
+
+    interface CallBack6 {
+        void getUserSwitchSchedulePendingRequestsSuccess(List<SwitchSchedulesPendingRequestResponse> switchScheduleEmailResponseList);
+        void getUserSwitchSchedulePendingRequestsError(String error);
+
+        void getBossSwitchSchedulePendingRequestsSuccess(List<SwitchSchedulesPendingRequestResponse> switchScheduleEmailResponseList);
+        void getBossSwitchSchedulePendingRequestsError(String error);
+
+        void getManagerSwitchSchedulePendingRequestsSuccess(List<SwitchSchedulesPendingRequestResponse> switchScheduleEmailResponseList);
+        void getManagerSwitchSchedulePendingRequestsError(String error);
+    }
+
+
+    interface View7 {
+        void showSendMailCoWoSwitchScheduleSuccess(SwitchScheduleEmailResponse switchScheduleEmailResponse);
+        void showSendMailCoWoSwitchScheduleError(String error);
+
+        void showSendMailBossSwitchScheduleSuccess(SwitchScheduleEmailResponse switchScheduleEmailResponse);
+        void showSendMailBossSwitchScheduleError(String error);
+
+        void showSendMailManagerSwitchScheduleSuccess(SwitchScheduleEmailResponse switchScheduleEmailResponse);
+        void showSendMailManagerSwitchScheduleError(String error);
+    }
+
+    interface Presenter7 extends BasePresenter<View7> {
+        void sendMailCoWoSwitchSchedule(String mailerAddress,
+                                        String mailer, String toAddress, String to,
+                                        String dayToChange, String mailerSchedule,
+                                        int status, String bossAddress, String bossName, int id,
+                                        String managerAddress, String managerName);
+
+        void sendMailBossSwitchSchedule(String mailerAddress,
+                                        String mailer, String toAddress, String to,
+                                        String dayToChange, String mailerSchedule,
+                                        int status, String bossAddress, String bossName, int id,
+                                        String managerAddress, String managerName);
+
+        void sendMailManagerSwitchSchedule(String mailerAddress,
+                                        String mailer, String toAddress, String to,
+                                        String dayToChange, String mailerSchedule,
+                                        int status, String bossAddress, String bossName, int id,
+                                        String managerAddress, String managerName);
+    }
+
+    interface CallBack7 {
+        void sendMailCoWoSwitchScheduleSuccess(SwitchScheduleEmailResponse switchScheduleEmailResponse);
+        void sendMailCoWoSwitchScheduleError(String error);
+
+        void sendMailBossSwitchScheduleSuccess(SwitchScheduleEmailResponse switchScheduleEmailResponse);
+        void sendMailBossSwitchScheduleError(String error);
+
+        void sendMailManagerSwitchScheduleSuccess(SwitchScheduleEmailResponse switchScheduleEmailResponse);
+        void sendMailManagerSwitchScheduleError(String error);
+    }
+
+
+    interface View8 {
+        void showUserScheduleByNameSuccess(UserScheduleResponse userScheduleResponse);
+        void showUserScheduleByNameError(String error);
+    }
+
+    interface Presenter8 extends BasePresenter<View8> {
+        void getUserScheduleByName(String user_name);
+    }
+
+    interface CallBack8 {
+        void getUserScheduleByNameSuccess(UserScheduleResponse userScheduleResponse);
+        void getUserScheduleByNameError(String error);
     }
 }
