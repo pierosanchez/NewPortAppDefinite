@@ -114,7 +114,7 @@
                 android:nestedScrollingEnabled="false"
                 app:layoutManager="android.support.v7.widget.LinearLayoutManager"
                 tools:listitem="@layout/days_offs"
-                android:background="@drawable/margin_see_request_data"/>
+                android:background="@drawable/square_input"/>
 
         </LinearLayout>
 
