@@ -3,6 +3,7 @@ package com.newport.app.data.api;
 import com.newport.app.BuildConfig;
 import com.newport.app.data.models.request.PhotoRequest;
 import com.newport.app.data.models.request.SwitchScheduleEmailRequest;
+import com.newport.app.data.models.request.UserRegisterRequest;
 import com.newport.app.data.models.response.DirectoryResponse;
 import com.newport.app.data.models.response.EventsResponse;
 import com.newport.app.data.models.response.HomeResponse;
@@ -16,6 +17,7 @@ import com.newport.app.data.models.response.ScheduleResponse;
 import com.newport.app.data.models.response.SwitchScheduleEmailResponse;
 import com.newport.app.data.models.response.SwitchSchedulesPendingRequestResponse;
 import com.newport.app.data.models.response.UserElectionResponse;
+import com.newport.app.data.models.response.UserRegisterResponse;
 import com.newport.app.data.models.response.UserResponse;
 import com.newport.app.data.models.response.UserScheduleResponse;
 
@@ -38,8 +40,8 @@ import static com.newport.app.util.Constant.HEADER_AUTHORIZATION;
 
 public interface NewPortApi {
     @Headers(HEADER_AUTHORIZATION)
-    @GET(BuildConfig.LOGIN)
-    Call<LoginResponse> login(@Query("dni") String dni);
+    @GET(BuildConfig.LOGIN2)
+    Call<LoginResponse> login(@Query("mail") String dni, @Query("password") String password);
 
     @Headers(HEADER_AUTHORIZATION)
     @GET(BuildConfig.HOME)
@@ -48,6 +50,14 @@ public interface NewPortApi {
     @Headers(HEADER_AUTHORIZATION)
     @GET(BuildConfig.USER)
     Call<UserResponse> getUser(@Query("dni") String dni);
+
+    @Headers(HEADER_AUTHORIZATION)
+    @PUT(BuildConfig.USERREGAPP)
+    Call<UserRegisterResponse> userRegistrationToApp(@Body UserRegisterRequest userRegisterRequest);
+
+    @Headers(HEADER_AUTHORIZATION)
+    @PUT(BuildConfig.CHANGEPASSWORD)
+    Call<UserRegisterResponse> changeUserPassword(@Body UserRegisterRequest userRegisterRequest);
 
     @Headers(HEADER_AUTHORIZATION)
     @GET(BuildConfig.EVENTS)

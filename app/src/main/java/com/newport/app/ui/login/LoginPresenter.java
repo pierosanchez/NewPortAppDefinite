@@ -1,5 +1,7 @@
 package com.newport.app.ui.login;
 
+import com.newport.app.data.models.response.UserRegisterResponse;
+
 /**
  * Created by tohure on 29/11/17.
  */
@@ -9,9 +11,9 @@ public class LoginPresenter implements LoginContract.Presenter, LoginContract.Ca
     private LoginContract.View loginView;
 
     @Override
-    public void login(String dni) {
+    public void login(String dni, String password) {
         loginView.showLoading();
-        LoginInteractor.login(dni, this);
+        LoginInteractor.login(dni, password, this);
     }
 
     @Override

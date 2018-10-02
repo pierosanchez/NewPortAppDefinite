@@ -314,7 +314,7 @@ public class SeeSwitchScheduleRequestFragment extends Fragment implements Switch
             lblSchedule.setText("Ver Horarios");
             lblName2.setText(lastUser.getReceiver_name());
             lblSchedulePersonToChange.setText("Ver Horarios");
-            lblArea.setText(lastUser.getMailer_day_change());
+            lblArea.setText("Central");
             lblDayToSwitch.setText(lastUser.getMailer_day_change());
             lblPersonWhoVerify.setText(lastUser.getBoss_name());
         } else {

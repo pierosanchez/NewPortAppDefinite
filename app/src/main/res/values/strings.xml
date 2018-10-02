@@ -1,8 +1,12 @@
 <resources>
     <string name="app_name">Newport Perú</string>
     <string name="dni_hint">DNI</string>
-    <string name="sap_hint">Código SAP</string>
+    <string name="user_hint">USUARIO</string>
+    <string name="pass_hint">CONTRASEÑA</string>
+    <string name="sap_hint">CÓDIGO SAP</string>
+    <string name="newport_mail_domain">@e-newport.pe</string>
     <string name="access_button">ACCEDER</string>
+    <string name="register_button">REGISTRARSE</string>
     <string name="validation_code_hint">Código de validación</string>
     <string name="login_other_user"><u>Ingresa con otro usuario</u></string>
     <string name="title_dialog_verify_account">VERIFICACIÓN DE CUENTA</string>
@@ -54,7 +58,7 @@
     <string name="late_days">Días Tarde: %1$d día%2$s</string>
     <string name="time">Tiempo: %1$s</string>
     <string name="required_field">Campo requerido</string>
-    <string name="incorrect_field">DNI Incorrecto</string>
+    <string name="incorrect_field">Campo Incorrecto. Vuelva a ingresar.</string>
     <string name="dni_unauthorized">DNI no autorizado</string>
     <string name="login_error">Error durante el logueo</string>
     <string name="already_paid">¡Ya pagaron!</string>
@@ -186,5 +190,11 @@
     <string name="lbl_cambios_realizar_mes_vigente">Los cambios se podrán realizar dentro del mes vigente.</string>
     <string name="schedule_pending_resquest_fragment">Solicitudes pendientes de aprobacion</string>
     <string name="lbl_select_request">Seleccione alguna solicitud:</string>
+    <string name="btn_registrarse">REGISTRARSE</string>
+    <string name="hint_correo">CORREO</string>
+    <string name="lbl_password_forgotten">Cambio de Contraseña - Olvido</string>
+    <string name="btn_fogotten_password">CAMBIAR CONTRASEÑA</string>
+    <string name="lbl_password_forgotten_action">¿Olvidaste tu contraseña?</string>
+    <string name="lbl_change_password">Cambio de Contraseña</string>
 
 </resources>

@@ -55,6 +55,9 @@ android {
             buildConfigField "String", "BOSSSWITCHSCHEDULESPENDINGREQUEST", "\"users/schedule/bosspendingrequestswitchschedule/{boss_email}\""
             buildConfigField "String", "MANAGERSWITCHSCHEDULESPENDINGREQUEST", "\"users/schedule/managerpendingrequestswitchschedule/{managers_email}\""
             buildConfigField "String", "USERSCHEDULEBYNAME", "\"users/schedule/schedulebyname/{user_name}\""
+            buildConfigField "String", "LOGIN2", "\"login2\""
+            buildConfigField "String", "USERREGAPP", "\"user/register\""
+            buildConfigField "String", "CHANGEPASSWORD", "\"newpassword\""
         }
 
         debug {
@@ -94,6 +97,9 @@ android {
             buildConfigField "String", "BOSSSWITCHSCHEDULESPENDINGREQUEST", "\"users/schedule/bosspendingrequestswitchschedule/{boss_email}\""
             buildConfigField "String", "MANAGERSWITCHSCHEDULESPENDINGREQUEST", "\"users/schedule/managerpendingrequestswitchschedule/{managers_email}\""
             buildConfigField "String", "USERSCHEDULEBYNAME", "\"users/schedule/schedulebyname/{user_name}\""
+            buildConfigField "String", "LOGIN2", "\"login2\""
+            buildConfigField "String", "USERREGAPP", "\"user/register\""
+            buildConfigField "String", "CHANGEPASSWORD", "\"newpassword\""
         }
     }
 }
