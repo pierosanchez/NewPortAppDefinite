@@ -298,7 +298,7 @@ public class SeeSwitchScheduleRequestFragment extends Fragment implements Switch
             lblDayToSwitch.setText(lastUser.getMailer_day_change());
             lblName2.setText(lastUser.getReceiver_name());
             lblSchedulePersonToChange.setText("Ver Horarios");
-            lblArea.setText(lastUser.getReceiver_name());
+            lblArea.setText("Central");
         } else if (emailForTests.equals("JROMANIGARCIA21@GMAIL.COM")) {
             lblSchedule.setVisibility(View.VISIBLE);
             lblSchedulePersonToChange.setVisibility(View.VISIBLE);
@@ -424,7 +424,7 @@ public class SeeSwitchScheduleRequestFragment extends Fragment implements Switch
                         "ESPINOZA CARRANZA GABRIELA", dayToChange, mailerSchedule, 7, "DANI.ELA.CGC@GMAIL.COM", "GAMARRA CAMARENA DANIELA CRISTINA", id, "JROMANIGARCIA21@GMAIL.COM", "ROMANI GARCIA JEAN CARLO");
             } else if (emailForTests.equals("DANI.ELA.CGC@GMAIL.COM")) {
                 switchSchedule7Presenter.sendMailBossSwitchSchedule("sanchezpiero96@gmail.com", "SANCHEZ ARBILDO PIERO ALEJANDRO", "GESPINOZACARRANZA@GMAIL.COM",
-                        "ESPINOZA CARRANZA GABRIELA", dayToChange, mailerSchedule, 3, "DANI.ELA.CGC@GMAIL.COM", "GAMARRA CAMARENA DANIELA CRISTINA", id, "JROMANIGARCIA21@GMAIL.COM", "ROMANI GARCIA JEAN CARLO");
+                        "ESPINOZA CARRANZA GABRIELA", dayToChange, mailerSchedule, 6, "DANI.ELA.CGC@GMAIL.COM", "GAMARRA CAMARENA DANIELA CRISTINA", id, "JROMANIGARCIA21@GMAIL.COM", "ROMANI GARCIA JEAN CARLO");
             } else {
                 if (userPosition.equals("Jefe de Sala")) {
                     switchSchedule7Presenter.sendMailBossSwitchSchedule("sanchezpiero96@gmail.com", "SANCHEZ ARBILDO PIERO ALEJANDRO", "GESPINOZACARRANZA@GMAIL.COM",
@@ -484,7 +484,7 @@ public class SeeSwitchScheduleRequestFragment extends Fragment implements Switch
     @Override
     public void showSendMailCoWoSwitchScheduleSuccess(SwitchScheduleEmailResponse switchScheduleEmailResponse) {
         if (switchScheduleEmailResponse.getMessage().equals("success")) {
-            Toast.makeText(NewPortApplication.getAppContext(), "Solicitud enviada satisfactoriamente", Toast.LENGTH_SHORT).show();
+            Toast.makeText(NewPortApplication.getAppContext(), "Respuesta enviada satisfactoriamente", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(NewPortApplication.getAppContext(), "Ocurrio un error al enviar la solicitud", Toast.LENGTH_SHORT).show();
         }
@@ -498,7 +498,7 @@ public class SeeSwitchScheduleRequestFragment extends Fragment implements Switch
     @Override
     public void showSendMailBossSwitchScheduleSuccess(SwitchScheduleEmailResponse switchScheduleEmailResponse) {
         if (switchScheduleEmailResponse.getMessage().equals("success")) {
-            Toast.makeText(NewPortApplication.getAppContext(), "Solicitud enviada satisfactoriamente", Toast.LENGTH_SHORT).show();
+            Toast.makeText(NewPortApplication.getAppContext(), "Respuesta enviada satisfactoriamente", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(NewPortApplication.getAppContext(), "Ocurrio un error al enviar la solicitud", Toast.LENGTH_SHORT).show();
         }
@@ -512,7 +512,7 @@ public class SeeSwitchScheduleRequestFragment extends Fragment implements Switch
     @Override
     public void showSendMailManagerSwitchScheduleSuccess(SwitchScheduleEmailResponse switchScheduleEmailResponse) {
         if (switchScheduleEmailResponse.getMessage().equals("success")) {
-            Toast.makeText(NewPortApplication.getAppContext(), "Solicitud enviada satisfactoriamente", Toast.LENGTH_SHORT).show();
+            Toast.makeText(NewPortApplication.getAppContext(), "Respuesta enviada satisfactoriamente", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(NewPortApplication.getAppContext(), "Ocurrio un error al enviar la solicitud", Toast.LENGTH_SHORT).show();
         }
