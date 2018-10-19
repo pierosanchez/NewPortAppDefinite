@@ -196,5 +196,6 @@
     <string name="btn_fogotten_password">CAMBIAR CONTRASEÑA</string>
     <string name="lbl_password_forgotten_action">¿Olvidaste tu contraseña?</string>
     <string name="lbl_change_password">Cambio de Contraseña</string>
+    <string name="btnSendSwitchRequest">Solicitar Cambio</string>
 
 </resources>

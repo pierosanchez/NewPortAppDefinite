@@ -429,7 +429,7 @@ public class SeeSwitchScheduleRequestFragment extends Fragment implements Switch
                 if (userPosition.equals("Jefe de Sala")) {
                     switchSchedule7Presenter.sendMailBossSwitchSchedule("sanchezpiero96@gmail.com", "SANCHEZ ARBILDO PIERO ALEJANDRO", "GESPINOZACARRANZA@GMAIL.COM",
                             "ESPINOZA CARRANZA GABRIELA", dayToChange, mailerSchedule, 6, "DANI.ELA.CGC@GMAIL.COM", "GAMARRA CAMARENA DANIELA CRISTINA", id, "JROMANIGARCIA21@GMAIL.COM", "ROMANI GARCIA JEAN CARLO");
-                /*switchSchedule7Presenter.sendMailBossSwitchSchedule(mailerAddress, mailer, toAddress,
+                /*switchSchedule 7Presenter.sendMailBossSwitchSchedule(mailerAddress, mailer, toAddress,
                         to, dayToChange, mailerSchedule, 6, bossAddress,bossName, id, managerAddress, managerName);*/
                 } else if (!userPosition.equals("Gerente de Sala")
                         && !userPosition.equals("Jefe de Sala")

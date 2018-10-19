@@ -163,7 +163,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="5dp"
                 android:background="@color/colorButton"
-                android:text="Solicitar Cambio"
+                android:text="@string/btnSendSwitchRequest"
                 android:textColor="@android:color/white" />
 
         </LinearLayout>
