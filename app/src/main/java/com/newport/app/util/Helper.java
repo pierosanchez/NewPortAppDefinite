@@ -60,10 +60,10 @@ public class Helper {
         if (editText.getText().toString().isEmpty()) {
             editText.setError(NewPortApplication.getAppContext().getString(R.string.required_field));
             return false;
-        } else if (editText.getText().length() < Constant.DNI_LENGTH) {
+        } /*else if (editText.getText().length() < Constant.DNI_LENGTH) {
             editText.setError(NewPortApplication.getAppContext().getString(R.string.incorrect_field));
             return false;
-        }
+        }*/
 
         return true;
     }

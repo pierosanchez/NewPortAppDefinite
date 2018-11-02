@@ -29,6 +29,7 @@
     <string name="gallery_event_fragment">Eventos - Galería</string>
     <string name="mundial_event_fragment">Cartilla Mundialista</string>
     <string name="schedule_viewer">Horario</string>
+    <string name="boleta_pago">Boleta de Pago</string>
     <string name="newport_magazine">Revista</string>
     <string name="winner_label">Ganador</string>
     <string name="empate_label">Empate</string>
@@ -41,7 +42,7 @@
     <string name="celular_example">\u2022 Celular 999999999</string>
     <string name="title_section_directory">Sección %s</string>
     <string name="schedule_fragment">Horarios</string>
-    <string name="see_schedule_button">Ver</string>
+    <string name="see_schedule_button">Ver Horarios</string>
     <string name="change_schedules">Solicitar Cambio</string>
     <string name="path_pathmorph_expandcollapse">M 1,-4 L 1,4 L -1,4 L -1,-4 Z</string>
     <string name="dia_a_cambiar">Dia a cambiar:</string>
@@ -50,7 +51,7 @@
     <string name="perfil_fragment">Perfil</string>
     <string name="surname_hint">Apellido</string>
     <string name="birthday_hint">Cumpleaños</string>
-    <string name="area_hint">Área</string>
+    <string name="area_hint">Área de </string>
     <string name="position_hint">Cargo</string>
     <string name="date_join_enterprise_hint">Fecha de ingreso a la empresa</string>
     <string name="carnet_sanidad_hint">dd / mm / aaaa</string>
@@ -197,5 +198,11 @@
     <string name="lbl_password_forgotten_action">¿Olvidaste tu contraseña?</string>
     <string name="lbl_change_password">Cambio de Contraseña</string>
     <string name="btnSendSwitchRequest">Solicitar Cambio</string>
+    <string name="lbl_haz_click_aqui">Haz click Aqui</string>
+    <string name="lbl_revisa_tu_boleta_de_pago">Revisa tu boleta de pago</string>
+    <string name="lbl_webmail_link">Para revisar sus boletas anteriores:</string>
+    <string name="lbl_link_web_mail"><u>http://mail.e-newport.pe:2095</u></string>
+    <string name="btn_aceptar">Aceptar</string>
+    <string name="lbl_ing_contra_boleta_pago">Ingresa la contraseña que usas para entrar al App. <b>(Si no tienes una contraseña, cierra tu sesión para crearla)</b></string>
 
 </resources>

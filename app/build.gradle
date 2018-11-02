@@ -10,8 +10,8 @@ android {
         applicationId "com.newport.app"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 43
-        versionName "1.1.26"
+        versionCode 46
+        versionName "1.1.28"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -58,6 +58,9 @@ android {
             buildConfigField "String", "LOGIN2", "\"login2\""
             buildConfigField "String", "USERREGAPP", "\"user/register\""
             buildConfigField "String", "CHANGEPASSWORD", "\"newpassword\""
+            buildConfigField "String", "BOLETASPAGO", "\"user/boletapago/{sap_code}\""
+            buildConfigField "String", "VALIDATEACCESSBOLETASPAGO", "\"user/boletapago/access/{sap_code}/{password_user}\""
+            buildConfigField "String", "VERIFICATIONUSERALLOWBOLETAPAGO", "\"user/boletapago/verification/{sap_code}\""
         }
 
         debug {
@@ -100,6 +103,9 @@ android {
             buildConfigField "String", "LOGIN2", "\"login2\""
             buildConfigField "String", "USERREGAPP", "\"user/register\""
             buildConfigField "String", "CHANGEPASSWORD", "\"newpassword\""
+            buildConfigField "String", "BOLETASPAGO", "\"user/boletapago/{sap_code}\""
+            buildConfigField "String", "VALIDATEACCESSBOLETASPAGO", "\"user/boletapago/access/{sap_code}/{password_user}\""
+            buildConfigField "String", "VERIFICATIONUSERALLOWBOLETAPAGO", "\"user/boletapago/verification/{sap_code}\""
         }
     }
 }

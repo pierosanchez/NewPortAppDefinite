@@ -52,28 +52,23 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorAccent"
                     android:gravity="center"
-                    android:orientation="vertical"
-                    android:paddingBottom="20dp"
-                    android:paddingTop="30dp">
+                    android:orientation="vertical">
 
                     <ImageView
                         android:id="@+id/imgPhotoPerfil"
-                        android:layout_width="120dp"
-                        android:layout_height="120dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="170dp"
                         android:contentDescription="@null"
-                        android:src="@drawable/perfil_photo" />
+                        android:src="@drawable/logo" />
 
                     <TextView
                         android:id="@+id/lblNamePerfil"
                         style="@style/TextAppearance.AppCompat.Title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
                         android:gravity="center"
                         android:textAllCaps="true"
-                        android:textColor="@android:color/white"
                         android:textStyle="bold"
                         tools:text="Carlo Renzo" />
 
@@ -97,71 +92,151 @@
                     android:layout_marginTop="20dp"
                     android:orientation="vertical">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="7dp"
-                        android:gravity="center"
-                        android:text="@string/area_hint"
-                        android:textStyle="bold|italic" />
+                        android:layout_marginBottom="10dp"
+                        android:gravity="center_vertical">
 
-                    <TextView
-                        android:id="@+id/lblArea"
-                        style="@style/TextViewProfile"
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="7dp"
+                            android:src="@drawable/area"
+                            app:srcCompat="@drawable/area" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="end"
+                                android:text="@string/area_hint"
+                                android:textColor="@color/colorPrimary"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/lblArea"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="end"
+                                android:layout_marginStart="3dp"
+                                android:textColor="@color/colorPrimary"
+                                android:textStyle="bold"
+                                tools:text="@string/area_hint" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        tools:text="@string/area_hint" />
+                        android:layout_marginBottom="10dp"
+                        android:gravity="center_vertical">
 
-                    <TextView
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="7dp"
+                            android:src="@drawable/cargo"
+                            app:srcCompat="@drawable/cargo" />
+
+                        <TextView
+                            android:id="@+id/lblPosition"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/position_hint"
+                            android:textColor="@color/colorPrimary"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="7dp"
-                        android:gravity="center"
-                        android:text="@string/position_hint"
-                        android:textStyle="bold|italic" />
+                        android:layout_marginBottom="10dp"
+                        android:gravity="center_vertical">
 
-                    <TextView
-                        android:id="@+id/lblPosition"
-                        style="@style/TextViewProfile"
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="7dp"
+                            android:src="@drawable/fecha_de_ingreso"
+                            app:srcCompat="@drawable/fecha_de_ingreso" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="3dp"
+                                android:text="@string/date_join_enterprise_hint"
+                                android:textColor="@color/colorPrimary"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/lblDateAdmission"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorPrimary"
+                                android:textStyle="bold"
+                                tools:text="@string/date_join_enterprise_hint" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/position_hint" />
+                        android:layout_marginBottom="10dp"
+                        android:gravity="center_vertical">
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="7dp"
-                        android:gravity="center"
-                        android:text="@string/date_join_enterprise_hint"
-                        android:textStyle="bold|italic" />
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="7dp"
+                            android:src="@drawable/carnet_de_sanidad"
+                            app:srcCompat="@drawable/carnet_de_sanidad" />
 
-                    <TextView
-                        android:id="@+id/lblDateAdmission"
-                        style="@style/TextViewProfile"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        tools:text="@string/date_join_enterprise_hint" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="7dp"
-                        android:gravity="center"
-                        android:text="@string/put_date_expire_carnet"
-                        android:textStyle="bold|italic" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="3dp"
+                                android:gravity="center"
+                                android:text="@string/put_date_expire_carnet"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="10sp"
+                                android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/lblCarnetSanidad"
-                        style="@style/TextViewProfile"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:focusable="false"
-                        android:hint="@string/carnet_sanidad_hint" />
+                            <TextView
+                                android:id="@+id/lblCarnetSanidad"
+                                android:layout_width="match_parent"
+                                android:layout_height="25dp"
+                                android:background="@drawable/square_input"
+                                android:focusable="false"
+                                android:gravity="center"
+                                android:hint="@string/carnet_sanidad_hint" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="2dp"
-                        android:background="@color/colorPrimaryDark" />
+                        android:background="@drawable/yellow_square_button" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -198,14 +273,78 @@
                         app:layoutManager="android.support.v7.widget.LinearLayoutManager"
                         tools:listitem="@layout/item_lates" />
 
-                    <Button
-                        android:layout_marginTop="10dp"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/logout_app_button"
+                        android:layout_marginTop="7dp"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@string/lbl_revisa_tu_boleta_de_pago"
+                            android:textColor="@color/colorPrimary"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:id="@+id/btnBoletasPago"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/square_input"
+                                android:gravity="center">
+
+                                <ImageView
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
+                                    android:src="@drawable/mouse" />
+
+                                <TextView
+                                    android:layout_width="70dp"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="@string/lbl_haz_click_aqui"
+                                    android:textColor="@color/colorPrimary"
+                                    android:textStyle="bold" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:layout_marginTop="7dp"
+                        android:background="@drawable/yellow_square_button" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/lbl_webmail_link" />
+
+                    <TextView
+                        android:id="@+id/lblLinkWebMail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/lbl_link_web_mail"
+                        android:textColor="@android:color/holo_blue_dark"/>
+
+                    <Button
                         android:id="@+id/btnLogout"
-                        android:textColor="@android:color/white"
-                        android:background="@drawable/yellow_square_button"/>
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/yellow_square_button"
+                        android:text="@string/logout_app_button"
+                        android:textColor="@android:color/white" />
                 </LinearLayout>
 
             </LinearLayout>

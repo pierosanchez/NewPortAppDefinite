@@ -24,6 +24,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
     private EditText edtDni;
     private EditText edtPassword;
     private TextView lblPasswordForgotten;
+    private TextView lblDomainMail;
     private Button btnAccess;
     private ProgressBar progressBar;
     /*private EditText edtSap;*/
@@ -46,6 +47,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
         progressBar = findViewById(R.id.progressBar);
 
         lblPasswordForgotten = findViewById(R.id.lblPasswordForgotten);
+        lblDomainMail = findViewById(R.id.lblDomainMail);
 
         edtPassword = findViewById(R.id.edtPassword);
         /*edtSap = findViewById(R.id.edtSap);*/
@@ -59,8 +61,9 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
 
     public void accessAndValidate(View view) {
 
-        if (Helper.validateDniEditText(edtDni) /*&& validateEdt(edtSap)*/&& Helper.validatePasswordEditText(edtPassword)) {
-            loginPresenter.login(edtDni.getText().toString(), edtPassword.getText().toString());
+        if (Helper.validateDniEditText(edtDni) /*&& validateEdt(edtSap)*/ && Helper.validatePasswordEditText(edtPassword)) {
+            String mail = edtDni.getText().toString() + lblDomainMail.getText().toString();
+            loginPresenter.login(mail, edtPassword.getText().toString());
         }
 
     }
@@ -118,9 +121,12 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
     public void loginError(String error) {
         //Track Event
         if (error.equals("DNI no autorizado")) {
-            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-            startActivity(intent);
-            finish();
+            Toast.makeText(this, "Usuario incorrecto. En caso de no estar registrado, toque el botón de Registrar", Toast.LENGTH_SHORT).show();
+            edtDni.setText("");
+            edtPassword.setText("");
+            edtDni.setEnabled(true);
+            edtPassword.setEnabled(true);
+            btnAccess.setEnabled(true);
         } else if (error.equals("default_password")) {
             Toast.makeText(this, "Por sus seguridad cambie su contraseña por una nueva.", Toast.LENGTH_SHORT).show();
 
@@ -150,5 +156,9 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
             edtDni.setEnabled(true);
             btnAccess.setEnabled(true);
         }
+    }
+
+    private void accessBoletaPago(){
+        
     }
 }

@@ -13,6 +13,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
+
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,11 +41,18 @@ public class ScheduleViewer extends BaseActivity {
 
         pdfViewer = (PDFView) findViewById(R.id.pdfViewer);
         layProgress = (RelativeLayout) findViewById(R.id.layProgress);
+        Log.d("pdfUrl", pdfUrl);
 
         new RetrievePDFStream().execute(pdfUrl);
     }
 
     class RetrievePDFStream extends AsyncTask<String, Void, InputStream> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            Toast.makeText(ScheduleViewer.this, "Cargando...", Toast.LENGTH_SHORT).show();
+        }
 
         @Override
         protected InputStream doInBackground(String... strings) {

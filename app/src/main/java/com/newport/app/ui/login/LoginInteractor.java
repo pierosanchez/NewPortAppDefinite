@@ -22,7 +22,7 @@ import retrofit2.Response;
 class LoginInteractor {
 
     @AddTrace(name = "login")
-    static void login(String dni, String password, final LoginContract.Callback callback) {
+    static void login(final String dni, String password, final LoginContract.Callback callback) {
         Call<LoginResponse> call = NewPortApiManager.apiManager().login(dni, password);
 
         call.enqueue(new Callback<LoginResponse>() {

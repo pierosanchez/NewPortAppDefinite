@@ -3,10 +3,12 @@ package com.newport.app.ui.profile;
 import android.app.DatePickerDialog;
 import android.app.Fragment;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.RecyclerView;
@@ -15,22 +17,33 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.newport.app.NewPortApplication;
 import com.newport.app.R;
+import com.newport.app.data.models.response.BoletasPagoResponse;
 import com.newport.app.data.models.response.UserResponse;
 import com.newport.app.ui.SplashActivity;
+import com.newport.app.ui.boletaspago.BoletasPagoActivity;
+import com.newport.app.ui.boletaspago.BoletasPagoContract;
+import com.newport.app.ui.boletaspago.ValidateAccessBoletaPagoPresenter;
+import com.newport.app.ui.boletaspago.VerificationUserAllowBoletaPagoPresenter;
 import com.newport.app.util.PreferencesHeper;
 import com.newport.app.widget.DatePickerFragment;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ProfileFragment extends Fragment implements View.OnClickListener, ProfileContract.View {
+public class ProfileFragment extends Fragment implements View.OnClickListener, ProfileContract.View,
+        BoletasPagoContract.ViewValidateAccessBoletaPago, BoletasPagoContract.ViewVerificationUserAllowBoletaPago {
 
     private ProfilePresenter profilePresenter;
+    private ValidateAccessBoletaPagoPresenter validateAccessBoletaPagoPresenter;
+    private VerificationUserAllowBoletaPagoPresenter verificationUserAllowBoletaPagoPresenter;
 
     private CoordinatorLayout crdProfile;
 
@@ -41,6 +54,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, P
     private TextView lblPosition;
     private TextView lblDateAdmission;
     private TextView lblCarnetSanidad;
+    private TextView lblLinkWebMail;
+
+    private LinearLayout btnBoletasPago;
 
     private Button btnLogout;
 
@@ -49,6 +65,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, P
 
     private NestedScrollView nstScrollProfile;
     private ProgressBar prgProfile;
+    private AlertDialog dialog;
 
     private View rootView;
 
@@ -77,9 +94,14 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, P
         lblCodeSapPerfil = rootView.findViewById(R.id.lblCodeSapPerfil);
         lblArea = rootView.findViewById(R.id.lblArea);
         lblPosition = rootView.findViewById(R.id.lblPosition);
+        lblLinkWebMail = rootView.findViewById(R.id.lblLinkWebMail);
         lblDateAdmission = rootView.findViewById(R.id.lblDateAdmission);
+        btnBoletasPago = rootView.findViewById(R.id.btnBoletasPago);
         lblCarnetSanidad = rootView.findViewById(R.id.lblCarnetSanidad);
+
+        btnBoletasPago.setOnClickListener(this);
         lblCarnetSanidad.setOnClickListener(this);
+        lblLinkWebMail.setOnClickListener(this);
         btnLogout.setOnClickListener(this);
 
         profileLateDaysAdapter = new ProfileLateDaysAdapter();
@@ -92,6 +114,12 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, P
         RecyclerView rcvLateLaunch = rootView.findViewById(R.id.rcvLateLaunch);
         rcvLateLaunch.setHasFixedSize(true);
         rcvLateLaunch.setAdapter(profileLateLaunchAdapter);
+
+        verificationUserAllowBoletaPagoPresenter = new VerificationUserAllowBoletaPagoPresenter();
+        verificationUserAllowBoletaPagoPresenter.attachedView(this);
+
+        validateAccessBoletaPagoPresenter = new ValidateAccessBoletaPagoPresenter();
+        validateAccessBoletaPagoPresenter.attachedView(this);
 
         profilePresenter = new ProfilePresenter();
         profilePresenter.attachedView(this);
@@ -130,7 +158,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, P
             });
             newFragment.show(getFragmentManager(), "datePicker");
 
-        } else if (view.getId() == R.id.btnLogout){
+        } else if (view.getId() == R.id.btnLogout) {
             PreferencesHeper.setDniUser(NewPortApplication.getAppContext(), "");
             PreferencesHeper.setSapCodeUser(NewPortApplication.getAppContext(), "");
             PreferencesHeper.setKeyDeviceToken(NewPortApplication.getAppContext(), "");
@@ -138,7 +166,46 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, P
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             getActivity().finish();
+        } else if (view.getId() == R.id.lblLinkWebMail) {
+            Uri webMail = Uri.parse(lblLinkWebMail.getText().toString());
+            Intent intent = new Intent(Intent.ACTION_VIEW, webMail);
+            startActivity(intent);
+        } else if (view.getId() == R.id.btnBoletasPago) {
+            prgProfile.setVisibility(View.VISIBLE);
+            verificationUserAllowBoletaPagoPresenter.verificationUserAllowBoletaPago();
         }
+    }
+
+    private void showValidateAccessBoletaPagoDialog() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this.getActivity());
+        final View mView = this.getActivity().getLayoutInflater().inflate(R.layout.dialog_accessing_boleta_pago, null);
+        final EditText txtPasswordUser = mView.findViewById(R.id.txtPasswordUser);
+        Button btnAccessBoletaPago = mView.findViewById(R.id.btnAccessBoletaPago);
+        TextView btnClosePopUp = mView.findViewById(R.id.btnClosePopUp);
+
+
+        btnAccessBoletaPago.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (txtPasswordUser.getText().toString().isEmpty()) {
+                    Toast.makeText(NewPortApplication.getAppContext().getApplicationContext(), "Por favor, ingrese su contraseña.", Toast.LENGTH_SHORT).show();
+                } else {
+                    validateAccessBoletaPagoPresenter.validateAccessBoletaPago(txtPasswordUser.getText().toString());
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        btnClosePopUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        builder.setView(mView);
+        dialog = builder.create();
+        dialog.show();
     }
 
     @Override
@@ -183,4 +250,37 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, P
         snackbar.show();
     }
 
+    @Override
+    public void showValidateAccessBoletaPagoSuccess(BoletasPagoResponse boletasPagoResponse) {
+        if (boletasPagoResponse.getResponse().equals("access_granted")) {
+            Intent intent = new Intent(this.getActivity(), BoletasPagoActivity.class);
+            startActivity(intent);
+        } else {
+            Toast.makeText(NewPortApplication.getAppContext().getApplicationContext(), "Contraseña incorrecta, vuelva a introducir por favor.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void showValidateAccessBoletaPagoError(String error) {
+        Toast.makeText(NewPortApplication.getAppContext().getApplicationContext(), error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showVerificationUserAllowBoletaPagoSuccess(BoletasPagoResponse boletasPagoResponse) {
+        if (boletasPagoResponse.getResponse().equals("allowed")) {
+            prgProfile.setVisibility(View.GONE);
+            showValidateAccessBoletaPagoDialog();
+        } else {
+            prgProfile.setVisibility(View.GONE);
+            Intent intent = new Intent(this.getActivity(), BoletasPagoActivity.class);
+            intent.putExtra("statusSeeBoletaPago", 1);
+            startActivity(intent);
+            //Toast.makeText(NewPortApplication.getAppContext(), "Lo sentimos. Para poder acceder a esta opcion debes de haber habilitado la visualizacion de boleta electronica", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void showVerificationUserAllowBoletaPagoError(String error) {
+        Toast.makeText(NewPortApplication.getAppContext(), error, Toast.LENGTH_SHORT).show();
+    }
 }

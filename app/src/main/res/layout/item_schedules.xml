@@ -45,7 +45,8 @@
             android:background="@drawable/blue_rounded_button"
             android:text="@string/change_schedules"
             android:textColor="@android:color/white"
-            android:textSize="13sp"/>
+            android:textSize="13sp"
+            android:visibility="gone"/>
 
         <Button
             android:id="@+id/btnSeeSwitchScheduleRequest"
@@ -55,7 +56,8 @@
             android:background="@drawable/blue_rounded_button"
             android:text="@string/see_request"
             android:textColor="@android:color/white"
-            android:textSize="13sp"/>
+            android:textSize="13sp"
+            android:visibility="gone"/>
 
     </LinearLayout>
 </android.support.v7.widget.CardView>

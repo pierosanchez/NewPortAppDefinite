@@ -47,14 +47,12 @@
 
         <EditText
             android:id="@+id/edtDni"
-            android:layout_width="0dp"
+            android:layout_width="129dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="67dp"
-            android:layout_marginStart="67dp"
+            android:layout_marginStart="64dp"
             android:gravity="center_horizontal"
             android:hint="@string/user_hint"
             android:inputType="textEmailAddress"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imgLogo" />
 
@@ -92,7 +90,8 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnAccess"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="0.0"
+            android:visibility="gone"/>
 
         <Button
             android:id="@+id/btnAccess"
@@ -101,7 +100,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="75dp"
             android:layout_marginStart="75dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/yellow_square_button"
             android:onClick="accessAndValidate"
             android:text="@string/access_button"
@@ -112,7 +111,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edtPassword"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="0.509" />
 
         <TextView
             android:id="@+id/lblPasswordForgotten"
@@ -123,13 +122,47 @@
             android:layout_marginStart="75dp"
             android:layout_marginTop="8dp"
             android:gravity="center_horizontal"
-            android:text="@string/lbl_password_forgotten_action"
             android:onClick="callForgottenPasswordActivity"
+            android:text="@string/lbl_password_forgotten_action"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnRegister"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/lblDomainMail"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="8dp"
+            android:text="@e-newport.pe"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/edtPassword"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.016"
+            app:layout_constraintStart_toEndOf="@+id/edtDni"
+            app:layout_constraintTop_toBottomOf="@+id/imgLogo"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="1dp"
+            android:text="Si es la primera vez que ingresas, coloca tu dni."
+            android:textStyle="bold"
+            android:gravity="center"
+            app:layout_constraintBottom_toTopOf="@+id/btnAccess"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edtPassword"
             app:layout_constraintVertical_bias="0.0" />
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

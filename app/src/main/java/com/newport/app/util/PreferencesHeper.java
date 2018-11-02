@@ -15,6 +15,7 @@ public class PreferencesHeper {
     private static final String KEY_HEIGHT_SYSTEM_PIXEL = "system_heightPixels";
     private static final String KEY_DNI_CURRENT = "system_dniuser";
     private static final String KEY_SAP_CODE_CURRENT = "system_sap_code";
+    private static final String KEY_EMAIL_CURRENT = "system_email";
 
     private static final String KEY_LAST_FRAGMENT = "system_lastfragment";
     private static final String KEY_CURRENT_FRAGMENT = "system_currentfragment";
@@ -71,6 +72,17 @@ public class PreferencesHeper {
     public static String getDniUser(Context context) {
         initSessionManager(context);
         return sharedPreferences.getString(KEY_DNI_CURRENT, "");
+    }
+
+    public static void setEmailUser(Context context, String email) {
+        initSessionManager(context);
+        editor.putString(KEY_EMAIL_CURRENT, email);
+        editor.commit();
+    }
+
+    public static String getEmailUser(Context context) {
+        initSessionManager(context);
+        return sharedPreferences.getString(KEY_EMAIL_CURRENT, "");
     }
 
     //Last and Current fragment

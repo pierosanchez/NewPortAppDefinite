@@ -4,6 +4,7 @@ import com.newport.app.BuildConfig;
 import com.newport.app.data.models.request.PhotoRequest;
 import com.newport.app.data.models.request.SwitchScheduleEmailRequest;
 import com.newport.app.data.models.request.UserRegisterRequest;
+import com.newport.app.data.models.response.BoletasPagoResponse;
 import com.newport.app.data.models.response.DirectoryResponse;
 import com.newport.app.data.models.response.EventsResponse;
 import com.newport.app.data.models.response.HomeResponse;
@@ -156,4 +157,16 @@ public interface NewPortApi {
     @Headers(HEADER_AUTHORIZATION)
     @GET(BuildConfig.USERSCHEDULEBYNAME)
     Call<UserScheduleResponse> getUserScheduleByName(@Path("user_name") String user_name);
+
+    @Headers(HEADER_AUTHORIZATION)
+    @GET(BuildConfig.BOLETASPAGO)
+    Call<BoletasPagoResponse> getBoletasPago(@Path("sap_code") String sap_code);
+
+    @Headers(HEADER_AUTHORIZATION)
+    @GET(BuildConfig.VALIDATEACCESSBOLETASPAGO)
+    Call<BoletasPagoResponse> validateAccessBoletasPago(@Path("sap_code") String sap_code, @Path("password_user") String password_user);
+
+    @Headers(HEADER_AUTHORIZATION)
+    @GET(BuildConfig.VERIFICATIONUSERALLOWBOLETAPAGO)
+    Call<BoletasPagoResponse> verificationUserAllowBoletaPagoPresenter(@Path("sap_code") String sap_code);
 }
