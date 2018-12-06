@@ -3,6 +3,7 @@
     <string name="dni_hint">DNI</string>
     <string name="user_hint">USUARIO</string>
     <string name="pass_hint">CONTRASEÑA</string>
+    <string name="new_pass_hint">NUEVA CONTRASEÑA</string>
     <string name="sap_hint">CÓDIGO SAP</string>
     <string name="newport_mail_domain">@e-newport.pe</string>
     <string name="access_button">ACCEDER</string>
@@ -192,7 +193,7 @@
     <string name="schedule_pending_resquest_fragment">Solicitudes pendientes de aprobacion</string>
     <string name="lbl_select_request">Seleccione alguna solicitud:</string>
     <string name="btn_registrarse">REGISTRARSE</string>
-    <string name="hint_correo">CORREO</string>
+    <string name="hint_correo">USUARIO</string>
     <string name="lbl_password_forgotten">Cambio de Contraseña - Olvido</string>
     <string name="btn_fogotten_password">CAMBIAR CONTRASEÑA</string>
     <string name="lbl_password_forgotten_action">¿Olvidaste tu contraseña?</string>

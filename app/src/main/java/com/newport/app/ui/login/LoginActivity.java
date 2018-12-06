@@ -2,6 +2,7 @@ package com.newport.app.ui.login;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.newport.app.NewPortApplication;
 import com.newport.app.R;
 import com.newport.app.ui.BaseActivity;
@@ -27,6 +29,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
     private TextView lblDomainMail;
     private Button btnAccess;
     private ProgressBar progressBar;
+
     /*private EditText edtSap;*/
 
     @Override
@@ -38,6 +41,8 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
 
     private void init() {
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
+        String firebase_token = FirebaseInstanceId.getInstance().getToken();
 
         loginPresenter = new LoginPresenter();
         loginPresenter.attachedView(this);
@@ -51,6 +56,11 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
 
         edtPassword = findViewById(R.id.edtPassword);
         /*edtSap = findViewById(R.id.edtSap);*/
+
+        Log.d("device Token", firebase_token);
+
+        //piero token -------> ePi5f4Sl0b8:APA91bHFo_EM0mA9QRrz8wbEQCtnvIoQNCI083fvPnkXYR9yJT9PL0_cgkn76oBgcxqBESEGKrJCXIaVZ88PRItTPp9_tbaC-bFA3WaWHZra86Z_19oIphW8XSMpGCgJCLtf2M85ZMqz
+        //mariano token -------> d1WIUCab71M:APA91bG9WoxG-RPjzEXZxpgRLBm9n2a4E-rKj8e2OyJHUAyN6ME8TD44r2Z3i6J5dmBcQuRUTGIRGTp7o2WKyTCJCQxq8MJJJ-2cpLoKROqGQ5dPnjN7Gy8n34gFTmpHt6SnvcZcT5jv
     }
 
     public void callForgottenPasswordActivity(View view) {
@@ -121,7 +131,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
     public void loginError(String error) {
         //Track Event
         if (error.equals("DNI no autorizado")) {
-            Toast.makeText(this, "Usuario incorrecto. En caso de no estar registrado, toque el botón de Registrar", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Usuario no autorizado.", Toast.LENGTH_SHORT).show();
             edtDni.setText("");
             edtPassword.setText("");
             edtDni.setEnabled(true);

@@ -55,6 +55,12 @@
 
         </LinearLayout>
 
+        <Button
+            android:id="@+id/btnDownloadVoucherPDF"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="Descargar PDF"/>
+
         <com.github.barteksc.pdfviewer.PDFView
             android:id="@+id/pdfViewer"
             android:layout_width="match_parent"

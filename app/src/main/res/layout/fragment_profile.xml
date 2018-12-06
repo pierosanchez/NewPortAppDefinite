@@ -125,7 +125,7 @@
                                 android:layout_marginStart="3dp"
                                 android:textColor="@color/colorPrimary"
                                 android:textStyle="bold"
-                                tools:text="@string/area_hint" />
+                                tools:text="" />
 
                         </LinearLayout>
 

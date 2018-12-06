@@ -2,6 +2,7 @@ package com.newport.app.util;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.os.Environment;
 import android.util.DisplayMetrics;
 import android.widget.EditText;
 
@@ -66,5 +67,15 @@ public class Helper {
         }*/
 
         return true;
+    }
+
+    //Check If SD Card is present or not method
+    public static boolean isSDCardPresent() {
+        if (Environment.getExternalStorageState().equals(
+
+                Environment.MEDIA_MOUNTED)) {
+            return true;
+        }
+        return false;
     }
 }

@@ -29,4 +29,6 @@ public class Constant {
     public static final String API_KEY = "AIzaSyCPvEo33olMG3Ctgu7AHckSpelDCB86RIc";
 
     public static final String HEADER_AUTHORIZATION = "Authorization: " + BuildConfig.HEADER;
+
+    public static final String DOWNLOADPDFDIRECTORY = "BoletasNewport";
 }
