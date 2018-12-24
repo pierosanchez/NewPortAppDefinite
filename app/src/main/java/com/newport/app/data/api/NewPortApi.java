@@ -1,10 +1,15 @@
 package com.newport.app.data.api;
 
 import com.newport.app.BuildConfig;
+import com.newport.app.data.models.request.ChatRequest;
 import com.newport.app.data.models.request.PhotoRequest;
 import com.newport.app.data.models.request.SwitchScheduleEmailRequest;
 import com.newport.app.data.models.request.UserRegisterRequest;
 import com.newport.app.data.models.response.BoletasPagoResponse;
+import com.newport.app.data.models.response.ChatChannelResponse;
+import com.newport.app.data.models.response.ChatOwnerChatResponse;
+import com.newport.app.data.models.response.ChatSendMessageResponse;
+import com.newport.app.data.models.response.ChatUserChatResponse;
 import com.newport.app.data.models.response.DirectoryResponse;
 import com.newport.app.data.models.response.EventsResponse;
 import com.newport.app.data.models.response.HomeResponse;
@@ -42,7 +47,7 @@ import static com.newport.app.util.Constant.HEADER_AUTHORIZATION;
 public interface NewPortApi {
     @Headers(HEADER_AUTHORIZATION)
     @GET(BuildConfig.LOGIN2)
-    Call<LoginResponse> login(@Query("mail") String dni, @Query("password") String password);
+    Call<LoginResponse> login(@Query("mail") String dni, @Query("password") String password, @Query("firebase_token") String token);
 
     @Headers(HEADER_AUTHORIZATION)
     @GET(BuildConfig.HOME)
@@ -169,4 +174,48 @@ public interface NewPortApi {
     @Headers(HEADER_AUTHORIZATION)
     @GET(BuildConfig.VERIFICATIONUSERALLOWBOLETAPAGO)
     Call<BoletasPagoResponse> verificationUserAllowBoletaPagoPresenter(@Path("sap_code") String sap_code);
+
+    @Headers(HEADER_AUTHORIZATION)
+    @GET(BuildConfig.CHATOWNERMESSAGES)
+    Call<ChatOwnerChatResponse> getOwnerChatMessages(@Path("chat_id") int chat_id, @Path("owner_id") String owner_id);
+
+    @Headers(HEADER_AUTHORIZATION)
+    @GET(BuildConfig.CHATUSERMESSAGES)
+    Call<ChatUserChatResponse> getUserChatMessages(@Path("chat_id") int chat_id, @Path("user_id") String user_id);
+
+    @Headers(HEADER_AUTHORIZATION)
+    @GET(BuildConfig.CHATCHANNEL)
+    Call<List<ChatChannelResponse>> getChannels();
+
+    @Headers(HEADER_AUTHORIZATION)
+    @POST(BuildConfig.CHATSENDMESSAGE)
+    Call<ChatSendMessageResponse> sendMessage(@Body ChatRequest chatRequest);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -4,6 +4,7 @@ public class UserRegisterRequest {
     private String cod_sap;
     private String mail;
     private String password_user;
+    private String firebase_token;
 
     public String getPassword_user() {
         return password_user;
@@ -27,5 +28,13 @@ public class UserRegisterRequest {
 
     public void setMail(String mail) {
         this.mail = mail;
+    }
+
+    public String getFirebase_token() {
+        return firebase_token;
+    }
+
+    public void setFirebase_token(String firebase_token) {
+        this.firebase_token = firebase_token;
     }
 }

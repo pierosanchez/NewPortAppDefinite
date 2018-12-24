@@ -205,5 +205,6 @@
     <string name="lbl_link_web_mail"><u>http://mail.e-newport.pe:2095</u></string>
     <string name="btn_aceptar">Aceptar</string>
     <string name="lbl_ing_contra_boleta_pago">Ingresa la contraseña que usas para entrar al App. <b>(Si no tienes una contraseña, cierra tu sesión para crearla)</b></string>
+    <string name="tittle_chats">Chats</string>
 
 </resources>

@@ -61,6 +61,10 @@ android {
             buildConfigField "String", "BOLETASPAGO", "\"user/boletapago/{sap_code}\""
             buildConfigField "String", "VALIDATEACCESSBOLETASPAGO", "\"user/boletapago/access/{sap_code}/{password_user}\""
             buildConfigField "String", "VERIFICATIONUSERALLOWBOLETAPAGO", "\"user/boletapago/verification/{sap_code}\""
+            buildConfigField "String", "CHATOWNERMESSAGES", "\"chat/owner/{chat_id}/{owner_id}\""
+            buildConfigField "String", "CHATUSERMESSAGES", "\"chat/user/{chat_id}/{user_id}\""
+            buildConfigField "String", "CHATCHANNEL", "\"chat/channel\""
+            buildConfigField "String", "CHATSENDMESSAGE", "\"chat/message\""
         }
 
         debug {
@@ -106,6 +110,10 @@ android {
             buildConfigField "String", "BOLETASPAGO", "\"user/boletapago/{sap_code}\""
             buildConfigField "String", "VALIDATEACCESSBOLETASPAGO", "\"user/boletapago/access/{sap_code}/{password_user}\""
             buildConfigField "String", "VERIFICATIONUSERALLOWBOLETAPAGO", "\"user/boletapago/verification/{sap_code}\""
+            buildConfigField "String", "CHATOWNERMESSAGES", "\"chat/owner/{chat_id}/{owner_id}\""
+            buildConfigField "String", "CHATUSERMESSAGES", "\"chat/user/{chat_id}/{user_id}\""
+            buildConfigField "String", "CHATCHANNEL", "\"chat/channel\""
+            buildConfigField "String", "CHATSENDMESSAGE", "\"chat/message\""
         }
     }
 }

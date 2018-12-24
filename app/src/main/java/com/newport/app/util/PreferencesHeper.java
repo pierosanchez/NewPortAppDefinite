@@ -16,6 +16,7 @@ public class PreferencesHeper {
     private static final String KEY_DNI_CURRENT = "system_dniuser";
     private static final String KEY_SAP_CODE_CURRENT = "system_sap_code";
     private static final String KEY_EMAIL_CURRENT = "system_email";
+    private static final String KEY_CHANNEL_ID = "system_channel_id";
 
     private static final String KEY_LAST_FRAGMENT = "system_lastfragment";
     private static final String KEY_CURRENT_FRAGMENT = "system_currentfragment";
@@ -189,4 +190,16 @@ public class PreferencesHeper {
         initSessionManager(context);
         return sharedPreferences.getString(KEY_DEVICE_TOKEN, "");
     }
+
+    public static void setKeyChannelId(Context context, int channel_id){
+        initSessionManager(context);
+        editor.putString(KEY_CHANNEL_ID, String.valueOf(channel_id));
+        editor.commit();
+    }
+
+    public static String getKeyChannelId(Context context) {
+        initSessionManager(context);
+        return sharedPreferences.getString(KEY_CHANNEL_ID, "");
+    }
+
 }

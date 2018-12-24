@@ -298,12 +298,15 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/square_input"
-                                android:gravity="center">
+                                android:gravity="center"
+                                android:layout_margin="3dp">
 
                                 <ImageView
                                     android:layout_width="50dp"
                                     android:layout_height="50dp"
-                                    android:src="@drawable/mouse" />
+                                    android:src="@drawable/mouse"
+                                    android:layout_marginTop="8dp"
+                                    android:layout_marginBottom="8dp"/>
 
                                 <TextView
                                     android:layout_width="70dp"
@@ -311,7 +314,8 @@
                                     android:gravity="center"
                                     android:text="@string/lbl_haz_click_aqui"
                                     android:textColor="@color/colorPrimary"
-                                    android:textStyle="bold" />
+                                    android:textStyle="bold"
+                                    android:layout_marginEnd="8dp"/>
 
                             </LinearLayout>
 
@@ -344,6 +348,15 @@
                         android:layout_marginTop="10dp"
                         android:background="@drawable/yellow_square_button"
                         android:text="@string/logout_app_button"
+                        android:textColor="@android:color/white" />
+
+                    <Button
+                        android:id="@+id/btnChatChannels"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/yellow_square_button"
+                        android:text="chats"
                         android:textColor="@android:color/white" />
                 </LinearLayout>
 

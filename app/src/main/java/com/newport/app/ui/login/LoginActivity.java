@@ -17,11 +17,17 @@ import com.newport.app.R;
 import com.newport.app.ui.BaseActivity;
 import com.newport.app.ui.main.MainActivity;
 import com.newport.app.util.Helper;
+import com.newport.app.util.PreferencesHeper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class LoginActivity extends BaseActivity implements LoginContract.View {
 
     private LoginPresenter loginPresenter;
     private FirebaseAnalytics mFirebaseAnalytics;
+
+
 
     private EditText edtDni;
     private EditText edtPassword;
@@ -29,6 +35,8 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
     private TextView lblDomainMail;
     private Button btnAccess;
     private ProgressBar progressBar;
+
+    private String firebase_token;
 
     /*private EditText edtSap;*/
 
@@ -42,7 +50,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
     private void init() {
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
-        String firebase_token = FirebaseInstanceId.getInstance().getToken();
+        firebase_token = FirebaseInstanceId.getInstance().getToken();
 
         loginPresenter = new LoginPresenter();
         loginPresenter.attachedView(this);
@@ -57,10 +65,11 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
         edtPassword = findViewById(R.id.edtPassword);
         /*edtSap = findViewById(R.id.edtSap);*/
 
-        Log.d("device Token", firebase_token);
+
 
         //piero token -------> ePi5f4Sl0b8:APA91bHFo_EM0mA9QRrz8wbEQCtnvIoQNCI083fvPnkXYR9yJT9PL0_cgkn76oBgcxqBESEGKrJCXIaVZ88PRItTPp9_tbaC-bFA3WaWHZra86Z_19oIphW8XSMpGCgJCLtf2M85ZMqz
         //mariano token -------> d1WIUCab71M:APA91bG9WoxG-RPjzEXZxpgRLBm9n2a4E-rKj8e2OyJHUAyN6ME8TD44r2Z3i6J5dmBcQuRUTGIRGTp7o2WKyTCJCQxq8MJJJ-2cpLoKROqGQ5dPnjN7Gy8n34gFTmpHt6SnvcZcT5jv
+        //gabi token ------> cgVTKiJDR-A:APA91bHRTsLP1YmNgr32Gk17-4dmiFUbN8NGDgo8Nn_um2QkIsAy6S7b94SwDs2aBU2hvXAeOCup5MoQALYuNIrp8ercDHhr-4y8jmuSG7KZYHbaID3vU5PER_AMCOyiK34ccqTjMCfx
     }
 
     public void callForgottenPasswordActivity(View view) {
@@ -70,6 +79,8 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
     }
 
     public void accessAndValidate(View view) {
+
+        PreferencesHeper.setKeyDeviceToken(NewPortApplication.getAppContext(), firebase_token);
 
         if (Helper.validateDniEditText(edtDni) /*&& validateEdt(edtSap)*/ && Helper.validatePasswordEditText(edtPassword)) {
             String mail = edtDni.getText().toString() + lblDomainMail.getText().toString();
@@ -131,6 +142,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
     public void loginError(String error) {
         //Track Event
         if (error.equals("DNI no autorizado")) {
+            PreferencesHeper.setKeyDeviceToken(NewPortApplication.getAppContext(), "");
             Toast.makeText(this, "Usuario no autorizado.", Toast.LENGTH_SHORT).show();
             edtDni.setText("");
             edtPassword.setText("");
@@ -148,6 +160,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
             startActivity(intent);
             finish();
         } else if (error.equals("incorrect_password")) {
+            PreferencesHeper.setKeyDeviceToken(NewPortApplication.getAppContext(), "");
             Toast.makeText(this, "Contraseña incorrecta. Vuelva a ingresarla, por favor.", Toast.LENGTH_SHORT).show();
             edtDni.setText("");
             edtPassword.setText("");
@@ -166,9 +179,5 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
             edtDni.setEnabled(true);
             btnAccess.setEnabled(true);
         }
-    }
-
-    private void accessBoletaPago(){
-        
     }
 }

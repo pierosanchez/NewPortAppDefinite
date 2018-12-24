@@ -16,7 +16,7 @@ public class NewPortFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
-        Log.i("ACS", "NewPortFirebaseMessagingService.onMessageReceived(..."+remoteMessage.getNotification().getBody());
+//        Log.i("ACS", "NewPortFirebaseMessagingService.onMessageReceived(..."+remoteMessage.getNotification().getBody());
 
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
