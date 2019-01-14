@@ -57,16 +57,18 @@
 
         <Button
             android:id="@+id/btnDownloadVoucherPDF"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:text="Descargar PDF"/>
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/ic_download_image"
+            android:layout_gravity="end"
+            android:layout_marginTop="5dp" />
 
         <com.github.barteksc.pdfviewer.PDFView
             android:id="@+id/pdfViewer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"/>
 
     </LinearLayout>
 

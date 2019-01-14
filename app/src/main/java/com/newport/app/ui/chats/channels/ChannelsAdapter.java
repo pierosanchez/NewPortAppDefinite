@@ -40,8 +40,13 @@ public class ChannelsAdapter extends RecyclerView.Adapter<ChannelsAdapter.ChatCh
 
     @Override
     public void onBindViewHolder(ChatChannelsViewHolder holder, int position) {
-        holder.tvChatChannelOwner.setText(newsResponseList.get(position).getMarcacion().getNOMBRE());
-        holder.tvChatChannelName.setText(newsResponseList.get(position).getChannel_name());
+        if (newsResponseList.get(position).getMarcacion() != null) {
+            holder.tvChatChannelOwner.setText(newsResponseList.get(position).getMarcacion().getNOMBRE());
+            holder.tvChatChannelName.setText(newsResponseList.get(position).getChannel_name());
+        } else {
+            holder.tvChatChannelOwner.setText(newsResponseList.get(position).getLast_message());
+            holder.tvChatChannelName.setText(newsResponseList.get(position).getUser_initializer_chat_name());
+        }
     }
 
     @Override

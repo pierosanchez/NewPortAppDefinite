@@ -185,7 +185,7 @@ public interface NewPortApi {
 
     @Headers(HEADER_AUTHORIZATION)
     @GET(BuildConfig.CHATCHANNEL)
-    Call<List<ChatChannelResponse>> getChannels();
+    Call<List<ChatChannelResponse>> getChannels(@Path("user_id") String cod_sap);
 
     @Headers(HEADER_AUTHORIZATION)
     @POST(BuildConfig.CHATSENDMESSAGE)

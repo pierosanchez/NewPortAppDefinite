@@ -10,7 +10,7 @@ android {
         applicationId "com.newport.app"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 46
+        versionCode 47
         versionName "1.1.28"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -63,7 +63,7 @@ android {
             buildConfigField "String", "VERIFICATIONUSERALLOWBOLETAPAGO", "\"user/boletapago/verification/{sap_code}\""
             buildConfigField "String", "CHATOWNERMESSAGES", "\"chat/owner/{chat_id}/{owner_id}\""
             buildConfigField "String", "CHATUSERMESSAGES", "\"chat/user/{chat_id}/{user_id}\""
-            buildConfigField "String", "CHATCHANNEL", "\"chat/channel\""
+            buildConfigField "String", "CHATCHANNEL", "\"chat/channel/{user_id}\""
             buildConfigField "String", "CHATSENDMESSAGE", "\"chat/message\""
         }
 
@@ -112,7 +112,7 @@ android {
             buildConfigField "String", "VERIFICATIONUSERALLOWBOLETAPAGO", "\"user/boletapago/verification/{sap_code}\""
             buildConfigField "String", "CHATOWNERMESSAGES", "\"chat/owner/{chat_id}/{owner_id}\""
             buildConfigField "String", "CHATUSERMESSAGES", "\"chat/user/{chat_id}/{user_id}\""
-            buildConfigField "String", "CHATCHANNEL", "\"chat/channel\""
+            buildConfigField "String", "CHATCHANNEL", "\"chat/channel/{user_id}\""
             buildConfigField "String", "CHATSENDMESSAGE", "\"chat/message\""
         }
     }

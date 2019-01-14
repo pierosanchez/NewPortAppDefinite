@@ -66,4 +66,18 @@ public class ChatMessagesAdapter extends RecyclerView.Adapter<ChatMessagesAdapte
 
         }
     }
+
+    class ChatTheirMessagesViewHolder extends RecyclerView.ViewHolder {
+
+        private TextView name;
+        private TextView message_body;
+
+        ChatTheirMessagesViewHolder(View itemView) {
+            super(itemView);
+
+            name = itemView.findViewById(R.id.name);
+            message_body = itemView.findViewById(R.id.message_body);
+
+        }
+    }
 }

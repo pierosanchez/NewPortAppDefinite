@@ -28,6 +28,8 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Cha
     private EditText txtMessage;
     private Button btnSendMessage;
 
+    private boolean messagesLoaded = false;
+
     private RelativeLayout rltProgress;
     private RecyclerView rvChatMessages;
 
@@ -79,6 +81,7 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Cha
     public void showChatSuccess(ChatUserChatResponse chatUserChatResponse) {
         chatMessagesAdapter.addData(chatUserChatResponse.getChat_messages());
         rvChatMessages.scrollToPosition(chatUserChatResponse.getChat_messages().size() - 1);
+        messagesLoaded = true;
         new GettingMessagesConstantly().execute();
     }
 
@@ -123,7 +126,9 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Cha
             new Timer().scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
-                    ChatIteractor.getChatUserChat(GettingMessagesConstantly.this);
+                    if (messagesLoaded = true) {
+                        ChatIteractor.getChatUserChat(GettingMessagesConstantly.this);
+                    }
                 }
             }, 5000, 5000);
             return null;
@@ -132,6 +137,7 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Cha
         @Override
         public void getChatUserChatSuccess(ChatUserChatResponse chatUserChatResponse) {
             chatMessagesAdapter.addData(chatUserChatResponse.getChat_messages());
+            messagesLoaded = true;
         }
 
         @Override

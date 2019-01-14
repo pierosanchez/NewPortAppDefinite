@@ -55,6 +55,7 @@ public class NewsFragment extends Fragment implements NewsContract.View, NewsAda
     private RecyclerView rcvNewsCategory;
     private int currentPosition = -1;
     private int adapterSize = 0;
+    private int timer = 10000;
 
     //Second Element
     private LinearLayout lnlAtTime;
@@ -210,7 +211,7 @@ public class NewsFragment extends Fragment implements NewsContract.View, NewsAda
                 }
                 rcvNewsCategory.smoothScrollToPosition(currentPosition);
             }
-        }, 10000, 10000);
+        }, 1000, timer);
 
         //Second Section
         lnlAtTime.setOnClickListener(this);
@@ -284,8 +285,10 @@ public class NewsFragment extends Fragment implements NewsContract.View, NewsAda
 
         if (currentPosition < adapterSize - 1) {
             currentPosition++;
+            timer = 0;
         } else {
             currentPosition = 0;
+            timer = 0;
         }
 
         rcvNewsCategory.scrollToPosition(currentPosition);
@@ -295,8 +298,10 @@ public class NewsFragment extends Fragment implements NewsContract.View, NewsAda
 
         if (currentPosition != 0) {
             currentPosition--;
+            timer = 0;
         } else {
             currentPosition = adapterSize - 1;
+            timer = 0;
         }
 
         rcvNewsCategory.scrollToPosition(currentPosition);

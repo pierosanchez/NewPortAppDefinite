@@ -7,9 +7,11 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.IntegerRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -27,8 +29,11 @@ import com.newport.app.util.DownloadFilesFromServer;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Calendar;
+import java.util.Date;
 
 import static com.newport.app.util.Constant.REQUEST_GROUP_PERMISSIONS;
 
@@ -79,7 +84,7 @@ public class BoletasPagoActivity extends BaseActivity implements BoletasPagoCont
     @Override
     public void showBoletasPagoSuccess(BoletasPagoResponse boletasPagoResponse) {
         pdfUrl = boletasPagoResponse.getResponse();
-
+        //getUrlWithNewMonth(pdfUrl);
         new BoletasPagoActivity.RetrievePDFStream().execute(pdfUrl);
     }
 
@@ -107,16 +112,6 @@ public class BoletasPagoActivity extends BaseActivity implements BoletasPagoCont
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        /*switch (requestCode) {
-            case 100:
-                if (grantResults.length > 0
-                        || grantResults[0] == PackageManager.PERMISSION_GRANTED
-                        || grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                    new DownloadFilesFromServer(NewPortApplication.getAppContext().getApplicationContext(), pdfUrl);
-                } else {
-                    Toast.makeText(BoletasPagoActivity.this, "Permisos denegados", Toast.LENGTH_SHORT).show();
-                }
-        }*/
         if (requestCode == REQUEST_GROUP_PERMISSIONS) {
             String result = "";
             int i = 0;
@@ -167,6 +162,65 @@ public class BoletasPagoActivity extends BaseActivity implements BoletasPagoCont
 
             try {
                 URL url = new URL(strings[0]);
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                if (urlConnection.getResponseCode() == 200) {
+                    inputStream = new BufferedInputStream(urlConnection.getInputStream());
+                }
+            } catch (IOException e) {
+                return null;
+            }
+            return inputStream;
+        }
+
+        @Override
+        protected void onPostExecute(InputStream inputStream) {
+            if (inputStream == null) {
+                Toast.makeText(BoletasPagoActivity.this, "No se encontró su boleta de pago", Toast.LENGTH_SHORT).show();
+                //new BoletasPagoActivity.RetrievePDFStreamOptional().execute(pdfUrl);
+            }
+            pdfViewer.fromStream(inputStream).swipeHorizontal(true).spacing(5).load();
+        }
+    }
+
+    class RetrievePDFStreamOptional extends AsyncTask<String, Void, InputStream> {
+
+        @Override
+        protected InputStream doInBackground(String... strings) {
+            InputStream inputStream = null;
+
+            /* validación nueva URL de la boleta de pago */
+            String boleta = "";
+            String boletaMonth = "";
+
+            String[] monthArray = strings[0].split("_");
+
+            String[] boletaArray = strings[0].split("B");
+            boleta = boletaArray[1];
+
+            String[] boletaMonthArray = boleta.split("_");
+            boletaMonth = boletaMonthArray[2];
+
+            int newMonth = Integer.parseInt(boletaMonth) - 1;
+
+            if (String.valueOf(newMonth).length() == 1) {
+                String boletaYear = boletaMonthArray[1];
+
+                if (String.valueOf(newMonth).equals("0")) {
+                    int newYear = Integer.parseInt(boletaYear) - 1;
+                    monthArray[3] = String.valueOf(newYear);
+                    monthArray[4] = "12";
+                } else {
+                    monthArray[4] = "0" + newMonth;
+                }
+            } else {
+                monthArray[4] = String.valueOf(newMonth);
+            }
+
+            String newUrl = monthArray[0] + "_" + monthArray[1] + "_" + monthArray[2] + "_" + monthArray[3] + "_" + monthArray[4] + "_" + monthArray[5];
+            /* Fin de la validación */
+
+            try {
+                URL url = new URL(newUrl);
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 if (urlConnection.getResponseCode() == 200) {
                     inputStream = new BufferedInputStream(urlConnection.getInputStream());

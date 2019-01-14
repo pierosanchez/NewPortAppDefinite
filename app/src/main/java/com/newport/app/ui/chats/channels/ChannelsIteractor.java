@@ -8,6 +8,7 @@ import com.newport.app.data.api.NewPortApiManager;
 import com.newport.app.data.models.response.ChatChannelResponse;
 import com.newport.app.data.models.response.EventsResponse;
 import com.newport.app.ui.events.EventsContract;
+import com.newport.app.util.PreferencesHeper;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ import retrofit2.Response;
 
 public class ChannelsIteractor {
     static void getChannels(final ChannelsContract.CallBack callback) {
-        Call<List<ChatChannelResponse>> call = NewPortApiManager.apiManager().getChannels();
+        Call<List<ChatChannelResponse>> call = NewPortApiManager.apiManager().getChannels(PreferencesHeper.getSapCodeUser(NewPortApplication.getAppContext()));
 
         call.enqueue(new Callback<List<ChatChannelResponse>>() {
             @SuppressWarnings("ConstantConditions")

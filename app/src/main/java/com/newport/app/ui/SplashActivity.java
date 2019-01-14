@@ -33,13 +33,13 @@ public class SplashActivity extends BaseActivity {
                 Intent intent;
 
                 if (PreferencesHeper.getDniUser(NewPortApplication.getAppContext()).equals("")) {
-                    if (PreferencesHeper.getKeyDeviceToken(NewPortApplication.getAppContext()).equals("")) {
-                        intent = new Intent(SplashActivity.this, MainActivity.class);
-                    } else {
-                        intent = new Intent(SplashActivity.this, LoginActivity.class);
-                    }
+                    intent = new Intent(SplashActivity.this, LoginActivity.class);
                 } else {
-                    intent = new Intent(SplashActivity.this, MainActivity.class);
+                    if (PreferencesHeper.getKeyDeviceToken(NewPortApplication.getAppContext()).equals("")) {
+                        intent = new Intent(SplashActivity.this, LoginActivity.class);
+                    } else {
+                        intent = new Intent(SplashActivity.this, MainActivity.class);
+                    }
                 }
 
                 startActivity(intent);
