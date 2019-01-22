@@ -23,7 +23,7 @@ class LoginInteractor {
 
     @AddTrace(name = "login")
     static void login(final String dni, String password, final LoginContract.Callback callback) {
-        Call<LoginResponse> call = NewPortApiManager.apiManager().login(dni, password, PreferencesHeper.getKeyDeviceToken(NewPortApplication.getAppContext()));
+        Call<LoginResponse> call = NewPortApiManager.apiManager().login3(dni, password, PreferencesHeper.getKeyDeviceToken(NewPortApplication.getAppContext()));
 
         call.enqueue(new Callback<LoginResponse>() {
             @Override

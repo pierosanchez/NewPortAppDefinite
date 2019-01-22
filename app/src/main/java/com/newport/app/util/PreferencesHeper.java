@@ -17,6 +17,7 @@ public class PreferencesHeper {
     private static final String KEY_SAP_CODE_CURRENT = "system_sap_code";
     private static final String KEY_EMAIL_CURRENT = "system_email";
     private static final String KEY_CHANNEL_ID = "system_channel_id";
+    private static final String KEY_CHANNEL_NAME = "system_channel_name";
 
     private static final String KEY_LAST_FRAGMENT = "system_lastfragment";
     private static final String KEY_CURRENT_FRAGMENT = "system_currentfragment";
@@ -191,6 +192,7 @@ public class PreferencesHeper {
         return sharedPreferences.getString(KEY_DEVICE_TOKEN, "");
     }
 
+    //Canal del chat --> el canal es la ventana por la cual se inicia el chat con otra persona
     public static void setKeyChannelId(Context context, int channel_id){
         initSessionManager(context);
         editor.putString(KEY_CHANNEL_ID, String.valueOf(channel_id));
@@ -200,6 +202,17 @@ public class PreferencesHeper {
     public static String getKeyChannelId(Context context) {
         initSessionManager(context);
         return sharedPreferences.getString(KEY_CHANNEL_ID, "");
+    }
+
+    public static void setKeyChannelName(Context context, String name) {
+        initSessionManager(context);
+        editor.putString(KEY_CHANNEL_NAME, name);
+        editor.commit();
+    }
+
+    public static String getKeyChannelName(Context context) {
+        initSessionManager(context);
+        return sharedPreferences.getString(KEY_CHANNEL_NAME, "");
     }
 
 }

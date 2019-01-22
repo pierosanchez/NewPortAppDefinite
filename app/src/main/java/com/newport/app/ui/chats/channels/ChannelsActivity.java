@@ -48,9 +48,15 @@ public class ChannelsActivity extends BaseActivity implements ChannelsContract.V
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        channelsPresenter.getCHannels();
+    }
+
+
+    @Override
     public void onChatChannelItemClick(int idChannel) {
         PreferencesHeper.setKeyChannelId(NewPortApplication.getAppContext().getApplicationContext(), idChannel);
-        Log.d("channelid", " " + PreferencesHeper.getKeyChannelId(NewPortApplication.getAppContext().getApplicationContext()));
         startActivity(new Intent(ChannelsActivity.this, ChatActivity.class));
     }
 

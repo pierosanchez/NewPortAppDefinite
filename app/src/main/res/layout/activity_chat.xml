@@ -37,6 +37,7 @@
                 android:drawableStart="@drawable/ic_profile"
                 android:text="Channel Name"
                 android:textAlignment="center"
+                android:gravity="center"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 

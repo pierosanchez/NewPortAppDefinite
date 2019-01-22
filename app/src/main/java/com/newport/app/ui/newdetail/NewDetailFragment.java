@@ -28,18 +28,21 @@ import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerFragment;
 import com.newport.app.NewPortApplication;
 import com.newport.app.R;
+import com.newport.app.data.models.request.NewsLogRequest;
+import com.newport.app.data.models.response.GenericResponse;
 import com.newport.app.data.models.response.NewResponse;
 import com.newport.app.ui.eventsgallery.EventsGalleryFragment;
 import com.newport.app.util.Constant;
 import com.newport.app.util.PreferencesHeper;
 import com.squareup.picasso.Picasso;
 
-public class NewDetailFragment extends Fragment implements NewDetailContract.View {
+public class NewDetailFragment extends Fragment implements NewDetailContract.View, NewDetailContract.NewsLogView {
 
     private static final String ARG_PARAM1 = "idDetailEvent";
     private static final String VIDEO_ID = "wU_7k0OLDsw";
 
     private NewDetailPresenter newDetailPresenter;
+    private NewsLogPresenter newsLogPresenter;
 
     private static int idDetailEvent;
 
@@ -98,6 +101,9 @@ public class NewDetailFragment extends Fragment implements NewDetailContract.Vie
 
         newDetailPresenter = new NewDetailPresenter();
         newDetailPresenter.attachedView(this);
+
+        newsLogPresenter = new NewsLogPresenter();
+        newsLogPresenter.attachedView(this);
     }
 
     @Override
@@ -122,6 +128,11 @@ public class NewDetailFragment extends Fragment implements NewDetailContract.Vie
     @Override
     public void showNew(final NewResponse newResponse) {
         lblTitleContainer.setText(newResponse.getCategory_name());
+
+        NewsLogRequest newsLogRequest = new NewsLogRequest();
+        newsLogRequest.setCod_sap(PreferencesHeper.getSapCodeUser(NewPortApplication.getAppContext().getApplicationContext()));
+        newsLogRequest.setId_new(newResponse.getId());
+        newsLogPresenter.saveNewsLog(newsLogRequest);
 
         Picasso.with(imgDetailNew.getContext())
                 .load(newResponse.getImage_url())
@@ -214,5 +225,17 @@ public class NewDetailFragment extends Fragment implements NewDetailContract.Vie
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.youtube_player, youTubePlayerFragment);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void showSaveNewsLogSuccess(GenericResponse genericResponse) {
+        if (genericResponse.getResponse().equals("success")) {
+            Log.d("showSaveNewsLogSuccess", "save_success");
+        }
+    }
+
+    @Override
+    public void showSaveNewLogError(String error) {
+        Log.d("showSaveNewsLogSuccess", "something went wrong");
     }
 }

@@ -63,6 +63,7 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Cha
         rvChatMessages.setAdapter(chatMessagesAdapter);
 
         btnSendMessage.setOnClickListener(this);
+        tvChatUserName.setText(PreferencesHeper.getKeyChannelName(NewPortApplication.getAppContext().getApplicationContext()));
 
         chatPresenter.getChatUserChat();
     }
@@ -92,6 +93,7 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Cha
 
     @Override
     public void showSendMessageSuccess(ChatSendMessageResponse chatSendMessageResponse) {
+        btnSendMessage.setEnabled(true);
         if (chatSendMessageResponse.getResponse().equals("success")) {
             chatPresenter.getChatUserChat();
             txtMessage.setText("");
@@ -100,12 +102,14 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Cha
 
     @Override
     public void showSendMessageError(String error) {
+
         Toast.makeText(NewPortApplication.getAppContext().getApplicationContext(), error, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btnSendMessage) {
+            btnSendMessage.setEnabled(false);
             if (txtMessage.getText().toString().equals("")) {
                 Toast.makeText(NewPortApplication.getAppContext().getApplicationContext(), "Ingrese un mensaje, para enviar.", Toast.LENGTH_SHORT).show();
             } else {

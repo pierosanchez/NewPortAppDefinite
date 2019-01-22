@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="64dp"
             android:gravity="center_horizontal"
-            android:hint="@string/user_hint"
+            android:hint="@string/hint_correo"
             android:inputType="textEmailAddress"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imgLogo" />

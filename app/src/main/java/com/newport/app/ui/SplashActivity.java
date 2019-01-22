@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
 
+import com.newport.app.Manifest;
 import com.newport.app.NewPortApplication;
 import com.newport.app.ui.login.LoginActivity;
 import com.newport.app.ui.main.MainActivity;

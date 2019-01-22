@@ -1,9 +1,12 @@
 package com.newport.app.service;
 
+import android.content.Intent;
 import android.util.Log;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
+import com.newport.app.NewPortApplication;
+import com.newport.app.ui.login.LoginActivity;
 
 /**
  * Created by tohure on 14/11/17.
@@ -29,7 +32,9 @@ public class NewPortFirebaseInstanceIDService extends FirebaseInstanceIdService 
         // If you want to send messages to this application instance or
         // manage this apps subscriptions on the server side, send the
         // Instance ID token to your app server.
-        sendRegistrationToServer(refreshedToken);
+        //sendRegistrationToServer(refreshedToken);
+        Intent intent = new Intent(NewPortApplication.getAppContext(), LoginActivity.class);
+        startActivity(intent);
     }
     // [END refresh_token]
 

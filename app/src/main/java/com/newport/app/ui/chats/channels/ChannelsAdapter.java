@@ -7,8 +7,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.newport.app.NewPortApplication;
 import com.newport.app.R;
 import com.newport.app.data.models.response.ChatChannelResponse;
+import com.newport.app.util.PreferencesHeper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,6 +76,7 @@ public class ChannelsAdapter extends RecyclerView.Adapter<ChannelsAdapter.ChatCh
         public void onClick(View v) {
             if (listener != null) {
                 listener.onChatChannelItemClick(newsResponseList.get(getAdapterPosition()).getId());
+                PreferencesHeper.setKeyChannelName(NewPortApplication.getAppContext().getApplicationContext(), tvChatChannelName.getText().toString());
             }
         }
     }

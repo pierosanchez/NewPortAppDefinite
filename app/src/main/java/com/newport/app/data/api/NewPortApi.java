@@ -2,6 +2,7 @@ package com.newport.app.data.api;
 
 import com.newport.app.BuildConfig;
 import com.newport.app.data.models.request.ChatRequest;
+import com.newport.app.data.models.request.NewsLogRequest;
 import com.newport.app.data.models.request.PhotoRequest;
 import com.newport.app.data.models.request.SwitchScheduleEmailRequest;
 import com.newport.app.data.models.request.UserRegisterRequest;
@@ -12,6 +13,7 @@ import com.newport.app.data.models.response.ChatSendMessageResponse;
 import com.newport.app.data.models.response.ChatUserChatResponse;
 import com.newport.app.data.models.response.DirectoryResponse;
 import com.newport.app.data.models.response.EventsResponse;
+import com.newport.app.data.models.response.GenericResponse;
 import com.newport.app.data.models.response.HomeResponse;
 import com.newport.app.data.models.response.LoginResponse;
 import com.newport.app.data.models.response.MatchsResponse;
@@ -48,6 +50,10 @@ public interface NewPortApi {
     @Headers(HEADER_AUTHORIZATION)
     @GET(BuildConfig.LOGIN2)
     Call<LoginResponse> login(@Query("mail") String dni, @Query("password") String password, @Query("firebase_token") String token);
+
+    @Headers(HEADER_AUTHORIZATION)
+    @GET(BuildConfig.LOGIN3)
+    Call<LoginResponse> login3(@Query("mail") String dni, @Query("password") String password, @Query("firebase_token") String token);
 
     @Headers(HEADER_AUTHORIZATION)
     @GET(BuildConfig.HOME)
@@ -190,6 +196,10 @@ public interface NewPortApi {
     @Headers(HEADER_AUTHORIZATION)
     @POST(BuildConfig.CHATSENDMESSAGE)
     Call<ChatSendMessageResponse> sendMessage(@Body ChatRequest chatRequest);
+
+    @Headers(HEADER_AUTHORIZATION)
+    @POST(BuildConfig.NEWSLOG)
+    Call<GenericResponse> saveNewsLog(@Body NewsLogRequest newsLogRequest);
 }
 
 
