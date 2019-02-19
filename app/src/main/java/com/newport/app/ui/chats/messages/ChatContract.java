@@ -1,8 +1,10 @@
 package com.newport.app.ui.chats.messages;
 
+import com.newport.app.data.models.request.AttentionCalificationRequest;
 import com.newport.app.data.models.request.ChatRequest;
 import com.newport.app.data.models.response.ChatSendMessageResponse;
 import com.newport.app.data.models.response.ChatUserChatResponse;
+import com.newport.app.data.models.response.GenericResponse;
 import com.newport.app.util.BasePresenter;
 
 public interface ChatContract {
@@ -41,5 +43,35 @@ public interface ChatContract {
         void sendChatMessageSuccess(ChatSendMessageResponse chatSendMessageResponse);
         void sendChatMessageError(String error);
         void sendChatMessageFailure(String failure);
+    }
+
+    interface ViewSetMessageTerminated {
+        void showSetMessageTerminatedSuccess(GenericResponse genericResponse);
+        void ShowSetMessageTerminatedError(String error);
+    }
+
+    interface PresenterSetMessageTerminated extends BasePresenter<ViewSetMessageTerminated> {
+        void setMessageTerminated(int chat_id);
+    }
+
+    interface CallbackSetMessageTerminated {
+        void SetMessageTerminatedSuccess(GenericResponse genericResponse);
+        void SetMessageTerminatedError(String error);
+        void SetMessageTerminatedFailure(String failure);
+    }
+
+    interface ViewAttentionCalification {
+        void showAttentionCalificationSuccess(GenericResponse genericResponse);
+        void showAttentionCalificationError(String error);
+    }
+
+    interface PresenterAttentionCalification extends BasePresenter<ViewAttentionCalification> {
+        void setAttionCalification(AttentionCalificationRequest attentionCalificationRequest);
+    }
+
+    interface CallbackAttentionCalification {
+        void setAttentionCalificationSuccess(GenericResponse genericResponse);
+        void setAttentionCalificationError(String error);
+        void setAttentionCalificationFailure(String error);
     }
 }

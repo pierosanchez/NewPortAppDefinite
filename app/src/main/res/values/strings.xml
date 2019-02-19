@@ -206,5 +206,8 @@
     <string name="btn_aceptar">Aceptar</string>
     <string name="lbl_ing_contra_boleta_pago">Ingresa la contraseña que usas para entrar al App. <b>(Si no tienes una contraseña, cierra tu sesión para crearla)</b></string>
     <string name="tittle_chats">Chats</string>
+    <string name="btn_terminar_conversacion">Terminar Conversación</string>
+    <string name="no_chats_response">no_chats</string>
+    <string name="hint_write_ur_message">Escribe tu mensaje</string>
 
 </resources>

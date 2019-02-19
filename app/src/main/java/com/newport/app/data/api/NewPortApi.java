@@ -1,6 +1,7 @@
 package com.newport.app.data.api;
 
 import com.newport.app.BuildConfig;
+import com.newport.app.data.models.request.AttentionCalificationRequest;
 import com.newport.app.data.models.request.ChatRequest;
 import com.newport.app.data.models.request.NewsLogRequest;
 import com.newport.app.data.models.request.PhotoRequest;
@@ -187,7 +188,7 @@ public interface NewPortApi {
 
     @Headers(HEADER_AUTHORIZATION)
     @GET(BuildConfig.CHATUSERMESSAGES)
-    Call<ChatUserChatResponse> getUserChatMessages(@Path("chat_id") int chat_id, @Path("user_id") String user_id);
+    Call<ChatUserChatResponse> getUserChatMessages(@Path("chat_id") int chat_id, @Path("user_id") String user_id, @Path("channel_id") int channel_id);
 
     @Headers(HEADER_AUTHORIZATION)
     @GET(BuildConfig.CHATCHANNEL)
@@ -198,8 +199,20 @@ public interface NewPortApi {
     Call<ChatSendMessageResponse> sendMessage(@Body ChatRequest chatRequest);
 
     @Headers(HEADER_AUTHORIZATION)
+    @PUT(BuildConfig.CHATSENDMESSAGE)
+    Call<GenericResponse> sendMessageSawit(@Path("chat_id") int chat_id);
+
+    @Headers(HEADER_AUTHORIZATION)
     @POST(BuildConfig.NEWSLOG)
     Call<GenericResponse> saveNewsLog(@Body NewsLogRequest newsLogRequest);
+
+    @Headers(HEADER_AUTHORIZATION)
+    @PUT(BuildConfig.SETMESSAGESTERMINATED)
+    Call<GenericResponse> setMessageTerminated(@Path("chat_id") int chat_id);
+
+    @Headers(HEADER_AUTHORIZATION)
+    @POST(BuildConfig.SETATTENTIONCALIFICATION)
+    Call<GenericResponse> setAttentionCalification(@Body AttentionCalificationRequest attentionCalificationRequest);
 }
 
 

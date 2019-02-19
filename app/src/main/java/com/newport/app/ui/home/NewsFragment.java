@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.PagerSnapHelper;
@@ -25,6 +26,7 @@ import android.widget.TextView;
 import com.newport.app.NewPortApplication;
 import com.newport.app.R;
 import com.newport.app.data.models.response.HomeResponse;
+import com.newport.app.ui.chats.channels.ChannelsActivity;
 import com.newport.app.ui.eventsgallery.EventsGalleryFragment;
 import com.newport.app.ui.mundialevent.MundialEventActivity;
 import com.newport.app.ui.newdetail.NewDetailFragment;
@@ -61,6 +63,7 @@ public class NewsFragment extends Fragment implements NewsContract.View, NewsAda
     private LinearLayout lnlAtTime;
     private TextView lblDaysLate;
     private TextView lblTiempo;
+    private FloatingActionButton fbChat;
 
     //Listener for Click and change tab
     public interface OnClickLateDate {
@@ -156,6 +159,8 @@ public class NewsFragment extends Fragment implements NewsContract.View, NewsAda
         rltFourthElement = rootView.findViewById(R.id.rltFourthElement);
         lblFourthElementTitleNew = rootView.findViewById(R.id.lblFourthElementTitleNew);
 
+        fbChat = rootView.findViewById(R.id.fbChat);
+
         adapter = new NewsAdapter();
 
         final SnapHelper snapHelper = new PagerSnapHelper();
@@ -165,6 +170,12 @@ public class NewsFragment extends Fragment implements NewsContract.View, NewsAda
         rcvNewsCategory.setAdapter(adapter);
         snapHelper.attachToRecyclerView(rcvNewsCategory);
 
+        fbChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(NewPortApplication.getAppContext().getApplicationContext(), ChannelsActivity.class));
+            }
+        });
     }
 
     @Override

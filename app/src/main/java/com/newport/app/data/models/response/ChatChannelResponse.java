@@ -12,6 +12,33 @@ public class ChatChannelResponse {
     private String user_initializer_chat_name;
     private MarcacionBean marcacion;
     private String last_message;
+    private int status_message;
+    private String user_id;
+    private int chat_id;
+
+    public int getChat_id() {
+        return chat_id;
+    }
+
+    public void setChat_id(int chat_id) {
+        this.chat_id = chat_id;
+    }
+
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
+    }
+
+    public int getStatus_message() {
+        return status_message;
+    }
+
+    public void setStatus_message(int status_message) {
+        this.status_message = status_message;
+    }
 
     public String getLast_message() {
         return last_message;

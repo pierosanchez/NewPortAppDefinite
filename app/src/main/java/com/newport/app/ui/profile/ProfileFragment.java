@@ -60,7 +60,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, P
     private LinearLayout btnBoletasPago;
 
     private Button btnLogout;
-    private Button btnChatChannels;
 
     private ProfileLateDaysAdapter profileLateDaysAdapter;
     private ProfileLateLaunchAdapter profileLateLaunchAdapter;
@@ -101,8 +100,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, P
         btnBoletasPago = rootView.findViewById(R.id.btnBoletasPago);
         lblCarnetSanidad = rootView.findViewById(R.id.lblCarnetSanidad);
 
-        btnChatChannels = rootView.findViewById(R.id.btnChatChannels);
-
         btnBoletasPago.setOnClickListener(this);
         lblCarnetSanidad.setOnClickListener(this);
         lblLinkWebMail.setOnClickListener(this);
@@ -136,8 +133,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, P
             final String selectedDate = dayCarnet + " / " + (monthCarnet + 1) + " / " + yearCarnet;
             lblCarnetSanidad.setText(selectedDate);
         }
-
-        btnChatChannels.setOnClickListener(this);
     }
 
     @Override
@@ -179,8 +174,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, P
         } else if (view.getId() == R.id.btnBoletasPago) {
             prgProfile.setVisibility(View.VISIBLE);
             verificationUserAllowBoletaPagoPresenter.verificationUserAllowBoletaPago();
-        } else if (view.getId() == R.id.btnChatChannels) {
-            startActivity(new Intent(NewPortApplication.getAppContext().getApplicationContext(), ChannelsActivity.class));
         }
     }
 

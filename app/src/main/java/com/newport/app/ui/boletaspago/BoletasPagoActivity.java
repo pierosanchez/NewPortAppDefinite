@@ -14,6 +14,7 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -51,6 +52,7 @@ public class BoletasPagoActivity extends BaseActivity implements BoletasPagoCont
     private int statusSeeBoletaPago;
 
     private LinearLayout llErrorBoletaPagoNotAccess;
+    private ImageView imvBoletaPagoAccess;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,11 +62,11 @@ public class BoletasPagoActivity extends BaseActivity implements BoletasPagoCont
     }
 
     private void init() {
-        pdfViewer = (PDFView) findViewById(R.id.pdfViewer);
-
-        layProgress = (RelativeLayout) findViewById(R.id.layProgress);
-        llErrorBoletaPagoNotAccess = (LinearLayout) findViewById(R.id.llErrorBoletaPagoNotAccess);
-        btnDownloadVoucherPDF = (Button) findViewById(R.id.btnDownloadVoucherPDF);
+        pdfViewer = findViewById(R.id.pdfViewer);
+        layProgress = findViewById(R.id.layProgress);
+        llErrorBoletaPagoNotAccess = findViewById(R.id.llErrorBoletaPagoNotAccess);
+        btnDownloadVoucherPDF = findViewById(R.id.btnDownloadVoucherPDF);
+        imvBoletaPagoAccess = findViewById(R.id.imvBoletaPagoAccess);
 
         Intent intent = getIntent();
         statusSeeBoletaPago = intent.getIntExtra("statusSeeBoletaPago", 0);
@@ -73,6 +75,7 @@ public class BoletasPagoActivity extends BaseActivity implements BoletasPagoCont
         boletasPagoPresenter.attachedView(this);
 
         if (statusSeeBoletaPago == 1) {
+            imvBoletaPagoAccess.setImageResource(R.drawable.boletas_pago_error_newport_app);
             llErrorBoletaPagoNotAccess.setVisibility(View.VISIBLE);
         } else {
             boletasPagoPresenter.getBoletasPago();

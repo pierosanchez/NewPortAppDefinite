@@ -17,7 +17,9 @@ public class PreferencesHeper {
     private static final String KEY_SAP_CODE_CURRENT = "system_sap_code";
     private static final String KEY_EMAIL_CURRENT = "system_email";
     private static final String KEY_CHANNEL_ID = "system_channel_id";
+    private static final String KEY_CHAT_ID = "system_chat_id";
     private static final String KEY_CHANNEL_NAME = "system_channel_name";
+    private static final String KEY_CHAT_OTHER_USER_ID = "system_chat_other_user_id";
 
     private static final String KEY_LAST_FRAGMENT = "system_lastfragment";
     private static final String KEY_CURRENT_FRAGMENT = "system_currentfragment";
@@ -215,4 +217,25 @@ public class PreferencesHeper {
         return sharedPreferences.getString(KEY_CHANNEL_NAME, "");
     }
 
+    public static void setKeyChatId(Context context, String name) {
+        initSessionManager(context);
+        editor.putString(KEY_CHAT_ID, name);
+        editor.commit();
+    }
+
+    public static String getKeyChatId(Context context) {
+        initSessionManager(context);
+        return sharedPreferences.getString(KEY_CHAT_ID, "");
+    }
+
+    public static void setKeyChatOtherUserId(Context context, String keyChatOtherUserId) {
+        initSessionManager(context);
+        editor.putString(KEY_CHAT_OTHER_USER_ID, keyChatOtherUserId);
+        editor.commit();
+    }
+
+    public static String getKeyChatOtherUserId(Context context) {
+        initSessionManager(context);
+        return sharedPreferences.getString(KEY_CHAT_OTHER_USER_ID, "");
+    }
 }

@@ -26,8 +26,10 @@ public class ChatMessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     public void addData(List<ChatUserChatResponse.UserChatMessagesBean> messagesList) {
         this.userChatMessagesList.clear();
-        Collections.reverse(messagesList);
-        this.userChatMessagesList.addAll(messagesList);
+        //Collections.reverse(messagesList);
+        if (messagesList != null) {
+            this.userChatMessagesList.addAll(messagesList);
+        }
         notifyDataSetChanged();
     }
 

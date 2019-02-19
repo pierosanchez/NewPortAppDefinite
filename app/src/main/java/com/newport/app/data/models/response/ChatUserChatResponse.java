@@ -8,7 +8,16 @@ public class ChatUserChatResponse {
     private String user_initializer_chat_id;
     private int channel_id;
     private ChatChannelBean chat_channel;
+    private int status_chat;
     private List<UserChatMessagesBean> chat_messages;
+
+    public int getStatus_chat() {
+        return status_chat;
+    }
+
+    public void setStatus_chat(int status_chat) {
+        this.status_chat = status_chat;
+    }
 
     public int getId() {
         return id;

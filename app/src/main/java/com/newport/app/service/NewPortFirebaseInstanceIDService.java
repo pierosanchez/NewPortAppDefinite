@@ -33,8 +33,8 @@ public class NewPortFirebaseInstanceIDService extends FirebaseInstanceIdService 
         // manage this apps subscriptions on the server side, send the
         // Instance ID token to your app server.
         //sendRegistrationToServer(refreshedToken);
-        Intent intent = new Intent(NewPortApplication.getAppContext(), LoginActivity.class);
-        startActivity(intent);
+        /*Intent intent = new Intent(NewPortApplication.getAppContext(), LoginActivity.class);
+        startActivity(intent);*/
     }
     // [END refresh_token]
 

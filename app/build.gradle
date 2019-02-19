@@ -63,10 +63,13 @@ android {
             buildConfigField "String", "VALIDATEACCESSBOLETASPAGO", "\"user/boletapago/access/{sap_code}/{password_user}\""
             buildConfigField "String", "VERIFICATIONUSERALLOWBOLETAPAGO", "\"user/boletapago/verification/{sap_code}\""
             buildConfigField "String", "CHATOWNERMESSAGES", "\"chat/owner/{chat_id}/{owner_id}\""
-            buildConfigField "String", "CHATUSERMESSAGES", "\"chat/user/{chat_id}/{user_id}\""
+            buildConfigField "String", "CHATUSERMESSAGES", "\"chat/user/{chat_id}/{user_id}/{channel_id}\""
             buildConfigField "String", "CHATCHANNEL", "\"chat/channel/{user_id}\""
             buildConfigField "String", "CHATSENDMESSAGE", "\"chat/message\""
+            buildConfigField "String", "CHATMESSAGESAWIT", "\"chat/message/{chat_id}\""
             buildConfigField "String", "NEWSLOG", "\"/news/log\""
+            buildConfigField "String", "SETMESSAGESTERMINATED", "\"chat/message/setMessageTerminated/{chat_id}\""
+            buildConfigField "String", "SETATTENTIONCALIFICATION", "\"chat/message/attentioncalification\""
         }
 
         debug {
@@ -114,10 +117,13 @@ android {
             buildConfigField "String", "VALIDATEACCESSBOLETASPAGO", "\"user/boletapago/access/{sap_code}/{password_user}\""
             buildConfigField "String", "VERIFICATIONUSERALLOWBOLETAPAGO", "\"user/boletapago/verification/{sap_code}\""
             buildConfigField "String", "CHATOWNERMESSAGES", "\"chat/owner/{chat_id}/{owner_id}\""
-            buildConfigField "String", "CHATUSERMESSAGES", "\"chat/user/{chat_id}/{user_id}\""
+            buildConfigField "String", "CHATUSERMESSAGES", "\"chat/user/{chat_id}/{user_id}/{channel_id}\""
             buildConfigField "String", "CHATCHANNEL", "\"chat/channel/{user_id}\""
             buildConfigField "String", "CHATSENDMESSAGE", "\"chat/message\""
+            buildConfigField "String", "CHATMESSAGESAWIT", "\"chat/message/{chat_id}\""
             buildConfigField "String", "NEWSLOG", "\"news/log\""
+            buildConfigField "String", "SETMESSAGESTERMINATED", "\"chat/message/setMessageTerminated/{chat_id}\""
+            buildConfigField "String", "SETATTENTIONCALIFICATION", "\"chat/message/attentioncalification\""
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.newport.app.ui.chats.channels;
 
 import com.newport.app.data.models.response.ChatChannelResponse;
+import com.newport.app.data.models.response.GenericResponse;
 import com.newport.app.util.BasePresenter;
 
 import java.util.List;
@@ -25,6 +26,21 @@ public interface ChannelsContract {
         void getChannelsSuccess(List<ChatChannelResponse> channelResponseList);
         void getChannelsError(String error);
         void getChannelsFailure(String failure);
+    }
+
+    interface ViewMessageSawIt {
+        void showSuccessMessageSawIt(GenericResponse genericResponse);
+        void showErrorMessageSawIt(String error);
+    }
+
+    interface PresenterMessageSawIt extends BasePresenter<ViewMessageSawIt> {
+        void sendMessageSawIt(int chat_id);
+    }
+
+    interface CallbackMessageSawIt {
+        void sendMessageSawItSuccess(GenericResponse genericResponse);
+        void sendMessageSawItError(String error);
+        void sendMessageSawItFailure(String failure);
     }
 
 }

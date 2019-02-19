@@ -31,4 +31,6 @@ public class Constant {
     public static final String HEADER_AUTHORIZATION = "Authorization: " + BuildConfig.HEADER;
 
     public static final String DOWNLOADPDFDIRECTORY = "BoletasNewport";
+
+    public static final String NEWPORTAPPBD = "NEWPORTAPPBD";
 }
