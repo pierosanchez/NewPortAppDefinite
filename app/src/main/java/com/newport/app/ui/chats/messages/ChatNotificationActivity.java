@@ -2,8 +2,9 @@ package com.newport.app.ui.chats.messages;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -29,7 +30,7 @@ import com.newport.app.util.PreferencesHeper;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class ChatActivity extends BaseActivity implements ChatContract.View, ChatContract.ViewSendMessage,
+public class ChatNotificationActivity extends BaseActivity implements ChatContract.View, ChatContract.ViewSendMessage,
         ChatContract.ViewSetMessageTerminated, ChatContract.ViewAttentionCalification, View.OnClickListener {
 
     private TextView tvChatUserName;
@@ -40,6 +41,8 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Cha
     private CheckBox btnStar2;
 
     private AlertDialog dialog;
+
+    private Timer timerGetChatThread;
 
     private boolean messagesLoaded = false;
     private boolean isDialogShowed = false;
@@ -57,7 +60,8 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Cha
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat);
+        setContentView(R.layout.activity_chat_notification);
+        PreferencesHeper.isNotificationChatShowed(NewPortApplication.getAppContext().getApplicationContext(), true);
         init();
     }
 
@@ -88,7 +92,19 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Cha
         btnFinishConversation.setOnClickListener(this);
         tvChatUserName.setText(PreferencesHeper.getKeyChannelName(NewPortApplication.getAppContext().getApplicationContext()));
 
-        chatPresenter.getChatUserChat(Integer.parseInt(PreferencesHeper.getKeyChatId(NewPortApplication.getAppContext().getApplicationContext())));
+        Bundle extrasFromNotification = getIntent().getExtras();
+        if (extrasFromNotification != null) {
+            String chatIdFromNotification = extrasFromNotification.getString("chat_id");
+            PreferencesHeper.setKeyChatIdNotification(NewPortApplication.getAppContext().getApplicationContext(), chatIdFromNotification);
+        }
+
+        if (PreferencesHeper.getKeyChatIdNotification(NewPortApplication.getAppContext().getApplicationContext()).equals("")) {
+            PreferencesHeper.setKeyChatIdNotification(NewPortApplication.getAppContext().getApplicationContext(), "0");
+        }
+
+        Log.d("onCreateChatIdNotif", PreferencesHeper.getKeyChatIdNotification(NewPortApplication.getAppContext().getApplicationContext()));
+
+        chatPresenter.getChatUserChat(Integer.parseInt(PreferencesHeper.getKeyChatIdNotification(NewPortApplication.getAppContext().getApplicationContext())));
 
         chatMessagesAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
@@ -118,12 +134,17 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Cha
             if (chatUserChatResponse.getUser_initializer_chat_id() != null) {
                 if (chatUserChatResponse.getUser_initializer_chat_id().equals(PreferencesHeper.getSapCodeUser(NewPortApplication.getAppContext().getApplicationContext()))) {
                     btnFinishConversation.setVisibility(View.GONE);
+                    PreferencesHeper.setKeyChatOtherUserId(NewPortApplication.getAppContext().getApplicationContext(), chatUserChatResponse.getUser_initializer_chat_id());
                 }
-            } else if (chatUserChatResponse.getUser_initializer_chat_id() == null) {
+            } else if (chatUserChatResponse.getUser_initializer_chat_id() == null) {  // if the chat is not created yet
                 btnFinishConversation.setVisibility(View.GONE);
             }
 
             if (btnFinishConversation.getVisibility() == View.VISIBLE) {
+                if (chatUserChatResponse.getChat_channel().getChannel_owner_id() != null) {
+                    PreferencesHeper.setKeyChatOtherUserId(NewPortApplication.getAppContext().getApplicationContext(), chatUserChatResponse.getUser_initializer_chat_id());
+                }
+
                 if (chatUserChatResponse.getNOMBRE() != null) {
                     tvChatUserName.setText(chatUserChatResponse.getNOMBRE());
                 } else {
@@ -138,7 +159,7 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Cha
                 }
             } else {
                 messagesLoaded = true;
-                new GettingMessagesConstantly().execute();
+                new ChatNotificationActivity.GettingMessagesConstantly().execute();
             }
         }
     }
@@ -207,7 +228,7 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Cha
                 AttentionCalificationRequest attentionCalificationRequest = new AttentionCalificationRequest();
                 attentionCalificationRequest.setCalification(tagCount1[0]);
                 attentionCalificationRequest.setCalification_solution_problem(tagCount2[0]);
-                attentionCalificationRequest.setChat_id(Integer.parseInt(PreferencesHeper.getKeyChatId(NewPortApplication.getAppContext().getApplicationContext())));
+                attentionCalificationRequest.setChat_id(Integer.parseInt(PreferencesHeper.getKeyChatIdNotification(NewPortApplication.getAppContext().getApplicationContext())));
                 chatMessageAttentionCalificationPresenter.setAttionCalification(attentionCalificationRequest);
             }
         });
@@ -220,7 +241,7 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Cha
     @Override
     public void showChatsError(String error) {
         messagesLoaded = false;
-        chatPresenter.getChatUserChat(Integer.parseInt(PreferencesHeper.getKeyChatId(NewPortApplication.getAppContext().getApplicationContext())));
+        chatPresenter.getChatUserChat(Integer.parseInt(PreferencesHeper.getKeyChatIdNotification(NewPortApplication.getAppContext().getApplicationContext())));
         Toast.makeText(NewPortApplication.getAppContext().getApplicationContext(), error, Toast.LENGTH_SHORT).show();
     }
 
@@ -228,8 +249,9 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Cha
     public void showSendMessageSuccess(ChatSendMessageResponse chatSendMessageResponse) {
         btnSendMessage.setEnabled(true);
         if (chatSendMessageResponse.getResponse().equals("success")) {
-            PreferencesHeper.setKeyChatId(NewPortApplication.getAppContext().getApplicationContext(), String.valueOf(chatSendMessageResponse.getChat_id()));
-            chatPresenter.getChatUserChat(Integer.parseInt(PreferencesHeper.getKeyChatId(NewPortApplication.getAppContext().getApplicationContext())));
+            Log.d("onSendMessageSuccess", String.valueOf(chatSendMessageResponse.getChat_id()));
+            PreferencesHeper.setKeyChatIdNotification(NewPortApplication.getAppContext().getApplicationContext(), String.valueOf(chatSendMessageResponse.getChat_id()));
+            chatPresenter.getChatUserChat(Integer.parseInt(PreferencesHeper.getKeyChatIdNotification(NewPortApplication.getAppContext().getApplicationContext())));
             txtMessage.setText("");
         }
     }
@@ -238,7 +260,7 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Cha
     public void showSendMessageError(String error) {
         messagesLoaded = true;
         btnSendMessage.setEnabled(true);
-        chatPresenter.getChatUserChat(Integer.parseInt(PreferencesHeper.getKeyChatId(NewPortApplication.getAppContext().getApplicationContext())));
+        chatPresenter.getChatUserChat(Integer.parseInt(PreferencesHeper.getKeyChatIdNotification(NewPortApplication.getAppContext().getApplicationContext())));
         Toast.makeText(NewPortApplication.getAppContext().getApplicationContext(), error, Toast.LENGTH_SHORT).show();
     }
 
@@ -253,12 +275,14 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Cha
                 chat.setChannelId(Integer.parseInt(PreferencesHeper.getKeyChannelId(NewPortApplication.getAppContext().getApplicationContext())));
                 chat.setMessage(txtMessage.getText().toString());
                 chat.setUserId(PreferencesHeper.getSapCodeUser(NewPortApplication.getAppContext().getApplicationContext()));
-                chat.setChatid(Integer.parseInt(PreferencesHeper.getKeyChatId(NewPortApplication.getAppContext().getApplicationContext())));
+                chat.setChatid(Integer.parseInt(PreferencesHeper.getKeyChatIdNotification(NewPortApplication.getAppContext().getApplicationContext())));
+                Log.d("onClickSendMChatIdNotif", String.valueOf(chat.getChatid()));
                 chat.setUser_initializer_chat_id(PreferencesHeper.getKeyChatOtherUserId(NewPortApplication.getAppContext().getApplicationContext()));
+                Log.d("onClickSendMOUseIdNotif", chat.getUser_initializer_chat_id());
                 chatSendMessagePresenter.sendMessage(chat);
             }
         } else if (v.getId() == R.id.btnFinishConversation) {
-            chatMessageTerminatedPresenter.setMessageTerminated(Integer.parseInt(PreferencesHeper.getKeyChatId(NewPortApplication.getAppContext().getApplicationContext())));
+            chatMessageTerminatedPresenter.setMessageTerminated(Integer.parseInt(PreferencesHeper.getKeyChatIdNotification(NewPortApplication.getAppContext().getApplicationContext())));
         }
     }
 
@@ -279,7 +303,7 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Cha
     public void showAttentionCalificationSuccess(GenericResponse genericResponse) {
         if (genericResponse.getResponse().equals("success")){
             messagesLoaded = true;
-            new GettingMessagesConstantly().execute();
+            new ChatNotificationActivity.GettingMessagesConstantly().execute();
             Toast.makeText(NewPortApplication.getAppContext().getApplicationContext(), "Muchas gracias por tu apoyo", Toast.LENGTH_SHORT).show();
             dialog.dismiss();
         }
@@ -300,7 +324,7 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Cha
                 public void run() {
                     if (messagesLoaded) {
                         try {
-                            ChatIteractor.getChatUserChat(Integer.parseInt(PreferencesHeper.getKeyChatId(NewPortApplication.getAppContext().getApplicationContext())), GettingMessagesConstantly.this);
+                            ChatIteractor.getChatUserChat(Integer.parseInt(PreferencesHeper.getKeyChatIdNotification(NewPortApplication.getAppContext().getApplicationContext())), ChatNotificationActivity.GettingMessagesConstantly.this);
                         } catch (Exception e) {
                             Crashlytics.logException(e);
                         }
@@ -345,28 +369,37 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Cha
     protected void onPause() {
         super.onPause();
         messagesLoaded = false;
-        new ChatActivity.GettingMessagesConstantly().execute().cancel(true);
+        PreferencesHeper.isNotificationChatShowed(NewPortApplication.getAppContext().getApplicationContext(), false);
+        new ChatNotificationActivity.GettingMessagesConstantly().execute().cancel(true);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         messagesLoaded = false;
-        new ChatActivity.GettingMessagesConstantly().execute().cancel(true);
+        PreferencesHeper.isNotificationChatShowed(NewPortApplication.getAppContext().getApplicationContext(), false);
+        new ChatNotificationActivity.GettingMessagesConstantly().execute().cancel(true);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        PreferencesHeper.isNotificationChatShowed(NewPortApplication.getAppContext().getApplicationContext(), false);
+    }
 
     @Override
     protected void onResume() {
         super.onResume();
         messagesLoaded = true;
-        chatPresenter.getChatUserChat(Integer.parseInt(PreferencesHeper.getKeyChatId(NewPortApplication.getAppContext().getApplicationContext())));
+        chatPresenter.getChatUserChat(Integer.parseInt(PreferencesHeper.getKeyChatIdNotification(NewPortApplication.getAppContext().getApplicationContext())));
+        PreferencesHeper.isNotificationChatShowed(NewPortApplication.getAppContext().getApplicationContext(), true);
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
         messagesLoaded = true;
-        chatPresenter.getChatUserChat(Integer.parseInt(PreferencesHeper.getKeyChatId(NewPortApplication.getAppContext().getApplicationContext())));
+        chatPresenter.getChatUserChat(Integer.parseInt(PreferencesHeper.getKeyChatIdNotification(NewPortApplication.getAppContext().getApplicationContext())));
+        PreferencesHeper.isNotificationChatShowed(NewPortApplication.getAppContext().getApplicationContext(), true);
     }
 }

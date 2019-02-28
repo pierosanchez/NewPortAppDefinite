@@ -6,10 +6,19 @@ public class ChatUserChatResponse {
     private int id;
     private String last_message_sended;
     private String user_initializer_chat_id;
+    private String NOMBRE;
     private int channel_id;
     private ChatChannelBean chat_channel;
     private int status_chat;
     private List<UserChatMessagesBean> chat_messages;
+
+    public String getNOMBRE() {
+        return NOMBRE;
+    }
+
+    public void setNOMBRE(String NOMBRE) {
+        this.NOMBRE = NOMBRE;
+    }
 
     public int getStatus_chat() {
         return status_chat;
@@ -71,6 +80,7 @@ public class ChatUserChatResponse {
 
         private int id;
         private String channel_name;
+        private String channel_owner_id;
         private UserChatMarcacionBean marcacion;
 
         public int getId() {
@@ -79,6 +89,14 @@ public class ChatUserChatResponse {
 
         public void setId(int id) {
             this.id = id;
+        }
+
+        public String getChannel_owner_id() {
+            return channel_owner_id;
+        }
+
+        public void setChannel_owner_id(String channel_owner_id) {
+            this.channel_owner_id = channel_owner_id;
         }
 
         public String getChannel_name() {

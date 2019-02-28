@@ -18,8 +18,10 @@ public class PreferencesHeper {
     private static final String KEY_EMAIL_CURRENT = "system_email";
     private static final String KEY_CHANNEL_ID = "system_channel_id";
     private static final String KEY_CHAT_ID = "system_chat_id";
+    private static final String KEY_CHAT_ID_NOTIFICATION = "system_chat_id_notification";
     private static final String KEY_CHANNEL_NAME = "system_channel_name";
     private static final String KEY_CHAT_OTHER_USER_ID = "system_chat_other_user_id";
+    private static final String KEY_NOTIFICATION_CHAT_SHOWED = "system_notification_chat_showed";
 
     private static final String KEY_LAST_FRAGMENT = "system_lastfragment";
     private static final String KEY_CURRENT_FRAGMENT = "system_currentfragment";
@@ -228,6 +230,17 @@ public class PreferencesHeper {
         return sharedPreferences.getString(KEY_CHAT_ID, "");
     }
 
+    public static void setKeyChatIdNotification(Context context, String chat_id_notification) {
+        initSessionManager(context);
+        editor.putString(KEY_CHAT_ID_NOTIFICATION, chat_id_notification);
+        editor.commit();
+    }
+
+    public static String getKeyChatIdNotification(Context context) {
+        initSessionManager(context);
+        return sharedPreferences.getString(KEY_CHAT_ID_NOTIFICATION, "");
+    }
+
     public static void setKeyChatOtherUserId(Context context, String keyChatOtherUserId) {
         initSessionManager(context);
         editor.putString(KEY_CHAT_OTHER_USER_ID, keyChatOtherUserId);
@@ -237,5 +250,16 @@ public class PreferencesHeper {
     public static String getKeyChatOtherUserId(Context context) {
         initSessionManager(context);
         return sharedPreferences.getString(KEY_CHAT_OTHER_USER_ID, "");
+    }
+
+    public static void isNotificationChatShowed(Context context, boolean isNotificationChatShowed) {
+        initSessionManager(context);
+        editor.putBoolean(KEY_NOTIFICATION_CHAT_SHOWED, isNotificationChatShowed);
+        editor.commit();
+    }
+
+    public static boolean getNotificationChatStatus(Context context) {
+        initSessionManager(context);
+        return sharedPreferences.getBoolean(KEY_NOTIFICATION_CHAT_SHOWED, false);
     }
 }

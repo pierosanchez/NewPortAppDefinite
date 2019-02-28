@@ -24,6 +24,9 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorPrimary" />
+        <meta-data
+            android:name="default_notification_color"
+            android:resource="@color/colorPrimary" />
 
         <activity
             android:name=".ui.SplashActivity"
@@ -121,7 +124,12 @@
             android:name=".ui.chats.messages.ChatActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity android:name=".ui.chats.messages.ChatNotificationActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="com.newport.app.ui.chats.messages.TARGETCHATSACTIVITY" />
 

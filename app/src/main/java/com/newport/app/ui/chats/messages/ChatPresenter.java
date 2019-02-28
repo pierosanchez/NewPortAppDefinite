@@ -7,9 +7,9 @@ public class ChatPresenter implements ChatContract.Presenter, ChatContract.CallB
     private ChatContract.View view;
 
     @Override
-    public void getChatUserChat() {
+    public void getChatUserChat(int chat_id) {
         view.showLoading();
-        ChatIteractor.getChatUserChat(this);
+        ChatIteractor.getChatUserChat(chat_id, this);
     }
 
     @Override

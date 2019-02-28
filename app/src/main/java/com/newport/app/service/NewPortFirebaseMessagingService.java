@@ -35,8 +35,8 @@ public class NewPortFirebaseMessagingService extends FirebaseMessagingService {
         if (remoteMessage.getData().size() > 0) {
             //TODO: Revisar si se hace notificación personalizada
             //Log.d(TAG, "Message data payload: " + remoteMessage.getData());
-            Log.d(TAG, "Message data payload: " + remoteMessage.getData().get("chat_id"));
-            Log.d(TAG, "Message data payload: " + remoteMessage.getData().get("time_sended_message"));
+            Log.d(TAG, "Message_data_payload: " + remoteMessage.getData().get("chat_id"));
+            Log.d(TAG, "Message_data_payload: " + remoteMessage.getData().get("time_sended_message"));
             chat_id = remoteMessage.getData().get("chat_id");
             time_sended_message = remoteMessage.getData().get("time_sended_message");
         }
@@ -46,22 +46,29 @@ public class NewPortFirebaseMessagingService extends FirebaseMessagingService {
             //TODO: Revisar si se obtiene más parámetros de la notificación estándar
             //Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
             if (chat_id != null) {
-                PreferencesHeper.setKeyChatId(NewPortApplication.getAppContext().getApplicationContext(), chat_id);
+                Log.d("chatDifiereNull", "entro!!!");
+                Log.d("notifStatVal", String.valueOf(PreferencesHeper.getNotificationChatStatus(NewPortApplication.getAppContext().getApplicationContext())));
+                if (!PreferencesHeper.getNotificationChatStatus(NewPortApplication.getAppContext().getApplicationContext())) {
+                    Log.d("notifStatDiferNull", "entro!!!");
+                    Log.d("notifStatDiferNullVal", String.valueOf(PreferencesHeper.getNotificationChatStatus(NewPortApplication.getAppContext().getApplicationContext())));
+                    PreferencesHeper.setKeyChatIdNotification(NewPortApplication.getAppContext().getApplicationContext(), chat_id);
+                    Log.d("notifStatDiferNullCid", chat_id);
+                }
             }
 
-            if (chat_id != null && time_sended_message!= null) {
+            /*if (chat_id != null && time_sended_message!= null) {
                 NewportAppBD newportAppBD = new NewportAppBD(NewPortApplication.getAppContext().getApplicationContext());
                 newportAppBD.getWritableDatabase().execSQL("INSERT INTO Message(message_sended_time, chat_id) VALUES('" + time_sended_message + "', '" +  chat_id +  "')");
                 newportAppBD.getWritableDatabase().close();
                 newportAppBD.close();
-            }
+            }*/
 
             String tittle = remoteMessage.getNotification().getTitle();
             String body = remoteMessage.getNotification().getBody();
             String click_action = remoteMessage.getNotification().getClickAction();
             Intent intent = new Intent(click_action);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
             Notification.Builder notificationBuilder = new Notification.Builder(this);
             notificationBuilder.setContentTitle(tittle);
