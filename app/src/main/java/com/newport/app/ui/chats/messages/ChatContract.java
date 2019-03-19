@@ -17,7 +17,7 @@ public interface ChatContract {
     }
 
     interface Presenter extends BasePresenter<View> {
-        void getChatUserChat(int chat_id);
+        void getChatUserChat(int chat_id, int channel_id);
     }
 
     interface CallBack {

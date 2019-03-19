@@ -61,8 +61,8 @@ public class ChatNotificationActivity extends BaseActivity implements ChatContra
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_notification);
-        PreferencesHeper.isNotificationChatShowed(NewPortApplication.getAppContext().getApplicationContext(), true);
         init();
+        PreferencesHeper.isNotificationChatShowed(NewPortApplication.getAppContext().getApplicationContext(), true);
     }
 
     private void init() {
@@ -94,17 +94,23 @@ public class ChatNotificationActivity extends BaseActivity implements ChatContra
 
         Bundle extrasFromNotification = getIntent().getExtras();
         if (extrasFromNotification != null) {
+            if (extrasFromNotification.getInt("alterActovityStatus", 0) == 1) {
+                PreferencesHeper.isNotificationChatShowed(NewPortApplication.getAppContext().getApplicationContext(), false);
+            }
+
             String chatIdFromNotification = extrasFromNotification.getString("chat_id");
+            String channelIdFromNotification = extrasFromNotification.getString("channel_id");
+
             PreferencesHeper.setKeyChatIdNotification(NewPortApplication.getAppContext().getApplicationContext(), chatIdFromNotification);
+            PreferencesHeper.setKeyChannelIdNotification(NewPortApplication.getAppContext().getApplicationContext(), channelIdFromNotification);
         }
 
         if (PreferencesHeper.getKeyChatIdNotification(NewPortApplication.getAppContext().getApplicationContext()).equals("")) {
             PreferencesHeper.setKeyChatIdNotification(NewPortApplication.getAppContext().getApplicationContext(), "0");
         }
 
-        Log.d("onCreateChatIdNotif", PreferencesHeper.getKeyChatIdNotification(NewPortApplication.getAppContext().getApplicationContext()));
-
-        chatPresenter.getChatUserChat(Integer.parseInt(PreferencesHeper.getKeyChatIdNotification(NewPortApplication.getAppContext().getApplicationContext())));
+        chatPresenter.getChatUserChat(Integer.parseInt(PreferencesHeper.getKeyChatIdNotification(NewPortApplication.getAppContext().getApplicationContext())),
+                Integer.parseInt(PreferencesHeper.getKeyChannelIdNotification(NewPortApplication.getAppContext().getApplicationContext())));
 
         chatMessagesAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
@@ -150,6 +156,11 @@ public class ChatNotificationActivity extends BaseActivity implements ChatContra
                 } else {
                     tvChatUserName.setText(PreferencesHeper.getKeyChannelName(NewPortApplication.getAppContext().getApplicationContext()));
                 }
+            } else {
+                if (chatUserChatResponse.getChat_channel().getChannel_name() != null) {
+                    PreferencesHeper.setKeyChannelName(NewPortApplication.getAppContext().getApplicationContext(), chatUserChatResponse.getChat_channel().getChannel_name());
+                    tvChatUserName.setText(PreferencesHeper.getKeyChannelName(NewPortApplication.getAppContext().getApplicationContext()));
+                }
             }
 
             if (chatUserChatResponse.getStatus_chat() == 2) {
@@ -167,6 +178,9 @@ public class ChatNotificationActivity extends BaseActivity implements ChatContra
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        messagesLoaded = false;
+        PreferencesHeper.isNotificationChatShowed(NewPortApplication.getAppContext().getApplicationContext(), false);
+        new ChatNotificationActivity.GettingMessagesConstantly().execute().cancel(true);
         startActivity(new Intent(NewPortApplication.getAppContext().getApplicationContext(), ChannelsActivity.class));
         finish();
     }
@@ -241,7 +255,8 @@ public class ChatNotificationActivity extends BaseActivity implements ChatContra
     @Override
     public void showChatsError(String error) {
         messagesLoaded = false;
-        chatPresenter.getChatUserChat(Integer.parseInt(PreferencesHeper.getKeyChatIdNotification(NewPortApplication.getAppContext().getApplicationContext())));
+        chatPresenter.getChatUserChat(Integer.parseInt(PreferencesHeper.getKeyChatIdNotification(NewPortApplication.getAppContext().getApplicationContext())),
+                Integer.parseInt(PreferencesHeper.getKeyChannelIdNotification(NewPortApplication.getAppContext().getApplicationContext())));
         Toast.makeText(NewPortApplication.getAppContext().getApplicationContext(), error, Toast.LENGTH_SHORT).show();
     }
 
@@ -251,7 +266,8 @@ public class ChatNotificationActivity extends BaseActivity implements ChatContra
         if (chatSendMessageResponse.getResponse().equals("success")) {
             Log.d("onSendMessageSuccess", String.valueOf(chatSendMessageResponse.getChat_id()));
             PreferencesHeper.setKeyChatIdNotification(NewPortApplication.getAppContext().getApplicationContext(), String.valueOf(chatSendMessageResponse.getChat_id()));
-            chatPresenter.getChatUserChat(Integer.parseInt(PreferencesHeper.getKeyChatIdNotification(NewPortApplication.getAppContext().getApplicationContext())));
+            chatPresenter.getChatUserChat(Integer.parseInt(PreferencesHeper.getKeyChatIdNotification(NewPortApplication.getAppContext().getApplicationContext())),
+                    Integer.parseInt(PreferencesHeper.getKeyChannelIdNotification(NewPortApplication.getAppContext().getApplicationContext())));
             txtMessage.setText("");
         }
     }
@@ -260,7 +276,8 @@ public class ChatNotificationActivity extends BaseActivity implements ChatContra
     public void showSendMessageError(String error) {
         messagesLoaded = true;
         btnSendMessage.setEnabled(true);
-        chatPresenter.getChatUserChat(Integer.parseInt(PreferencesHeper.getKeyChatIdNotification(NewPortApplication.getAppContext().getApplicationContext())));
+        chatPresenter.getChatUserChat(Integer.parseInt(PreferencesHeper.getKeyChatIdNotification(NewPortApplication.getAppContext().getApplicationContext())),
+                Integer.parseInt(PreferencesHeper.getKeyChannelIdNotification(NewPortApplication.getAppContext().getApplicationContext())));
         Toast.makeText(NewPortApplication.getAppContext().getApplicationContext(), error, Toast.LENGTH_SHORT).show();
     }
 
@@ -302,6 +319,7 @@ public class ChatNotificationActivity extends BaseActivity implements ChatContra
     @Override
     public void showAttentionCalificationSuccess(GenericResponse genericResponse) {
         if (genericResponse.getResponse().equals("success")){
+            isDialogShowed = false;
             messagesLoaded = true;
             new ChatNotificationActivity.GettingMessagesConstantly().execute();
             Toast.makeText(NewPortApplication.getAppContext().getApplicationContext(), "Muchas gracias por tu apoyo", Toast.LENGTH_SHORT).show();
@@ -324,7 +342,8 @@ public class ChatNotificationActivity extends BaseActivity implements ChatContra
                 public void run() {
                     if (messagesLoaded) {
                         try {
-                            ChatIteractor.getChatUserChat(Integer.parseInt(PreferencesHeper.getKeyChatIdNotification(NewPortApplication.getAppContext().getApplicationContext())), ChatNotificationActivity.GettingMessagesConstantly.this);
+                            ChatIteractor.getChatUserChat(Integer.parseInt(PreferencesHeper.getKeyChatIdNotification(NewPortApplication.getAppContext().getApplicationContext())),
+                                    Integer.parseInt(PreferencesHeper.getKeyChannelIdNotification(NewPortApplication.getAppContext().getApplicationContext())), ChatNotificationActivity.GettingMessagesConstantly.this);
                         } catch (Exception e) {
                             Crashlytics.logException(e);
                         }
@@ -391,7 +410,8 @@ public class ChatNotificationActivity extends BaseActivity implements ChatContra
     protected void onResume() {
         super.onResume();
         messagesLoaded = true;
-        chatPresenter.getChatUserChat(Integer.parseInt(PreferencesHeper.getKeyChatIdNotification(NewPortApplication.getAppContext().getApplicationContext())));
+        chatPresenter.getChatUserChat(Integer.parseInt(PreferencesHeper.getKeyChatIdNotification(NewPortApplication.getAppContext().getApplicationContext())),
+                Integer.parseInt(PreferencesHeper.getKeyChannelIdNotification(NewPortApplication.getAppContext().getApplicationContext())));
         PreferencesHeper.isNotificationChatShowed(NewPortApplication.getAppContext().getApplicationContext(), true);
     }
 
@@ -399,7 +419,8 @@ public class ChatNotificationActivity extends BaseActivity implements ChatContra
     protected void onRestart() {
         super.onRestart();
         messagesLoaded = true;
-        chatPresenter.getChatUserChat(Integer.parseInt(PreferencesHeper.getKeyChatIdNotification(NewPortApplication.getAppContext().getApplicationContext())));
+        chatPresenter.getChatUserChat(Integer.parseInt(PreferencesHeper.getKeyChatIdNotification(NewPortApplication.getAppContext().getApplicationContext())),
+                Integer.parseInt(PreferencesHeper.getKeyChannelIdNotification(NewPortApplication.getAppContext().getApplicationContext())));
         PreferencesHeper.isNotificationChatShowed(NewPortApplication.getAppContext().getApplicationContext(), true);
     }
 }

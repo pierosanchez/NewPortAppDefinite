@@ -4,6 +4,15 @@ public class ChatSendMessageResponse {
     private String response;
     private String date_message_sended;
     private int chat_id;
+    private int status_chat;
+
+    public int getStatus_chat() {
+        return status_chat;
+    }
+
+    public void setStatus_chat(int status_chat) {
+        this.status_chat = status_chat;
+    }
 
     public int getChat_id() {
         return chat_id;

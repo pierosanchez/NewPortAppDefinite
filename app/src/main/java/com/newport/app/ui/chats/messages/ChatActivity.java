@@ -43,6 +43,7 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Cha
 
     private boolean messagesLoaded = false;
     private boolean isDialogShowed = false;
+    private boolean isRRHHUser = false;
 
     private RelativeLayout rltProgress;
     private RecyclerView rvChatMessages;
@@ -88,7 +89,8 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Cha
         btnFinishConversation.setOnClickListener(this);
         tvChatUserName.setText(PreferencesHeper.getKeyChannelName(NewPortApplication.getAppContext().getApplicationContext()));
 
-        chatPresenter.getChatUserChat(Integer.parseInt(PreferencesHeper.getKeyChatId(NewPortApplication.getAppContext().getApplicationContext())));
+        chatPresenter.getChatUserChat(Integer.parseInt(PreferencesHeper.getKeyChatId(NewPortApplication.getAppContext().getApplicationContext())),
+                Integer.parseInt(PreferencesHeper.getKeyChannelId(NewPortApplication.getAppContext().getApplicationContext())));
 
         chatMessagesAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
@@ -126,8 +128,10 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Cha
             if (btnFinishConversation.getVisibility() == View.VISIBLE) {
                 if (chatUserChatResponse.getNOMBRE() != null) {
                     tvChatUserName.setText(chatUserChatResponse.getNOMBRE());
+                    isRRHHUser = true;
                 } else {
                     tvChatUserName.setText(PreferencesHeper.getKeyChannelName(NewPortApplication.getAppContext().getApplicationContext()));
+                    isRRHHUser = false;
                 }
             }
 
@@ -146,6 +150,8 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Cha
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        messagesLoaded = false;
+        new ChatActivity.GettingMessagesConstantly().execute().cancel(true);
         startActivity(new Intent(NewPortApplication.getAppContext().getApplicationContext(), ChannelsActivity.class));
         finish();
     }
@@ -220,7 +226,8 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Cha
     @Override
     public void showChatsError(String error) {
         messagesLoaded = false;
-        chatPresenter.getChatUserChat(Integer.parseInt(PreferencesHeper.getKeyChatId(NewPortApplication.getAppContext().getApplicationContext())));
+        chatPresenter.getChatUserChat(Integer.parseInt(PreferencesHeper.getKeyChatId(NewPortApplication.getAppContext().getApplicationContext())),
+                Integer.parseInt(PreferencesHeper.getKeyChannelId(NewPortApplication.getAppContext().getApplicationContext())));
         Toast.makeText(NewPortApplication.getAppContext().getApplicationContext(), error, Toast.LENGTH_SHORT).show();
     }
 
@@ -228,8 +235,14 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Cha
     public void showSendMessageSuccess(ChatSendMessageResponse chatSendMessageResponse) {
         btnSendMessage.setEnabled(true);
         if (chatSendMessageResponse.getResponse().equals("success")) {
+            if (chatSendMessageResponse.getStatus_chat() == 1) {
+                if (isRRHHUser == false) {
+                    Toast.makeText(NewPortApplication.getAppContext().getApplicationContext(), NewPortApplication.getAppContext().getString(R.string.default_response_message_chat_app), Toast.LENGTH_LONG).show();
+                }
+            }
             PreferencesHeper.setKeyChatId(NewPortApplication.getAppContext().getApplicationContext(), String.valueOf(chatSendMessageResponse.getChat_id()));
-            chatPresenter.getChatUserChat(Integer.parseInt(PreferencesHeper.getKeyChatId(NewPortApplication.getAppContext().getApplicationContext())));
+            chatPresenter.getChatUserChat(Integer.parseInt(PreferencesHeper.getKeyChatId(NewPortApplication.getAppContext().getApplicationContext())),
+                    Integer.parseInt(PreferencesHeper.getKeyChannelId(NewPortApplication.getAppContext().getApplicationContext())));
             txtMessage.setText("");
         }
     }
@@ -238,7 +251,8 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Cha
     public void showSendMessageError(String error) {
         messagesLoaded = true;
         btnSendMessage.setEnabled(true);
-        chatPresenter.getChatUserChat(Integer.parseInt(PreferencesHeper.getKeyChatId(NewPortApplication.getAppContext().getApplicationContext())));
+        chatPresenter.getChatUserChat(Integer.parseInt(PreferencesHeper.getKeyChatId(NewPortApplication.getAppContext().getApplicationContext())),
+                Integer.parseInt(PreferencesHeper.getKeyChannelId(NewPortApplication.getAppContext().getApplicationContext())));
         Toast.makeText(NewPortApplication.getAppContext().getApplicationContext(), error, Toast.LENGTH_SHORT).show();
     }
 
@@ -278,6 +292,7 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Cha
     @Override
     public void showAttentionCalificationSuccess(GenericResponse genericResponse) {
         if (genericResponse.getResponse().equals("success")){
+            isDialogShowed = false;
             messagesLoaded = true;
             new GettingMessagesConstantly().execute();
             Toast.makeText(NewPortApplication.getAppContext().getApplicationContext(), "Muchas gracias por tu apoyo", Toast.LENGTH_SHORT).show();
@@ -300,7 +315,8 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Cha
                 public void run() {
                     if (messagesLoaded) {
                         try {
-                            ChatIteractor.getChatUserChat(Integer.parseInt(PreferencesHeper.getKeyChatId(NewPortApplication.getAppContext().getApplicationContext())), GettingMessagesConstantly.this);
+                            ChatIteractor.getChatUserChat(Integer.parseInt(PreferencesHeper.getKeyChatId(NewPortApplication.getAppContext().getApplicationContext())),
+                                    Integer.parseInt(PreferencesHeper.getKeyChannelId(NewPortApplication.getAppContext().getApplicationContext())), GettingMessagesConstantly.this);
                         } catch (Exception e) {
                             Crashlytics.logException(e);
                         }
@@ -360,13 +376,15 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Cha
     protected void onResume() {
         super.onResume();
         messagesLoaded = true;
-        chatPresenter.getChatUserChat(Integer.parseInt(PreferencesHeper.getKeyChatId(NewPortApplication.getAppContext().getApplicationContext())));
+        chatPresenter.getChatUserChat(Integer.parseInt(PreferencesHeper.getKeyChatId(NewPortApplication.getAppContext().getApplicationContext())),
+                Integer.parseInt(PreferencesHeper.getKeyChannelId(NewPortApplication.getAppContext().getApplicationContext())));
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
         messagesLoaded = true;
-        chatPresenter.getChatUserChat(Integer.parseInt(PreferencesHeper.getKeyChatId(NewPortApplication.getAppContext().getApplicationContext())));
+        chatPresenter.getChatUserChat(Integer.parseInt(PreferencesHeper.getKeyChatId(NewPortApplication.getAppContext().getApplicationContext())),
+                Integer.parseInt(PreferencesHeper.getKeyChannelId(NewPortApplication.getAppContext().getApplicationContext())));
     }
 }

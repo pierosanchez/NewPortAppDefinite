@@ -76,6 +76,7 @@
     <string name="carnet_is_expiring">Tu Carnet de Sanidad está a punto de expirar</string>
     <string name="retry_request">Reintentar</string>
     <string name="title_activity_scrolling">ScrollingActivity</string>
+    <string name="default_response_message_chat_app">Muchas gracias por comunicarse con nosotros. Les responderemos entre las 08:00 a.m. - 18:00 p.m.</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
 

@@ -18,11 +18,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ChatIteractor {
-    static void getChatUserChat(int chat_id, final ChatContract.CallBack callback) {
+    static void getChatUserChat(int chat_id, int channel_id, final ChatContract.CallBack callback) {
         Call<ChatUserChatResponse> call = NewPortApiManager.apiManager().getUserChatMessages(
                 chat_id,
                 PreferencesHeper.getSapCodeUser(NewPortApplication.getAppContext().getApplicationContext()),
-                Integer.parseInt(PreferencesHeper.getKeyChannelId(NewPortApplication.getAppContext().getApplicationContext()))
+                channel_id
         );
 
         call.enqueue(new Callback<ChatUserChatResponse>() {

@@ -19,6 +19,7 @@ public class PreferencesHeper {
     private static final String KEY_CHANNEL_ID = "system_channel_id";
     private static final String KEY_CHAT_ID = "system_chat_id";
     private static final String KEY_CHAT_ID_NOTIFICATION = "system_chat_id_notification";
+    private static final String KEY_CHANNEL_ID_NOTIFICATION = "system_channel_id_notification";
     private static final String KEY_CHANNEL_NAME = "system_channel_name";
     private static final String KEY_CHAT_OTHER_USER_ID = "system_chat_other_user_id";
     private static final String KEY_NOTIFICATION_CHAT_SHOWED = "system_notification_chat_showed";
@@ -205,7 +206,7 @@ public class PreferencesHeper {
 
     public static String getKeyChannelId(Context context) {
         initSessionManager(context);
-        return sharedPreferences.getString(KEY_CHANNEL_ID, "");
+        return sharedPreferences.getString(KEY_CHANNEL_ID, "0");
     }
 
     public static void setKeyChannelName(Context context, String name) {
@@ -227,7 +228,7 @@ public class PreferencesHeper {
 
     public static String getKeyChatId(Context context) {
         initSessionManager(context);
-        return sharedPreferences.getString(KEY_CHAT_ID, "");
+        return sharedPreferences.getString(KEY_CHAT_ID, "0");
     }
 
     public static void setKeyChatIdNotification(Context context, String chat_id_notification) {
@@ -238,7 +239,7 @@ public class PreferencesHeper {
 
     public static String getKeyChatIdNotification(Context context) {
         initSessionManager(context);
-        return sharedPreferences.getString(KEY_CHAT_ID_NOTIFICATION, "");
+        return sharedPreferences.getString(KEY_CHAT_ID_NOTIFICATION, "0");
     }
 
     public static void setKeyChatOtherUserId(Context context, String keyChatOtherUserId) {
@@ -261,5 +262,16 @@ public class PreferencesHeper {
     public static boolean getNotificationChatStatus(Context context) {
         initSessionManager(context);
         return sharedPreferences.getBoolean(KEY_NOTIFICATION_CHAT_SHOWED, false);
+    }
+
+    public static void setKeyChannelIdNotification(Context context, String keyChannelIdNotification) {
+        initSessionManager(context);
+        editor.putString(KEY_CHANNEL_ID_NOTIFICATION, keyChannelIdNotification);
+        editor.commit();
+    }
+
+    public static String getKeyChannelIdNotification(Context context) {
+        initSessionManager(context);
+        return sharedPreferences.getString(KEY_CHANNEL_ID_NOTIFICATION, "0");
     }
 }
