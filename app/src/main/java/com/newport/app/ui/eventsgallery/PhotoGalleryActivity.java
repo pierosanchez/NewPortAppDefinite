@@ -63,9 +63,11 @@ public class PhotoGalleryActivity extends AppCompatActivity implements EventsGal
     private Float scale = 1f;
     private ScaleGestureDetector gestureDetector;
     private int pos;
+    private int extraPositionPhoto;
 
     private boolean firstTouch = false;
     private boolean imageLoaded = false;
+    private boolean isFirstPhotoLoaded = true;
 
     private ViewPager viewPagerImages;
     private RecyclerView rcvPhotoGallery;
@@ -96,6 +98,7 @@ public class PhotoGalleryActivity extends AppCompatActivity implements EventsGal
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         photoGalleryEventResponse = (PhotoGalleryEventResponse) getIntent().getSerializableExtra(Constant.EXTRA_PHOTO_ITEM);
         photoGalleryEventResponseList = (List<PhotoGalleryEventResponse>) getIntent().getSerializableExtra("photoEventsList");
+        extraPositionPhoto = getIntent().getIntExtra("positionPhoto", -1);
 
         eventsGalleryPhotoLikePresenter = new EventsGalleryPhotoLikePresenter();
         eventsGalleryPhotoLikePresenter.attachedView(this);
@@ -104,31 +107,17 @@ public class PhotoGalleryActivity extends AppCompatActivity implements EventsGal
         imgLikeButton = findViewById(R.id.imgLikeButton);
         lblLikeCount = findViewById(R.id.lblLikeCount);
         lblComent = findViewById(R.id.lblComent);
-        //rcvPhotoGallery = findViewById(R.id.rcvPhotoGallery);
 
         imgLikeButton = findViewById(R.id.imgLikeButton);
 
-        /*photoGalleryAdapterR = new PhotoGalleryAdapterR();
-        photoGalleryAdapterR.addData(photoGalleryEventResponseList);*/
-
-        //adapterSize = photoGalleryEventResponseList.size();
-
-        //final SnapHelper snapHelper = new PagerSnapHelper();
-
-        /*rcvPhotoGallery.setHasFixedSize(true);
-        rcvPhotoGallery.setAdapter(photoGalleryAdapterR);
-        snapHelper.attachToRecyclerView(rcvPhotoGallery);*/
-
         gestureDetector = new ScaleGestureDetector(this, new ScaleListener());
-
 
         onClickImageLikePhotoListener();
 
-        //adapter.setOnNewClickListener(this);
-
         eventsGalleryPhotoLikePresenter.getPhotoLikedBy(photoGalleryEventResponseList.get(0).getId(), PreferencesHeper.getDniUser(NewPortApplication.getAppContext()));
 
-        PhotoGalleryAdapter adapter = new PhotoGalleryAdapter(this, photoGalleryEventResponseList, lblHourPhoto, lblNamePhoto, lblLikeCount, imgLikeButton, lblComent);
+        PhotoGalleryAdapter adapter = new PhotoGalleryAdapter(this, photoGalleryEventResponseList,
+                lblHourPhoto, lblNamePhoto, lblLikeCount, imgLikeButton, lblComent, extraPositionPhoto, isFirstPhotoLoaded);
         viewPagerImages.setAdapter(adapter);
 
         viewPagerImages.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {

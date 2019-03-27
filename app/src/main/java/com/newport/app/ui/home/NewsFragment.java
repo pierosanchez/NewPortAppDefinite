@@ -16,6 +16,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -43,7 +44,8 @@ import java.util.TimerTask;
  * Created by tohure on 05/11/17.
  */
 
-public class NewsFragment extends Fragment implements NewsContract.View, NewsAdapter.OnClickNewListener, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
+public class NewsFragment extends Fragment implements NewsContract.View, NewsAdapter.OnClickNewListener,
+        View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, View.OnTouchListener {
 
     private NewsPresenter newsPresenter;
 
@@ -58,6 +60,13 @@ public class NewsFragment extends Fragment implements NewsContract.View, NewsAda
     private int currentPosition = -1;
     private int adapterSize = 0;
     private int timer = 10000;
+
+    //draggable floating button
+    private float downRawX;
+    private float downRawY;
+    private float dX;
+    private float dY;
+    private int lastAction;
 
     //Second Element
     private LinearLayout lnlAtTime;
@@ -161,6 +170,8 @@ public class NewsFragment extends Fragment implements NewsContract.View, NewsAda
 
         fbChat = rootView.findViewById(R.id.fbChat);
 
+        fbChat.setImageResource(R.drawable.icon_chat);
+
         adapter = new NewsAdapter();
 
         final SnapHelper snapHelper = new PagerSnapHelper();
@@ -170,12 +181,57 @@ public class NewsFragment extends Fragment implements NewsContract.View, NewsAda
         rcvNewsCategory.setAdapter(adapter);
         snapHelper.attachToRecyclerView(rcvNewsCategory);
 
-        fbChat.setOnClickListener(new View.OnClickListener() {
+        fbChat.setOnTouchListener(this);
+        /*fbChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(NewPortApplication.getAppContext().getApplicationContext(), ChannelsActivity.class));
             }
-        });
+        });*/
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
+        switch (event.getActionMasked()) {
+            case MotionEvent.ACTION_DOWN:
+                dX = v.getX() - event.getRawX();
+                dY = v.getY() - event.getRawY();
+                lastAction = MotionEvent.ACTION_DOWN;
+                break;
+
+            case MotionEvent.ACTION_MOVE:
+                int viewWidth = v.getWidth();
+                int viewHeight = v.getHeight();
+
+                View viewParent = (View) v.getParent();
+                int parentWidth = viewParent.getWidth();
+                int parentHeight = viewParent.getHeight();
+
+                float newX = event.getRawX() + dX;
+                newX = Math.max(layoutParams.leftMargin, newX);
+                newX = Math.min(parentWidth - viewWidth - layoutParams.rightMargin, newX);
+
+                float newY = event.getRawY() + dY;
+                newY = Math.max(layoutParams.topMargin, newY);
+                newY = Math.min(parentHeight - viewHeight - layoutParams.bottomMargin, newY);
+
+                v.animate().x(newX).y(newY).setDuration(0).start();
+
+                /*v.setY(event.getRawY() + dY);
+                v.setX(event.getRawX() + dX);*/
+                lastAction = MotionEvent.ACTION_MOVE;
+                break;
+
+            case MotionEvent.ACTION_UP:
+                if (lastAction == MotionEvent.ACTION_DOWN) {
+                    startActivity(new Intent(NewPortApplication.getAppContext().getApplicationContext(), ChannelsActivity.class));
+                }
+                break;
+            default:
+                return false;
+        }
+        return true;
     }
 
     @Override
@@ -296,12 +352,11 @@ public class NewsFragment extends Fragment implements NewsContract.View, NewsAda
 
         if (currentPosition < adapterSize - 1) {
             currentPosition++;
-            timer = 0;
         } else {
             currentPosition = 0;
-            timer = 0;
         }
 
+        timer = 0;
         rcvNewsCategory.scrollToPosition(currentPosition);
     }
 
@@ -309,12 +364,11 @@ public class NewsFragment extends Fragment implements NewsContract.View, NewsAda
 
         if (currentPosition != 0) {
             currentPosition--;
-            timer = 0;
         } else {
             currentPosition = adapterSize - 1;
-            timer = 0;
         }
 
+        timer = 0;
         rcvNewsCategory.scrollToPosition(currentPosition);
     }
 

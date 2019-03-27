@@ -4,7 +4,7 @@
     <string name="user_hint">USUARIO</string>
     <string name="pass_hint">CONTRASEÑA</string>
     <string name="new_pass_hint">NUEVA CONTRASEÑA</string>
-    <string name="sap_hint">CÓDIGO SAP</string>
+    <string name="sap_hint">CÓDIGO COLABORADOR</string>
     <string name="newport_mail_domain">@e-newport.pe</string>
     <string name="access_button">ACCEDER</string>
     <string name="register_button">REGISTRARSE</string>

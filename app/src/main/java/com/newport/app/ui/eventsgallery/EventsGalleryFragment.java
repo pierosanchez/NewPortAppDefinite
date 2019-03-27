@@ -195,11 +195,12 @@ public class EventsGalleryFragment extends Fragment implements EventsGalleryCont
 
     @Override
     public void onGalleryItemClick(int position, PhotoGalleryEventResponse photoGalleryEventResponse, ImageView imgItemGalleryPhoto) {
-
         Intent intent = new Intent(getActivity(), PhotoGalleryActivity.class);
         intent.putExtra(Constant.EXTRA_PHOTO_ITEM, photoGalleryEventResponse);
         intent.putExtra(Constant.EXTRA_PHOTO_TRANSITION_NAME, ViewCompat.getTransitionName(imgItemGalleryPhoto));
+        //intent.putExtra("photoEventsList", (Serializable) listFixedPositions(photoGalleryEventResponse));
         intent.putExtra("photoEventsList", (Serializable) listFixedPositions(photoGalleryEventResponse));
+        intent.putExtra("positionPhoto", position);
 
 
         /*ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(

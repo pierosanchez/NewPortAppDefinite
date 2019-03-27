@@ -108,6 +108,12 @@ public class ChannelsActivity extends BaseActivity implements ChannelsContract.V
     @Override
     public void showChannels(List<ChatChannelResponse> channelResponseList) {
         channelsAdapter.clearAdapter();
+        for (int i = 0; i < channelResponseList.size(); i++) {
+            if (channelResponseList.get(i).getMarcacion() != null) {
+                String[] nombreArray = channelResponseList.get(i).getMarcacion().getNOMBRE().split(" ");
+                channelResponseList.get(i).getMarcacion().setNOMBRE(nombreArray[2] + " " + nombreArray[0] + " " + nombreArray[1]);
+            }
+        }
         channelsAdapter.addData(channelResponseList);
         new GettingChatsConstantly().execute();
     }
@@ -146,6 +152,12 @@ public class ChannelsActivity extends BaseActivity implements ChannelsContract.V
 
         @Override
         public void getChannelsSuccess(List<ChatChannelResponse> channelResponseList) {
+            for (int i = 0; i < channelResponseList.size(); i++) {
+                if (channelResponseList.get(i).getMarcacion() != null) {
+                    String[] nombreArray = channelResponseList.get(i).getMarcacion().getNOMBRE().split(" ");
+                    channelResponseList.get(i).getMarcacion().setNOMBRE(nombreArray[2] + " " + nombreArray[0] + " " + nombreArray[1]);
+                }
+            }
             channelsAdapter.addData(channelResponseList);
             chatsLoaded = true;
         }

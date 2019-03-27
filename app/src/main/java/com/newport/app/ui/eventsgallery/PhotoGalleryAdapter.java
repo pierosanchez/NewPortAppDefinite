@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.newport.app.NewPortApplication;
 import com.newport.app.R;
+import com.newport.app.data.models.ApplicationSQLiteDatabase.NewportAppBD;
 import com.newport.app.data.models.response.PhotoGalleryEventResponse;
 import com.newport.app.data.models.response.PhotoLikeResponse;
 import com.newport.app.ui.eventsgallery.photolikes.EventsGalleryPhotoLikeContract;
@@ -37,13 +38,16 @@ public class PhotoGalleryAdapter extends PagerAdapter implements EventsGalleryPh
     private TextView lblLikes;
     private TextView lblComent;
     private ImageView imgLikeButton;
+    private int extraPhotoPosition;
+    private boolean isFirstPhotoLoaded;
 
     private int position;
 
     private EventsGalleryPhotoLikePresenter eventsGalleryPhotoLikePresenter;
 
     PhotoGalleryAdapter(Context context, List<PhotoGalleryEventResponse> imageUrls, TextView lblHour,
-                        TextView lblName, TextView lblLikes, ImageView imgLikeButton, TextView lblComent) {
+                        TextView lblName, TextView lblLikes, ImageView imgLikeButton, TextView lblComent,
+                        int extraPhotoPosition, boolean isFirstPhotoLoaded) {
         this.context = context;
         this.imageUrls = imageUrls;
         this.lblHour = lblHour;
@@ -51,6 +55,8 @@ public class PhotoGalleryAdapter extends PagerAdapter implements EventsGalleryPh
         this.lblLikes = lblLikes;
         this.lblComent = lblComent;
         this.imgLikeButton = imgLikeButton;
+        this.extraPhotoPosition = extraPhotoPosition;
+        this.isFirstPhotoLoaded = isFirstPhotoLoaded;
     }
 
     @Override
@@ -72,7 +78,6 @@ public class PhotoGalleryAdapter extends PagerAdapter implements EventsGalleryPh
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         ImageView imageView = new ImageView(context);
-
         this.position = position;
 
         eventsGalleryPhotoLikePresenter = new EventsGalleryPhotoLikePresenter();
@@ -86,15 +91,6 @@ public class PhotoGalleryAdapter extends PagerAdapter implements EventsGalleryPh
 
         lblHour.setText(imageUrls.get(position).getCreated_at());
         lblName.setText(imageUrls.get(position).getNews_title());
-
-
-        /*if (imageUrls.get(position).getComent() != null){
-            Log.d("positioninstantiateitem", String.valueOf(position));
-            lblComent.setVisibility(View.VISIBLE);
-            lblComent.setText(imageUrls.get(position).getComent());
-        } else {
-            lblComent.setVisibility(View.GONE);
-        }*/
 
         Picasso.with(context)
                 .load(imageUrls.get(position).getImage_url())
