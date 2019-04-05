@@ -21,17 +21,18 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PhotoGalleryAdapterR extends RecyclerView.Adapter<PhotoGalleryAdapterR.PhotoGalleryViewHolder> {
+public class PhotoGalleryAdapterR extends RecyclerView.Adapter<PhotoGalleryAdapterR.PhotoGalleryViewHolder> implements EventsGalleryPhotoLikeContract.View {
 
     private List<PhotoGalleryEventResponse> imageUrls;
-    //private PhotoGalleryViewHolder photoGalleryViewHolder;
 
     //Listener for onCLick in Like button
     public interface OnClickLikeListener { void onLikeClick(int idPhoto); }
     private OnClickLikeListener listener;
     public void setOnLikeClickListener(OnClickLikeListener listener) { this.listener = listener; }
 
-    private int pos;
+    //private int pos;
+    private PhotoGalleryAdapterR.PhotoGalleryViewHolder holder;
+    private EventsGalleryPhotoLikePresenter eventsGalleryPhotoLikePresenter;
 
     PhotoGalleryAdapterR() {
         this.imageUrls = new ArrayList<>();
@@ -44,35 +45,41 @@ public class PhotoGalleryAdapterR extends RecyclerView.Adapter<PhotoGalleryAdapt
 
     @Override
     public PhotoGalleryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_photo_gallery, parent, false);
-        /*photoGalleryViewHolder.lblLikes = parent.findViewById(R.id.lblLikeCount);
-        photoGalleryViewHolder.imgNew = parent.findViewById(R.id.imgNew);
-        photoGalleryViewHolder.lblHour = parent.findViewById(R.id.lblHourPhoto);
-        photoGalleryViewHolder.lblName = parent.findViewById(R.id.lblNamePhoto);
-        photoGalleryViewHolder.lblComent = parent.findViewById(R.id.lblComent);
-        photoGalleryViewHolder.imgLikeButton = parent.findViewById(R.id.imgLikeButton);*/
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_photo_detail, parent, false);
+        eventsGalleryPhotoLikePresenter = new EventsGalleryPhotoLikePresenter();
+        eventsGalleryPhotoLikePresenter.attachedView(this);
         return new PhotoGalleryViewHolder(view);
     }
 
 
     @Override
-    public void onBindViewHolder(PhotoGalleryAdapterR.PhotoGalleryViewHolder holder, int position) {
-        pos = position;
+    public void onBindViewHolder(final PhotoGalleryAdapterR.PhotoGalleryViewHolder holder, int position) {
+        this.holder = holder;
+        //pos = position;
+        if (imageUrls != null) {
+            Picasso.with(holder.imgNew.getContext())
+                    .load(imageUrls.get(position).getImage_url())
+                    .noFade()
+                    .into(holder.imgNew);
 
-        Picasso.with(holder.imgNew.getContext())
-                .load(imageUrls.get(position).getImage_url())
-                .noFade()
-                .into(holder.imgNew);
+            holder.lblHour.setText(imageUrls.get(position).getCreated_at());
+            holder.lblName.setText(imageUrls.get(position).getNews_title());
+            //holder.lblLikes.setText(imageUrls.get(position).getLikePhoto());
 
-        holder.lblHour.setText(imageUrls.get(position).getCreated_at());
-        holder.lblName.setText(imageUrls.get(position).getNews_title());
-        holder.lblLikes.setText(imageUrls.get(position).getCreated_at());
+            if (imageUrls.get(position).getComent() != null) {
+                holder.lblComent.setText(imageUrls.get(position).getComent());
+                holder.lblComent.setVisibility(View.VISIBLE);
+            } else {
+                holder.lblComent.setVisibility(View.GONE);
+            }
 
-        if (imageUrls.get(position).getComent() != null){
-            holder.lblComent.setText(imageUrls.get(position).getComent());
-            holder.lblComent.setVisibility(View.VISIBLE);
-        } else {
-            holder.lblComent.setVisibility(View.GONE);
+            holder.imgLikeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    eventsGalleryPhotoLikePresenter.setPhotoLike(imageUrls.get(holder.getAdapterPosition()).getId(), PreferencesHeper.getDniUser(NewPortApplication.getAppContext()));
+                }
+            });
+            eventsGalleryPhotoLikePresenter.getPhotoLikedBy(imageUrls.get(position).getId(), PreferencesHeper.getDniUser(NewPortApplication.getAppContext()));
         }
     }
 
@@ -85,7 +92,54 @@ public class PhotoGalleryAdapterR extends RecyclerView.Adapter<PhotoGalleryAdapt
         }
     }
 
-    class PhotoGalleryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, EventsGalleryPhotoLikeContract.View {
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    @Override
+    public void showPhotoLikes(PhotoLikeResponse photoLikeResponse) {
+        this.holder.lblLikes.setText(String.valueOf(photoLikeResponse.getLikes()));
+    }
+
+    @Override
+    public void showPhotoLikesError(String error) {
+        //Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showPhotoLikesFailure(String failure) {
+        Toast.makeText(NewPortApplication.getAppContext().getApplicationContext(), failure, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showPhotoLikeError(String error) {
+        //Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showPhotoLikeSuccess(PhotoLikeResponse photoLikeResponse) {
+        if (photoLikeResponse.getMessage().equals("disliked")) {
+            this.holder.imgLikeButton.setImageResource(R.drawable.like_manito_de_horacio_byn);
+        } else {
+            this.holder.imgLikeButton.setImageResource(R.drawable.like_manito_de_horacio);
+        }
+        this.holder.lblLikes.setText(String.valueOf(photoLikeResponse.getLikes()));
+    }
+
+    @Override
+    public void showPhotoLikedBySuccess(PhotoLikeResponse photoLikeResponse) {
+        if (photoLikeResponse.getMessage().equals("liked")) {
+            this.holder.imgLikeButton.setImageResource(R.drawable.like_manito_de_horacio);
+        } else {
+            this.holder.imgLikeButton.setImageResource(R.drawable.like_manito_de_horacio_byn);
+        }
+
+        this.holder.lblLikes.setText(String.valueOf(photoLikeResponse.getLikes()));
+    }
+
+    @Override
+    public void showPhotoLikedByError(String Error) {
+
+    }
+
+    class PhotoGalleryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener/*, EventsGalleryPhotoLikeContract.View*/ {
 
         private ImageView imgNew;
         private TextView lblHour;
@@ -99,33 +153,29 @@ public class PhotoGalleryAdapterR extends RecyclerView.Adapter<PhotoGalleryAdapt
         PhotoGalleryViewHolder(View itemView) {
             super(itemView);
 
-            eventsGalleryPhotoLikePresenter = new EventsGalleryPhotoLikePresenter();
-            eventsGalleryPhotoLikePresenter.attachedView(this);
+            /*eventsGalleryPhotoLikePresenter = new EventsGalleryPhotoLikePresenter();
+            eventsGalleryPhotoLikePresenter.attachedView(this);*/
 
-            imgNew = itemView.findViewById(R.id.imgNew);
+            imgNew = itemView.findViewById(R.id.imgGalleryPhoto);
             lblHour = itemView.findViewById(R.id.lblHourPhoto);
             lblName = itemView.findViewById(R.id.lblNamePhoto);
             lblLikes = itemView.findViewById(R.id.lblLikeCount);
             lblComent = itemView.findViewById(R.id.lblComent);
             imgLikeButton = itemView.findViewById(R.id.imgLikeButton);
 
-            imgLikeButton.setOnClickListener(this);
+            //imgLikeButton.setOnClickListener(this);
 
-            eventsGalleryPhotoLikePresenter.getPhotoLikedBy(imageUrls.get(pos).getId(), PreferencesHeper.getDniUser(NewPortApplication.getAppContext()));
+            //eventsGalleryPhotoLikePresenter.getPhotoLikedBy(imageUrls.get(pos).getId(), PreferencesHeper.getDniUser(NewPortApplication.getAppContext()));
         }
 
         @Override
         public void onClick(View view) {
-            /*if (listener != null){
-                //listener.onLikeClick(imageUrls.get(getAdapterPosition()).getId());
-                eventsGalleryPhotoLikePresenter.setPhotoLike(imageUrls.get(getAdapterPosition()).getId(), PreferencesHeper.getDniUser(NewPortApplication.getAppContext()));
-            }*/
             if (view.getId() == R.id.imgLikeButton) {
-                eventsGalleryPhotoLikePresenter.setPhotoLike(imageUrls.get(pos).getId(), PreferencesHeper.getDniUser(NewPortApplication.getAppContext()));
+                //eventsGalleryPhotoLikePresenter.setPhotoLike(imageUrls.get(pos).getId(), PreferencesHeper.getDniUser(NewPortApplication.getAppContext()));
             }
         }
 
-        @Override
+        /*@Override
         public void showPhotoLikes(PhotoLikeResponse photoLikeResponse) {
             lblLikes.setText(String.valueOf(photoLikeResponse.getLikes()));
         }
@@ -169,6 +219,6 @@ public class PhotoGalleryAdapterR extends RecyclerView.Adapter<PhotoGalleryAdapt
         @Override
         public void showPhotoLikedByError(String error) {
             //Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
-        }
+        }*/
     }
 }

@@ -21,6 +21,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
@@ -28,6 +29,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -62,7 +64,7 @@ public class PhotoGalleryActivity extends AppCompatActivity implements EventsGal
     private Matrix matrix = new Matrix();
     private Float scale = 1f;
     private ScaleGestureDetector gestureDetector;
-    private int pos;
+    //private int pos;
     private int extraPositionPhoto;
 
     private boolean firstTouch = false;
@@ -70,8 +72,8 @@ public class PhotoGalleryActivity extends AppCompatActivity implements EventsGal
     private boolean isFirstPhotoLoaded = true;
 
     private ViewPager viewPagerImages;
-    private RecyclerView rcvPhotoGallery;
-    private PhotoGalleryAdapterR photoGalleryAdapterR;
+    //private RecyclerView rcvPhotoGallery;
+    //private PhotoGalleryAdapterR photoGalleryAdapterR;
     private int currentPosition = -1;
     private int adapterSize = 0;
     private List<PhotoGalleryEventResponse> photoGalleryEventResponseList;
@@ -100,6 +102,10 @@ public class PhotoGalleryActivity extends AppCompatActivity implements EventsGal
         photoGalleryEventResponseList = (List<PhotoGalleryEventResponse>) getIntent().getSerializableExtra("photoEventsList");
         extraPositionPhoto = getIntent().getIntExtra("positionPhoto", -1);
 
+        /*final SnapHelper snapHelper = new PagerSnapHelper();
+        photoGalleryAdapterR = new PhotoGalleryAdapterR();
+        photoGalleryAdapterR.addData(photoGalleryEventResponseList);*/
+
         eventsGalleryPhotoLikePresenter = new EventsGalleryPhotoLikePresenter();
         eventsGalleryPhotoLikePresenter.attachedView(this);
 
@@ -107,6 +113,9 @@ public class PhotoGalleryActivity extends AppCompatActivity implements EventsGal
         imgLikeButton = findViewById(R.id.imgLikeButton);
         lblLikeCount = findViewById(R.id.lblLikeCount);
         lblComent = findViewById(R.id.lblComent);
+        lblHourPhoto = findViewById(R.id.lblHourPhoto);
+
+        //rcvPhotoGallery = findViewById(R.id.rcvPhotoGallery);
 
         imgLikeButton = findViewById(R.id.imgLikeButton);
 
@@ -114,11 +123,17 @@ public class PhotoGalleryActivity extends AppCompatActivity implements EventsGal
 
         onClickImageLikePhotoListener();
 
-        eventsGalleryPhotoLikePresenter.getPhotoLikedBy(photoGalleryEventResponseList.get(0).getId(), PreferencesHeper.getDniUser(NewPortApplication.getAppContext()));
+        /*rcvPhotoGallery.setAdapter(photoGalleryAdapterR);
+        rcvPhotoGallery.setHasFixedSize(true);
+        snapHelper.attachToRecyclerView(rcvPhotoGallery);
+        rcvPhotoGallery.scrollToPosition(extraPositionPhoto);*/
+
+        eventsGalleryPhotoLikePresenter.getPhotoLikedBy(photoGalleryEventResponseList.get(extraPositionPhoto).getId(), PreferencesHeper.getDniUser(NewPortApplication.getAppContext()));
 
         PhotoGalleryAdapter adapter = new PhotoGalleryAdapter(this, photoGalleryEventResponseList,
                 lblHourPhoto, lblNamePhoto, lblLikeCount, imgLikeButton, lblComent, extraPositionPhoto, isFirstPhotoLoaded);
         viewPagerImages.setAdapter(adapter);
+        viewPagerImages.setCurrentItem(extraPositionPhoto);
 
         viewPagerImages.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -128,8 +143,7 @@ public class PhotoGalleryActivity extends AppCompatActivity implements EventsGal
 
             @Override
             public void onPageSelected(int position) {
-                pos = position;
-                eventsGalleryPhotoLikePresenter.getPhotoLikedBy(photoGalleryEventResponseList.get(position).getId(), PreferencesHeper.getDniUser(NewPortApplication.getAppContext()));
+                eventsGalleryPhotoLikePresenter.getPhotoLikedBy(photoGalleryEventResponseList.get(viewPagerImages.getCurrentItem()).getId(), PreferencesHeper.getDniUser(NewPortApplication.getAppContext()));
             }
 
             @Override
@@ -143,7 +157,7 @@ public class PhotoGalleryActivity extends AppCompatActivity implements EventsGal
         imgLikeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int id = photoGalleryEventResponseList.get(pos).getId();
+                int id = photoGalleryEventResponseList.get(viewPagerImages.getCurrentItem()).getId();
                 eventsGalleryPhotoLikePresenter.setPhotoLike(id, PreferencesHeper.getDniUser(NewPortApplication.getAppContext()));
             }
         });
@@ -192,13 +206,20 @@ public class PhotoGalleryActivity extends AppCompatActivity implements EventsGal
         } else {
             imgLikeButton.setImageResource(R.drawable.like_manito_de_horacio_byn);
         }
-        if (photoLikeResponse.getComent().equals("coment") || photoLikeResponse.getComent().equals("")){
+        if (photoGalleryEventResponseList.get(viewPagerImages.getCurrentItem()).getComent() != null) {
+            lblComent.setText(photoGalleryEventResponseList.get(viewPagerImages.getCurrentItem()).getComent());
+            lblComent.setVisibility(View.VISIBLE);
+        } else {
+            lblComent.setVisibility(View.GONE);
+        }
+        lblHourPhoto.setText(photoGalleryEventResponseList.get(viewPagerImages.getCurrentItem()).getCreated_at());
+        /*if (photoLikeResponse.getComent().equals("coment") || photoLikeResponse.getComent().equals("")){
             lblComent.setVisibility(View.GONE);
         } else {
             //CharSequence charSequence = EmojiCompat.get().process(photoLikeResponse.getComent());
             lblComent.setText(photoLikeResponse.getComent());
             lblComent.setVisibility(View.VISIBLE);
-        }
+        }*/
         lblLikeCount.setText(String.valueOf(photoLikeResponse.getLikes()));
     }
 

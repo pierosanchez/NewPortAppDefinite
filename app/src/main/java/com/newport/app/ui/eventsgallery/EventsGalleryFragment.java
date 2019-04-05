@@ -199,7 +199,7 @@ public class EventsGalleryFragment extends Fragment implements EventsGalleryCont
         intent.putExtra(Constant.EXTRA_PHOTO_ITEM, photoGalleryEventResponse);
         intent.putExtra(Constant.EXTRA_PHOTO_TRANSITION_NAME, ViewCompat.getTransitionName(imgItemGalleryPhoto));
         //intent.putExtra("photoEventsList", (Serializable) listFixedPositions(photoGalleryEventResponse));
-        intent.putExtra("photoEventsList", (Serializable) listFixedPositions(photoGalleryEventResponse));
+        intent.putExtra("photoEventsList", (Serializable) photoGalleryEventList);
         intent.putExtra("positionPhoto", position);
 
 

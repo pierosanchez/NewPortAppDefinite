@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.ListViewAutoScrollHelper;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
@@ -106,6 +107,9 @@ public class NewsFragment extends Fragment implements NewsContract.View, NewsAda
     private String textThirdGallery = "";
     private String urlimageThirdGallery = "";
     private String urlImageFour = "";
+
+    private Timer timerScheduledTask;
+    private boolean isFirstTimeLoad = true;
 
     public NewsFragment() {
         // Required empty public constructor
@@ -268,7 +272,9 @@ public class NewsFragment extends Fragment implements NewsContract.View, NewsAda
 
         // Init
         //First Section
-        new Timer().scheduleAtFixedRate(new TimerTask() {
+
+        timerScheduledTask = new Timer();
+        timerScheduledTask.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 if (currentPosition < adapterSize - 1) {
@@ -278,8 +284,9 @@ public class NewsFragment extends Fragment implements NewsContract.View, NewsAda
                 }
                 rcvNewsCategory.smoothScrollToPosition(currentPosition);
             }
-        }, 1000, timer);
+        }, 100, timer);
 
+        isFirstTimeLoad = false;
         //Second Section
         lnlAtTime.setOnClickListener(this);
 

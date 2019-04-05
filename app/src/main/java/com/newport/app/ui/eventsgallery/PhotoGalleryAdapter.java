@@ -29,7 +29,7 @@ import java.util.List;
  * Created by psanchez on 02/05/2018.
  */
 
-public class PhotoGalleryAdapter extends PagerAdapter implements EventsGalleryPhotoLikeContract.View {
+public class PhotoGalleryAdapter extends PagerAdapter {
 
     private Context context;
     private List<PhotoGalleryEventResponse> imageUrls;
@@ -41,9 +41,7 @@ public class PhotoGalleryAdapter extends PagerAdapter implements EventsGalleryPh
     private int extraPhotoPosition;
     private boolean isFirstPhotoLoaded;
 
-    private int position;
-
-    private EventsGalleryPhotoLikePresenter eventsGalleryPhotoLikePresenter;
+    //private EventsGalleryPhotoLikePresenter eventsGalleryPhotoLikePresenter;
 
     PhotoGalleryAdapter(Context context, List<PhotoGalleryEventResponse> imageUrls, TextView lblHour,
                         TextView lblName, TextView lblLikes, ImageView imgLikeButton, TextView lblComent,
@@ -78,18 +76,14 @@ public class PhotoGalleryAdapter extends PagerAdapter implements EventsGalleryPh
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         ImageView imageView = new ImageView(context);
-        this.position = position;
-
-        eventsGalleryPhotoLikePresenter = new EventsGalleryPhotoLikePresenter();
-        eventsGalleryPhotoLikePresenter.attachedView(this);
 
         lblHour = (TextView) ((Activity)context).findViewById(R.id.lblHourPhoto);
         lblName = (TextView) ((Activity)context).findViewById(R.id.lblNamePhoto);
         lblLikes = (TextView) ((Activity)context).findViewById(R.id.lblLikeCount);
-        //lblComent = (TextView) ((Activity)context).findViewById(R.id.lblComent);
+        lblComent = (TextView) ((Activity)context).findViewById(R.id.lblComent);
         imgLikeButton = (ImageView) ((Activity)context).findViewById(R.id.imgLikeButton);
 
-        lblHour.setText(imageUrls.get(position).getCreated_at());
+        //lblHour.setText(imageUrls.get(position).getCreated_at());
         lblName.setText(imageUrls.get(position).getNews_title());
 
         Picasso.with(context)
@@ -105,47 +99,5 @@ public class PhotoGalleryAdapter extends PagerAdapter implements EventsGalleryPh
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         ((ViewPager) container).removeView((View) object);
-    }
-
-
-    @Override
-    public void showPhotoLikes(PhotoLikeResponse photoLikeResponse) {
-        lblLikes.setText(String.valueOf(photoLikeResponse.getLikes()));
-    }
-
-    @Override
-    public void showPhotoLikesError(String error) {
-        //Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void showPhotoLikesFailure(String failure) {
-        Toast.makeText(context, failure, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void showPhotoLikeError(String error) {
-        //Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void showPhotoLikeSuccess(PhotoLikeResponse photoLikeResponse) {
-        if (photoLikeResponse.getMessage().equals("disliked")) {
-            imgLikeButton.setImageResource(R.drawable.circulo_sin_fondo);
-        }
-    }
-
-    @Override
-    public void showPhotoLikedBySuccess(PhotoLikeResponse photoLikeResponse) {
-        if (photoLikeResponse.getMessage().equals("liked")) {
-            imgLikeButton.setImageResource(R.drawable.circulo_con_fondo);
-        } else {
-            imgLikeButton.setImageResource(R.drawable.circulo_sin_fondo);
-        }
-    }
-
-    @Override
-    public void showPhotoLikedByError(String error) {
-        //Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
     }
 }
