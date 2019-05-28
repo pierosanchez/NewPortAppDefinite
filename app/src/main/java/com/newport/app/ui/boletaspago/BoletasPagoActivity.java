@@ -21,11 +21,15 @@ import android.widget.Toast;
 
 import com.github.barteksc.pdfviewer.PDFView;
 import android.Manifest;
+
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.newport.app.NewPortApplication;
 import com.newport.app.R;
 import com.newport.app.data.models.response.BoletasPagoResponse;
 import com.newport.app.ui.BaseActivity;
 import com.newport.app.util.DownloadFilesFromServer;
+import com.newport.app.util.PreferencesHeper;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -54,6 +58,9 @@ public class BoletasPagoActivity extends BaseActivity implements BoletasPagoCont
     private LinearLayout llErrorBoletaPagoNotAccess;
     private ImageView imvBoletaPagoAccess;
 
+    // Google Analytics variables
+    private Tracker mTracker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +80,9 @@ public class BoletasPagoActivity extends BaseActivity implements BoletasPagoCont
 
         boletasPagoPresenter = new BoletasPagoPresenter();
         boletasPagoPresenter.attachedView(this);
+
+        mTracker = ((NewPortApplication) getApplication()).getTracker(NewPortApplication.TrackerName.APP_TRACKER);
+        mTracker.setScreenName("BoletasPagoActivity");
 
         if (statusSeeBoletaPago == 1) {
             imvBoletaPagoAccess.setImageResource(R.drawable.boletas_pago_error_newport_app);
@@ -178,10 +188,22 @@ public class BoletasPagoActivity extends BaseActivity implements BoletasPagoCont
         @Override
         protected void onPostExecute(InputStream inputStream) {
             if (inputStream == null) {
-                Toast.makeText(BoletasPagoActivity.this, "No se encontró su boleta de pago", Toast.LENGTH_SHORT).show();
-                //new BoletasPagoActivity.RetrievePDFStreamOptional().execute(pdfUrl);
+                //Toast.makeText(BoletasPagoActivity.this, "No se encontró su boleta de pago", Toast.LENGTH_SHORT).show();
+                new BoletasPagoActivity.RetrievePDFStreamOptional().execute(pdfUrl);
+                mTracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Boleta de Pago: " + PreferencesHeper.getSapCodeUser(NewPortApplication.getAppContext().getApplicationContext()))
+                        .setAction("No se mostró la boleta de Pago")
+                        .setLabel("1er intento not showed")
+                        .build()
+                );
             }
             pdfViewer.fromStream(inputStream).swipeHorizontal(true).spacing(5).load();
+            mTracker.send(new HitBuilders.EventBuilder()
+                    .setCategory("Boleta de Pago: " + PreferencesHeper.getSapCodeUser(NewPortApplication.getAppContext().getApplicationContext()))
+                    .setAction("Se Mostró la boleta de Pago")
+                    .setLabel("1er intento showed")
+                    .build()
+            );
         }
     }
 
@@ -238,8 +260,20 @@ public class BoletasPagoActivity extends BaseActivity implements BoletasPagoCont
         protected void onPostExecute(InputStream inputStream) {
             if (inputStream == null) {
                 Toast.makeText(BoletasPagoActivity.this, "No se encontró su boleta de pago", Toast.LENGTH_SHORT).show();
+                mTracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Boleta de Pago: " + PreferencesHeper.getSapCodeUser(NewPortApplication.getAppContext().getApplicationContext()))
+                        .setAction("No se mostró la boleta de Pago")
+                        .setLabel("2do intento not showed")
+                        .build()
+                );
             }
             pdfViewer.fromStream(inputStream).swipeHorizontal(true).spacing(5).load();
+            mTracker.send(new HitBuilders.EventBuilder()
+                    .setCategory("Boleta de Pago: " + PreferencesHeper.getSapCodeUser(NewPortApplication.getAppContext().getApplicationContext()))
+                    .setAction("Se Mostró la boleta de Pago")
+                    .setLabel("2do intento showed")
+                    .build()
+            );
         }
     }
 }

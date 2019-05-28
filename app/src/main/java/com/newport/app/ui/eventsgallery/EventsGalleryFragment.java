@@ -41,6 +41,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.perf.metrics.AddTrace;
 import com.newport.app.BuildConfig;
@@ -93,6 +95,9 @@ public class EventsGalleryFragment extends Fragment implements EventsGalleryCont
     private String absolutPath;
     private List<PhotoGalleryEventResponse> photoGalleryEventList;
 
+    // Google Analytics variables
+    private Tracker mTracker;
+
     public EventsGalleryFragment() {
         // Required empty public constructor
     }
@@ -139,6 +144,17 @@ public class EventsGalleryFragment extends Fragment implements EventsGalleryCont
         fab1 = rootView.findViewById(R.id.fab1);
 
         fab.setOnClickListener(this);
+
+        //Instantiate Google Analytics
+        mTracker = ((NewPortApplication) this.getActivity().getApplication()).getTracker(NewPortApplication.TrackerName.APP_TRACKER);
+        mTracker.setScreenName("EventsGallery");
+
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Galeria")
+                .setAction("id del evento " + idDetailEvent)
+                .setLabel("Showed")
+                .build()
+        );
 
         //Get width system
         int width = PreferencesHeper.getWidthSystem(getActivity());

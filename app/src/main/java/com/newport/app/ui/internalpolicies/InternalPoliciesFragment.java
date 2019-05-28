@@ -11,8 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.newport.app.BuildConfig;
+import com.newport.app.NewPortApplication;
 import com.newport.app.R;
 
 import java.util.ArrayList;
@@ -28,6 +31,9 @@ public class InternalPoliciesFragment extends Fragment implements InternalPolice
     private InternalPoliceAdapter internalPoliceAdapter;
 
     private FirebaseAnalytics mFirebaseAnalytics;
+
+    // Google Analytics variables
+    private Tracker mTracker;
 
     public InternalPoliciesFragment() {
         // Required empty public constructor
@@ -46,6 +52,10 @@ public class InternalPoliciesFragment extends Fragment implements InternalPolice
 
         RecyclerView rcvInternalPolicies = rootView.findViewById(R.id.rcvInternalPolicies);
         rcvInternalPolicies.setHasFixedSize(true);
+
+        //Instantiate Google Analytics
+        mTracker = ((NewPortApplication) this.getActivity().getApplication()).getTracker(NewPortApplication.TrackerName.APP_TRACKER);
+        mTracker.setScreenName("InternalPolicies");
 
         internalPoliceAdapter = new InternalPoliceAdapter();
         internalPoliceAdapter.setOnInternalPoliceClickListener(this);
@@ -75,6 +85,14 @@ public class InternalPoliciesFragment extends Fragment implements InternalPolice
         Bundle bundle = new Bundle();
         bundle.putString("question", internalPolice.getQuestion());
         mFirebaseAnalytics.logEvent("see_internal_police", bundle);
+
+        //Sending Tracker to Google Analytics
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Politicas Internas")
+                .setAction(internalPolice.getQuestion())
+                .setLabel("Click")
+                .build()
+        );
 
         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
         CustomTabsIntent customTabsIntent = builder.build();

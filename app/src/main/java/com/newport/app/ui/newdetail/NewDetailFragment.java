@@ -23,6 +23,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.Tracker;
+import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerFragment;
@@ -56,6 +58,9 @@ public class NewDetailFragment extends Fragment implements NewDetailContract.Vie
     private FloatingActionButton fabDetailNew;
     private CoordinatorLayout crdNewDetail;
     private FrameLayout youtube_player;
+
+    // Google Analytics variables
+    private Tracker mTracker;
 
     public NewDetailFragment() {
         // Required empty public constructor
@@ -99,6 +104,9 @@ public class NewDetailFragment extends Fragment implements NewDetailContract.Vie
 
         youtube_player = rootView.findViewById(R.id.youtube_player);
 
+        mTracker = ((NewPortApplication) this.getActivity().getApplication()).getTracker(NewPortApplication.TrackerName.APP_TRACKER);
+        mTracker.setScreenName("NewsDetail");
+
         newDetailPresenter = new NewDetailPresenter();
         newDetailPresenter.attachedView(this);
 
@@ -134,6 +142,13 @@ public class NewDetailFragment extends Fragment implements NewDetailContract.Vie
         newsLogRequest.setId_new(newResponse.getId());
         newsLogPresenter.saveNewsLog(newsLogRequest);
 
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Noticias")
+                .setAction(newResponse.getTitle())
+                .setLabel("Clicked")
+                .build()
+        );
+
         Picasso.with(imgDetailNew.getContext())
                 .load(newResponse.getImage_url())
                 .fit()
@@ -158,11 +173,6 @@ public class NewDetailFragment extends Fragment implements NewDetailContract.Vie
         }
 
         /** Initializating Youtube Player View **/
-        /*if (newResponse.getId() != 34) {
-            youtube_player.setVisibility(View.GONE);
-            return;
-        }*/
-
         if (newResponse.getYoutubeId() == null || newResponse.getYoutubeId().equals("-")
                 || newResponse.getYoutubeId().equals("")) {
             youtube_player.setVisibility(View.GONE);

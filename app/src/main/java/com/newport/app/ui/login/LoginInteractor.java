@@ -30,17 +30,21 @@ class LoginInteractor {
             public void onResponse(@NonNull Call<LoginResponse> call, @NonNull Response<LoginResponse> response) {
 
                 if (response.isSuccessful()) {
-                    if (response.body().getMessage().equals("success")) {
-                        callback.getLoginSucces();
-                        saveUserData(response.body());
-                    } else if (response.body().getMessage().equals("default_password")) {
-                        callback.getLoginError("default_password");
-                    } else if (response.body().getMessage().equals("forgotten_password")) {
-                        callback.getLoginError("forgotten_password");
-                    } else if (response.body().getMessage().equals("incorrect_password")) {
-                        callback.getLoginError("incorrect_password");
-                    } else {
-                        callback.getLoginError(NewPortApplication.getAppContext().getString(R.string.login_error));
+                    if (response.body() != null) {
+                        if (response.body().getMessage().equals("success")) {
+                            callback.getLoginSucces();
+                            saveUserData(response.body());
+                        } else if (response.body().getMessage().equals("default_password")) {
+                            saveUserData(response.body());
+                            callback.getLoginError("default_password");
+                        } else if (response.body().getMessage().equals("forgotten_password")) {
+                            saveUserData(response.body());
+                            callback.getLoginError("forgotten_password");
+                        } else if (response.body().getMessage().equals("incorrect_password")) {
+                            callback.getLoginError("incorrect_password");
+                        } else {
+                            callback.getLoginError(NewPortApplication.getAppContext().getString(R.string.login_error));
+                        }
                     }
                 } else if (response.code() == 401) {
                     callback.getLoginError(NewPortApplication.getAppContext().getString(R.string.dni_unauthorized));

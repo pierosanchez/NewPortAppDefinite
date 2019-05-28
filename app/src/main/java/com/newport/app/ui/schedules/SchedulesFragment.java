@@ -21,6 +21,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.newport.app.NewPortApplication;
 import com.newport.app.R;
@@ -49,6 +51,8 @@ public class SchedulesFragment extends Fragment implements ScheduleContract.View
     //private TextView lbluserSchedule;
 
     private FirebaseAnalytics mFirebaseAnalytics;
+    // Google Analytics variables
+    private Tracker mTracker;
 
     private View rootView;
     private AlertDialog dialog;
@@ -80,6 +84,9 @@ public class SchedulesFragment extends Fragment implements ScheduleContract.View
 
         //Get width system
         int width = PreferencesHeper.getWidthSystem(getActivity());
+        //Instantiate Google Analytics
+        mTracker = ((NewPortApplication) this.getActivity().getApplication()).getTracker(NewPortApplication.TrackerName.APP_TRACKER);
+        mTracker.setScreenName("Schedules");
 
         scheduleAdapter = new ScheduleAdapter(width);
         scheduleAdapter.setOnScheduleClickListener(this);
@@ -157,6 +164,12 @@ public class SchedulesFragment extends Fragment implements ScheduleContract.View
             builder.setExitAnimations(getActivity(), android.R.anim.slide_in_left, android.R.anim.slide_out_right);
             customTabsIntent.launchUrl(getActivity(), Uri.parse(scheduleResponse.getFile_url()));*/
         }
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Horarios")
+                .setAction("Imagen del Horario: " + scheduleResponse.getLogo())
+                .setLabel("Clicked")
+                .build()
+        );
 
         mFirebaseAnalytics.logEvent("see_schedule", bundle);
     }

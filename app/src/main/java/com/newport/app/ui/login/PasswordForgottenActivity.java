@@ -85,7 +85,7 @@ public class PasswordForgottenActivity extends BaseActivity implements LoginCont
         if (userRegisterResponse.getMessage().equals("success")) {
             Toast.makeText(NewPortApplication.getAppContext(), "Contraseña reestablecida exitosamente. Se le enviará la nueva contraseña a su correo.", Toast.LENGTH_SHORT).show();
 
-            Intent intent = new Intent(PasswordForgottenActivity.this, LoginActivity.class);
+            Intent intent = new Intent(PasswordForgottenActivity.this, ConclusionChangeForgottenPasswordActivity.class);
             startActivity(intent);
             finish();
         }

@@ -10,8 +10,8 @@ android {
         applicationId "com.newport.app"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 48
-        versionName "1.1.29"
+        versionCode 49
+        versionName "1.1.30"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -58,17 +58,17 @@ android {
             buildConfigField "String", "LOGIN2", "\"login2\""
             buildConfigField "String", "LOGIN3", "\"login3\""
             buildConfigField "String", "USERREGAPP", "\"user/register\""
-            buildConfigField "String", "CHANGEPASSWORD", "\"newpassword\""
+            buildConfigField "String", "CHANGEPASSWORD", "\"newpassword2\""
             buildConfigField "String", "BOLETASPAGO", "\"user/boletapago/{sap_code}\""
             buildConfigField "String", "VALIDATEACCESSBOLETASPAGO", "\"user/boletapago/access/{sap_code}/{password_user}\""
             buildConfigField "String", "VERIFICATIONUSERALLOWBOLETAPAGO", "\"user/boletapago/verification/{sap_code}\""
             buildConfigField "String", "CHATOWNERMESSAGES", "\"chat/owner/{chat_id}/{owner_id}\""
-            buildConfigField "String", "CHATUSERMESSAGES", "\"chat/user/{chat_id}/{user_id}/{channel_id}\""
+            buildConfigField "String", "CHATUSERMESSAGES", "\"chat/user2/{chat_id}/{user_id}/{channel_id}\""
             buildConfigField "String", "CHATCHANNEL", "\"chat/channel/{user_id}\""
-            buildConfigField "String", "CHATSENDMESSAGE", "\"chat/message\""
+            buildConfigField "String", "CHATSENDMESSAGE", "\"chat/message2\""
             buildConfigField "String", "CHATMESSAGESAWIT", "\"chat/message/{chat_id}\""
             buildConfigField "String", "NEWSLOG", "\"/news/log\""
-            buildConfigField "String", "SETMESSAGESTERMINATED", "\"chat/message/setMessageTerminated/{chat_id}\""
+            buildConfigField "String", "SETMESSAGESTERMINATED", "\"chat/message/setMessageTerminated2/{chat_id}\""
             buildConfigField "String", "SETATTENTIONCALIFICATION", "\"chat/message/attentioncalification\""
         }
 
@@ -112,17 +112,17 @@ android {
             buildConfigField "String", "LOGIN2", "\"login2\""
             buildConfigField "String", "LOGIN3", "\"login3\""
             buildConfigField "String", "USERREGAPP", "\"user/register\""
-            buildConfigField "String", "CHANGEPASSWORD", "\"newpassword\""
+            buildConfigField "String", "CHANGEPASSWORD", "\"newpassword2\""
             buildConfigField "String", "BOLETASPAGO", "\"user/boletapago/{sap_code}\""
             buildConfigField "String", "VALIDATEACCESSBOLETASPAGO", "\"user/boletapago/access/{sap_code}/{password_user}\""
             buildConfigField "String", "VERIFICATIONUSERALLOWBOLETAPAGO", "\"user/boletapago/verification/{sap_code}\""
             buildConfigField "String", "CHATOWNERMESSAGES", "\"chat/owner/{chat_id}/{owner_id}\""
-            buildConfigField "String", "CHATUSERMESSAGES", "\"chat/user/{chat_id}/{user_id}/{channel_id}\""
+            buildConfigField "String", "CHATUSERMESSAGES", "\"chat/user2/{chat_id}/{user_id}/{channel_id}\""
             buildConfigField "String", "CHATCHANNEL", "\"chat/channel/{user_id}\""
-            buildConfigField "String", "CHATSENDMESSAGE", "\"chat/message\""
+            buildConfigField "String", "CHATSENDMESSAGE", "\"chat/message2\""
             buildConfigField "String", "CHATMESSAGESAWIT", "\"chat/message/{chat_id}\""
             buildConfigField "String", "NEWSLOG", "\"news/log\""
-            buildConfigField "String", "SETMESSAGESTERMINATED", "\"chat/message/setMessageTerminated/{chat_id}\""
+            buildConfigField "String", "SETMESSAGESTERMINATED", "\"chat/message/setMessageTerminated2/{chat_id}\""
             buildConfigField "String", "SETATTENTIONCALIFICATION", "\"chat/message/attentioncalification\""
         }
     }
@@ -143,6 +143,7 @@ dependencies {
     implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
     compile 'com.android.support:support-emoji-appcompat:27.0.2'
     compile 'com.android.support:support-emoji-bundled:27.0.2'
+    compile 'com.google.android.gms:play-services-analytics:11.8.0'
     implementation('com.crashlytics.sdk.android:crashlytics:2.7.1@aar') {
         transitive = true
     }

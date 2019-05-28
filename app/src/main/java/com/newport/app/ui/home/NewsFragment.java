@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
@@ -38,7 +39,6 @@ import com.newport.app.util.PreferencesHeper;
 import com.squareup.picasso.Picasso;
 
 import java.util.Calendar;
-import java.util.Timer;
 import java.util.TimerTask;
 
 /**
@@ -60,7 +60,6 @@ public class NewsFragment extends Fragment implements NewsContract.View, NewsAda
     private RecyclerView rcvNewsCategory;
     private int currentPosition = -1;
     private int adapterSize = 0;
-    private int timer = 10000;
 
     //draggable floating button
     private float downRawX;
@@ -108,7 +107,7 @@ public class NewsFragment extends Fragment implements NewsContract.View, NewsAda
     private String urlimageThirdGallery = "";
     private String urlImageFour = "";
 
-    private Timer timerScheduledTask;
+    private TimerTask timerScheduledTask;
     private boolean isFirstTimeLoad = true;
 
     public NewsFragment() {
@@ -186,12 +185,6 @@ public class NewsFragment extends Fragment implements NewsContract.View, NewsAda
         snapHelper.attachToRecyclerView(rcvNewsCategory);
 
         fbChat.setOnTouchListener(this);
-        /*fbChat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(NewPortApplication.getAppContext().getApplicationContext(), ChannelsActivity.class));
-            }
-        });*/
     }
 
     @Override
@@ -272,9 +265,7 @@ public class NewsFragment extends Fragment implements NewsContract.View, NewsAda
 
         // Init
         //First Section
-
-        timerScheduledTask = new Timer();
-        timerScheduledTask.scheduleAtFixedRate(new TimerTask() {
+        timerScheduledTask = new TimerTask() {
             @Override
             public void run() {
                 if (currentPosition < adapterSize - 1) {
@@ -284,9 +275,19 @@ public class NewsFragment extends Fragment implements NewsContract.View, NewsAda
                 }
                 rcvNewsCategory.smoothScrollToPosition(currentPosition);
             }
-        }, 100, timer);
+        };
+        /*timerScheduledTask.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                if (currentPosition < adapterSize - 1) {
+                    currentPosition++;
+                } else {
+                    currentPosition = 0;
+                }
+                rcvNewsCategory.smoothScrollToPosition(currentPosition);
+            }
+        }, 100, timer);*/
 
-        isFirstTimeLoad = false;
         //Second Section
         lnlAtTime.setOnClickListener(this);
 
@@ -317,15 +318,17 @@ public class NewsFragment extends Fragment implements NewsContract.View, NewsAda
                     //.error(android.R.drawable.ic_dialog_alert)
                     .into(imgThirdElementGalleryPhoto);
         } else {
-            Calendar c = Calendar.getInstance();
+            if (getActivity() != null && isAdded()) {
 
-            int dayOfMonth = c.get(Calendar.DAY_OF_MONTH);
+                Calendar c = Calendar.getInstance();
 
-            String[] months = getResources().getStringArray(R.array.months_name);
+                int dayOfMonth = c.get(Calendar.DAY_OF_MONTH);
 
-            rltThirdElementCash.setVisibility(View.VISIBLE);
+                String[] months = getResources().getStringArray(R.array.months_name);
 
-            lblThirdElementCashDate.setText(String.format(getString(R.string.update_to_month), dayOfMonth, months[c.get(Calendar.MONTH)]));
+                rltThirdElementCash.setVisibility(View.VISIBLE);
+                lblThirdElementCashDate.setText(String.format(getString(R.string.update_to_month), dayOfMonth, months[c.get(Calendar.MONTH)]));
+            }
         }
 
         //Fourth Section
@@ -362,8 +365,6 @@ public class NewsFragment extends Fragment implements NewsContract.View, NewsAda
         } else {
             currentPosition = 0;
         }
-
-        timer = 0;
         rcvNewsCategory.scrollToPosition(currentPosition);
     }
 
@@ -374,8 +375,6 @@ public class NewsFragment extends Fragment implements NewsContract.View, NewsAda
         } else {
             currentPosition = adapterSize - 1;
         }
-
-        timer = 0;
         rcvNewsCategory.scrollToPosition(currentPosition);
     }
 

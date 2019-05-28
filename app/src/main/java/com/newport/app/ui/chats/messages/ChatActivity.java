@@ -210,24 +210,33 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Cha
         btnSendCalification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AttentionCalificationRequest attentionCalificationRequest = new AttentionCalificationRequest();
-                attentionCalificationRequest.setCalification(tagCount1[0]);
-                attentionCalificationRequest.setCalification_solution_problem(tagCount2[0]);
-                attentionCalificationRequest.setChat_id(Integer.parseInt(PreferencesHeper.getKeyChatId(NewPortApplication.getAppContext().getApplicationContext())));
-                chatMessageAttentionCalificationPresenter.setAttionCalification(attentionCalificationRequest);
+                if (tagCount1[0] == 0 && tagCount2[0] == 0) {
+                    Toast.makeText(NewPortApplication.getAppContext().getApplicationContext(), "Por favor, califique esta conversación", Toast.LENGTH_SHORT).show();
+                } else if (tagCount1[0] == 0) {
+                    Toast.makeText(NewPortApplication.getAppContext().getApplicationContext(), "Por favor, califique la atención", Toast.LENGTH_SHORT).show();
+                } else if (tagCount2[0] == 0) {
+                    Toast.makeText(NewPortApplication.getAppContext().getApplicationContext(), "Por favor, califique la solución de su problema", Toast.LENGTH_SHORT).show();
+                } else {
+                    AttentionCalificationRequest attentionCalificationRequest = new AttentionCalificationRequest();
+                    attentionCalificationRequest.setCalification(tagCount1[0]);
+                    attentionCalificationRequest.setCalification_solution_problem(tagCount2[0]);
+                    attentionCalificationRequest.setChat_id(Integer.parseInt(PreferencesHeper.getKeyChatId(NewPortApplication.getAppContext().getApplicationContext())));
+                    chatMessageAttentionCalificationPresenter.setAttionCalification(attentionCalificationRequest);
+                }
             }
         });
 
         builder.setView(mView);
+        builder.setCancelable(false);
         dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(false);
         dialog.show();
     }
 
     @Override
     public void showChatsError(String error) {
         messagesLoaded = false;
-        chatPresenter.getChatUserChat(Integer.parseInt(PreferencesHeper.getKeyChatId(NewPortApplication.getAppContext().getApplicationContext())),
-                Integer.parseInt(PreferencesHeper.getKeyChannelId(NewPortApplication.getAppContext().getApplicationContext())));
+        btnFinishConversation.setVisibility(View.GONE);
         Toast.makeText(NewPortApplication.getAppContext().getApplicationContext(), error, Toast.LENGTH_SHORT).show();
     }
 
@@ -235,11 +244,6 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Cha
     public void showSendMessageSuccess(ChatSendMessageResponse chatSendMessageResponse) {
         btnSendMessage.setEnabled(true);
         if (chatSendMessageResponse.getResponse().equals("success")) {
-            if (chatSendMessageResponse.getStatus_chat() == 1) {
-                if (isRRHHUser == false) {
-                    Toast.makeText(NewPortApplication.getAppContext().getApplicationContext(), NewPortApplication.getAppContext().getString(R.string.default_response_message_chat_app), Toast.LENGTH_LONG).show();
-                }
-            }
             PreferencesHeper.setKeyChatId(NewPortApplication.getAppContext().getApplicationContext(), String.valueOf(chatSendMessageResponse.getChat_id()));
             chatPresenter.getChatUserChat(Integer.parseInt(PreferencesHeper.getKeyChatId(NewPortApplication.getAppContext().getApplicationContext())),
                     Integer.parseInt(PreferencesHeper.getKeyChannelId(NewPortApplication.getAppContext().getApplicationContext())));

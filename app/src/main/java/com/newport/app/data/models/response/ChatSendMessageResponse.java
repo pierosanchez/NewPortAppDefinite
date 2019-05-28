@@ -5,6 +5,7 @@ public class ChatSendMessageResponse {
     private String date_message_sended;
     private int chat_id;
     private int status_chat;
+    private int status_message;
 
     public int getStatus_chat() {
         return status_chat;
@@ -36,5 +37,13 @@ public class ChatSendMessageResponse {
 
     public void setDate_message_sended(String date_message_sended) {
         this.date_message_sended = date_message_sended;
+    }
+
+    public int getStatus_message() {
+        return status_message;
+    }
+
+    public void setStatus_message(int status_message) {
+        this.status_message = status_message;
     }
 }

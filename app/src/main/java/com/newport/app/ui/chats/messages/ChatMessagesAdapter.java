@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.newport.app.NewPortApplication;
 import com.newport.app.R;
+import com.newport.app.data.models.response.ChatAutomaticMessageModel;
 import com.newport.app.data.models.response.ChatUserChatResponse;
 import com.newport.app.util.PreferencesHeper;
 
@@ -19,6 +20,7 @@ import java.util.List;
 public class ChatMessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<ChatUserChatResponse.UserChatMessagesBean> userChatMessagesList;
+    private ChatAutomaticMessageModel model;
 
     ChatMessagesAdapter() {
         userChatMessagesList = new ArrayList<>();

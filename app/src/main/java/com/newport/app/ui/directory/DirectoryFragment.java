@@ -11,8 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+import com.newport.app.NewPortApplication;
 import com.newport.app.R;
 import com.newport.app.data.models.response.DirectoryResponse;
+import com.newport.app.util.PreferencesHeper;
 
 import java.util.List;
 
@@ -27,6 +31,9 @@ public class DirectoryFragment extends Fragment implements DirectoryContract.Vie
     private View rootView;
     private CoordinatorLayout crdDirectory;
     private ProgressBar progressBar;
+
+    // Google Analytics variables
+    private Tracker mTracker;
 
     public DirectoryFragment() {
         // Required empty public constructor
@@ -49,8 +56,20 @@ public class DirectoryFragment extends Fragment implements DirectoryContract.Vie
         RecyclerView rcvDirectorio = rootView.findViewById(R.id.rcvDirectorio);
         progressBar = rootView.findViewById(R.id.progressBar);
 
+        //Instantiate Google Analytics
+        mTracker = ((NewPortApplication) this.getActivity().getApplication()).getTracker(NewPortApplication.TrackerName.APP_TRACKER);
+        mTracker.setScreenName("InternalPolicies");
+
         adapter = new DirectoryAdapter(getActivity(), rcvDirectorio);
         rcvDirectorio.setAdapter(adapter);
+
+        //Sending Tracker to Google Analytics
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Directorio Corporativo")
+                .setAction(PreferencesHeper.getSapCodeUser(NewPortApplication.getAppContext().getApplicationContext()) + " entró al directorio corporativo")
+                .setLabel("Click")
+                .build()
+        );
     }
 
     @Override

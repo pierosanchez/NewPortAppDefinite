@@ -4,6 +4,7 @@
     <string name="user_hint">USUARIO</string>
     <string name="pass_hint">CONTRASEÑA</string>
     <string name="new_pass_hint">NUEVA CONTRASEÑA</string>
+    <string name="repeat_new_pass_hint">REPETIR CONTRASEÑA</string>
     <string name="sap_hint">CÓDIGO COLABORADOR</string>
     <string name="newport_mail_domain">@e-newport.pe</string>
     <string name="access_button">ACCEDER</string>
@@ -210,5 +211,6 @@
     <string name="btn_terminar_conversacion">Terminar Conversación</string>
     <string name="no_chats_response">no_chats</string>
     <string name="hint_write_ur_message">Escribe tu mensaje</string>
+    <string name="lbl_forgotten_pass_advise">Se envió su nueva contraseña al correo web: </string>
 
 </resources>
