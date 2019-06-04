@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -159,11 +160,12 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Cha
     private void showAttentionCalification() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         final View mView = this.getLayoutInflater().inflate(R.layout.dialog_chat_attention_calification, null);
+        final RadioGroup rdgrpproblemSolution = mView.findViewById(R.id.rdgrpProblemSolution);
         Button btnSendCalification = mView.findViewById(R.id.btnSendCalification);
-        final int[] tagCount1 = {0};
+        //final int[] tagCount1 = {0};
         final int[] tagCount2 = {0};
 
-        View.OnClickListener starsListener1 = new View.OnClickListener() {
+        /*View.OnClickListener starsListener1 = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int tag1 = Integer.valueOf((String) v.getTag());
@@ -178,7 +180,8 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Cha
                     btnStar1.setChecked(false);
                 }
             }
-        };
+        };*/
+
 
         View.OnClickListener starsListener2 = new View.OnClickListener() {
             @Override
@@ -197,10 +200,10 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Cha
             }
         };
 
-        for (int i = 1; i <= 5; i++) {
+        /*for (int i = 1; i <= 5; i++) {
             btnStar1 = (CheckBox) mView.findViewWithTag(String.valueOf(i));
             btnStar1.setOnClickListener(starsListener1);
-        }
+        }*/
 
         for (int i = 6; i <= 10; i++) {
             btnStar2 = (CheckBox) mView.findViewWithTag(String.valueOf(i));
@@ -210,7 +213,7 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Cha
         btnSendCalification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (tagCount1[0] == 0 && tagCount2[0] == 0) {
+                /*if (tagCount1[0] == 0 && tagCount2[0] == 0) {
                     Toast.makeText(NewPortApplication.getAppContext().getApplicationContext(), "Por favor, califique esta conversación", Toast.LENGTH_SHORT).show();
                 } else if (tagCount1[0] == 0) {
                     Toast.makeText(NewPortApplication.getAppContext().getApplicationContext(), "Por favor, califique la atención", Toast.LENGTH_SHORT).show();
@@ -220,6 +223,25 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Cha
                     AttentionCalificationRequest attentionCalificationRequest = new AttentionCalificationRequest();
                     attentionCalificationRequest.setCalification(tagCount1[0]);
                     attentionCalificationRequest.setCalification_solution_problem(tagCount2[0]);
+                    attentionCalificationRequest.setChat_id(Integer.parseInt(PreferencesHeper.getKeyChatId(NewPortApplication.getAppContext().getApplicationContext())));
+                    chatMessageAttentionCalificationPresenter.setAttionCalification(attentionCalificationRequest);
+                }*/
+                if (tagCount2[0] == 0 && rdgrpproblemSolution.getCheckedRadioButtonId() == 0) {
+                    Toast.makeText(NewPortApplication.getAppContext().getApplicationContext(), "Por favor, califique esta conversación", Toast.LENGTH_SHORT).show();
+                } else if (tagCount2[0] == 0) {
+                    Toast.makeText(NewPortApplication.getAppContext().getApplicationContext(), "Por favor, califique la atencion brindada", Toast.LENGTH_SHORT).show();
+                } else if (rdgrpproblemSolution.getCheckedRadioButtonId() == 0) {
+                    Toast.makeText(NewPortApplication.getAppContext().getApplicationContext(), "Por favor, indique si solucionaron su problema", Toast.LENGTH_SHORT).show();
+                } else {
+                    int isSolutioned = 0;
+                    if (rdgrpproblemSolution.getCheckedRadioButtonId() == R.id.rdbtnSolutioned) {
+                        isSolutioned = 1; //si se soluciono el problema
+                    } else {
+                        isSolutioned = 2; //no se soluciono el problema
+                    }
+                    AttentionCalificationRequest attentionCalificationRequest = new AttentionCalificationRequest();
+                    attentionCalificationRequest.setCalification(tagCount2[0]);
+                    attentionCalificationRequest.setCalification_solution_problem(isSolutioned);
                     attentionCalificationRequest.setChat_id(Integer.parseInt(PreferencesHeper.getKeyChatId(NewPortApplication.getAppContext().getApplicationContext())));
                     chatMessageAttentionCalificationPresenter.setAttionCalification(attentionCalificationRequest);
                 }

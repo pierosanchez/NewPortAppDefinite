@@ -12,6 +12,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.perf.metrics.AddTrace;
@@ -34,6 +36,9 @@ public class MainActivity extends BaseActivity implements
     private boolean sensibleFragment = false;
     private FirebaseAnalytics mFirebaseAnalytics;
     private String token;
+
+    // Google Analytics variables
+    private Tracker mTracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +63,11 @@ public class MainActivity extends BaseActivity implements
         menu = bnvMenu.getMenu();
         logoPrincipal = menu.findItem(R.id.navigation_questions);
         logoPrincipal.setIcon(R.drawable.logo_deactivated);
+
+
+        //Instantiate Google Analytics
+        mTracker = ((NewPortApplication) this.getApplication()).getTracker(NewPortApplication.TrackerName.APP_TRACKER);
+        mTracker.setScreenName("PrincipalScreen");
 
         if (savedInstanceState == null) {
             //Init first fragment
@@ -217,6 +227,13 @@ public class MainActivity extends BaseActivity implements
 
     @Override
     public void onLateDateClick() {
+        //send tracker to Google Analytics
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Tardanzas")
+                .setAction("Click en la sección de Tardanzas")
+                .setLabel("Clicked")
+                .build()
+        );
         PreferencesHeper.setScrollProfileStatus(NewPortApplication.getAppContext(), true);
         MenuItem menuItem = menu.findItem(R.id.navigation_profile);
         onNavigationItemSelected(menuItem);
