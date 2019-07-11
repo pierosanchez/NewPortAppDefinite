@@ -16,6 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.newport.app.NewPortApplication;
 import com.newport.app.R;
 import com.newport.app.data.models.request.AttentionCalificationRequest;
@@ -56,6 +58,9 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Cha
     private ChatMessageTerminatedPresenter chatMessageTerminatedPresenter;
     private ChatMessageAttentionCalificationPresenter chatMessageAttentionCalificationPresenter;
 
+    // Google Analytics variables
+    private Tracker mTracker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +90,10 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Cha
 
         chatMessagesAdapter = new ChatMessagesAdapter();
         rvChatMessages.setAdapter(chatMessagesAdapter);
+
+        //Instantiate Google Analytics
+        mTracker = ((NewPortApplication) this.getApplication()).getTracker(NewPortApplication.TrackerName.APP_TRACKER);
+        mTracker.setScreenName("ChatActivity");
 
         btnSendMessage.setOnClickListener(this);
         btnFinishConversation.setOnClickListener(this);
@@ -130,9 +139,23 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Cha
                 if (chatUserChatResponse.getNOMBRE() != null) {
                     tvChatUserName.setText(chatUserChatResponse.getNOMBRE());
                     isRRHHUser = true;
+                    //Sending Tracker to Google Analytics
+                    mTracker.send(new HitBuilders.EventBuilder()
+                            .setCategory("Pantalla del chat")
+                            .setAction(chatUserChatResponse.getNOMBRE())
+                            .setLabel("Click")
+                            .build()
+                    );
                 } else {
                     tvChatUserName.setText(PreferencesHeper.getKeyChannelName(NewPortApplication.getAppContext().getApplicationContext()));
                     isRRHHUser = false;
+                    //Sending Tracker to Google Analytics
+                    mTracker.send(new HitBuilders.EventBuilder()
+                            .setCategory("Pantalla del chat")
+                            .setAction(PreferencesHeper.getKeyChannelName(NewPortApplication.getAppContext().getApplicationContext()))
+                            .setLabel("Click")
+                            .build()
+                    );
                 }
             }
 
@@ -244,6 +267,13 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Cha
                     attentionCalificationRequest.setCalification_solution_problem(isSolutioned);
                     attentionCalificationRequest.setChat_id(Integer.parseInt(PreferencesHeper.getKeyChatId(NewPortApplication.getAppContext().getApplicationContext())));
                     chatMessageAttentionCalificationPresenter.setAttionCalification(attentionCalificationRequest);
+                    //Sending Tracker to Google Analytics
+                    mTracker.send(new HitBuilders.EventBuilder()
+                            .setCategory("Pantalla del chat - Calificaciones")
+                            .setAction("calification: " + tagCount2[0] + " is solutioned: " + isSolutioned)
+                            .setLabel("Click")
+                            .build()
+                    );
                 }
             }
         });

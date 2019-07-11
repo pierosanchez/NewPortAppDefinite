@@ -71,6 +71,8 @@ public class ChannelsActivity extends BaseActivity implements ChannelsContract.V
         });
     }
 
+
+
     @Override
     protected void onResume() {
         super.onResume();

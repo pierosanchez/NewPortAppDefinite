@@ -79,12 +79,12 @@
                             android:text="@string/winner_label"
                             android:textSize="9sp" />
 
-                        <!--<TextView
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="7dp"
                             android:text="@string/empate_label"
-                            android:textSize="9sp" />-->
+                            android:textSize="9sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -145,11 +145,11 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginRight="5dp" />
 
-                                    <!--<RadioButton
+                                    <RadioButton
                                         android:id="@+id/group1EmpateCheckbox"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginRight="5dp" />-->
+                                        android:layout_marginRight="5dp" />
 
                                     <RadioButton
                                         android:id="@+id/group1Country2Checkbox"
@@ -239,11 +239,11 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginRight="5dp" />
 
-                                    <!--<RadioButton
+                                    <RadioButton
                                         android:id="@+id/group2EmpateCheckbox"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginRight="5dp" />-->
+                                        android:layout_marginRight="5dp" />
 
                                     <RadioButton
                                         android:id="@+id/group2Country2Checkbox"
@@ -333,11 +333,11 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginRight="5dp" />
 
-                                    <!--<RadioButton
+                                    <RadioButton
                                         android:id="@+id/group3EmpateCheckbox"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginRight="5dp" />-->
+                                        android:layout_marginRight="5dp" />
 
                                     <RadioButton
                                         android:id="@+id/group3Country2Checkbox"
@@ -427,11 +427,11 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginRight="5dp" />
 
-                                    <!--<RadioButton
+                                    <RadioButton
                                         android:id="@+id/group4EmpateCheckbox"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginRight="5dp" />-->
+                                        android:layout_marginRight="5dp" />
 
                                     <RadioButton
                                         android:id="@+id/group4Country2Checkbox"
@@ -489,7 +489,8 @@
                     android:layout_marginTop="10dp"
                     android:background="@drawable/yellow_square_button"
                     android:text="@string/status_mundial_rank"
-                    android:textColor="@android:color/white" />
+                    android:textColor="@android:color/white"
+                    android:visibility="gone"/>
 
             </LinearLayout>
 

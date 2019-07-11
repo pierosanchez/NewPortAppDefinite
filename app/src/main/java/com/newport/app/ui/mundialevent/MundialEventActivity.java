@@ -57,16 +57,16 @@ public class MundialEventActivity extends BaseActivity implements MundialEventCo
 
     private RadioButton group1Country1Checkbox;
     private RadioButton group1Country2Checkbox;
-    //private RadioButton group1EmpateCheckbox;
+    private RadioButton group1EmpateCheckbox;
     private RadioButton group2Country1Checkbox;
     private RadioButton group2Country2Checkbox;
-    //private RadioButton group2EmpateCheckbox;
+    private RadioButton group2EmpateCheckbox;
     private RadioButton group3Country1Checkbox;
     private RadioButton group3Country2Checkbox;
-    //private RadioButton group3EmpateCheckbox;
+    private RadioButton group3EmpateCheckbox;
     private RadioButton group4Country1Checkbox;
     private RadioButton group4Country2Checkbox;
-    //private RadioButton group4EmpateCheckbox;
+    private RadioButton group4EmpateCheckbox;
     private RadioButton radioButton;
 
     private RadioGroup rdgrpPartido1;
@@ -127,16 +127,16 @@ public class MundialEventActivity extends BaseActivity implements MundialEventCo
 
         group1Country1Checkbox = findViewById(R.id.group1Country1Checkbox);
         group1Country2Checkbox = findViewById(R.id.group1Country2Checkbox);
-        //group1EmpateCheckbox = findViewById(R.id.group1EmpateCheckbox);
+        group1EmpateCheckbox = findViewById(R.id.group1EmpateCheckbox);
         group2Country1Checkbox = findViewById(R.id.group2Country1Checkbox);
         group2Country2Checkbox = findViewById(R.id.group2Country2Checkbox);
-        //group2EmpateCheckbox = findViewById(R.id.group2EmpateCheckbox);
+        group2EmpateCheckbox = findViewById(R.id.group2EmpateCheckbox);
         group3Country1Checkbox = findViewById(R.id.group3Country1Checkbox);
         group3Country2Checkbox = findViewById(R.id.group3Country2Checkbox);
-        //group3EmpateCheckbox = findViewById(R.id.group3EmpateCheckbox);
+        group3EmpateCheckbox = findViewById(R.id.group3EmpateCheckbox);
         group4Country1Checkbox = findViewById(R.id.group4Country1Checkbox);
         group4Country2Checkbox = findViewById(R.id.group4Country2Checkbox);
-        //group4EmpateCheckbox = findViewById(R.id.group4EmpateCheckbox);
+        group4EmpateCheckbox = findViewById(R.id.group4EmpateCheckbox);
 
         partido1Layer = findViewById(R.id.partido1Layer);
         partido2Layer = findViewById(R.id.partido2Layer);
@@ -280,44 +280,44 @@ public class MundialEventActivity extends BaseActivity implements MundialEventCo
                     }
                 }
 
-                if (!group1Country1Checkbox.isChecked() && !group1Country2Checkbox.isChecked() /*&& !group1EmpateCheckbox.isChecked()*/ &&
-                        !group2Country1Checkbox.isChecked() && !group2Country2Checkbox.isChecked() /*&& !group2EmpateCheckbox.isChecked()*/ &&
-                        !group3Country1Checkbox.isChecked() && !group3Country2Checkbox.isChecked() /*&& !group3EmpateCheckbox.isChecked()*/ &&
-                        !group4Country1Checkbox.isChecked() && !group4Country2Checkbox.isChecked() /*&& !group4EmpateCheckbox.isChecked()*/) {
+                if (!group1Country1Checkbox.isChecked() && !group1Country2Checkbox.isChecked() && !group1EmpateCheckbox.isChecked() &&
+                        !group2Country1Checkbox.isChecked() && !group2Country2Checkbox.isChecked() && !group2EmpateCheckbox.isChecked() &&
+                        !group3Country1Checkbox.isChecked() && !group3Country2Checkbox.isChecked() && !group3EmpateCheckbox.isChecked() &&
+                        !group4Country1Checkbox.isChecked() && !group4Country2Checkbox.isChecked() && !group4EmpateCheckbox.isChecked()) {
                     Toast.makeText(NewPortApplication.getAppContext(), "Seleccione alguna casilla, por favor.", Toast.LENGTH_SHORT).show();
                 } else {
                     if (currentMatchs.size() == 1) {
-                        if (!group1Country1Checkbox.isChecked() && !group1Country2Checkbox.isChecked() /*&& !group1EmpateCheckbox.isChecked()*/) {
+                        if (!group1Country1Checkbox.isChecked() && !group1Country2Checkbox.isChecked() && !group1EmpateCheckbox.isChecked()) {
                             Toast.makeText(NewPortApplication.getAppContext(), "Seleccione alguna casilla, por favor.", Toast.LENGTH_SHORT).show();
                         } else {
                             onClickButtonSave();
                         }
                     } else if (currentMatchs.size() == 2) {
-                        if (!group1Country1Checkbox.isChecked() && !group1Country2Checkbox.isChecked() /*&& !group1EmpateCheckbox.isChecked()*/) {
+                        if (!group1Country1Checkbox.isChecked() && !group1Country2Checkbox.isChecked() && !group1EmpateCheckbox.isChecked()) {
                             Toast.makeText(NewPortApplication.getAppContext(), "Seleccione alguna casilla, por favor.", Toast.LENGTH_SHORT).show();
-                        } else if (!group2Country1Checkbox.isChecked() && !group2Country2Checkbox.isChecked() /*&& !group2EmpateCheckbox.isChecked()*/) {
+                        } else if (!group2Country1Checkbox.isChecked() && !group2Country2Checkbox.isChecked() && !group2EmpateCheckbox.isChecked()) {
                             Toast.makeText(NewPortApplication.getAppContext(), "Seleccione alguna casilla, por favor.", Toast.LENGTH_SHORT).show();
                         } else {
                             onClickButtonSave();
                         }
                     } else if (currentMatchs.size() == 3) {
-                        if (!group1Country1Checkbox.isChecked() && !group1Country2Checkbox.isChecked() /*&& !group1EmpateCheckbox.isChecked()*/) {
+                        if (!group1Country1Checkbox.isChecked() && !group1Country2Checkbox.isChecked() && !group1EmpateCheckbox.isChecked()) {
                             Toast.makeText(NewPortApplication.getAppContext(), "Seleccione alguna casilla, por favor.", Toast.LENGTH_SHORT).show();
-                        } else if (!group2Country1Checkbox.isChecked() && !group2Country2Checkbox.isChecked() /*&& !group2EmpateCheckbox.isChecked()*/) {
+                        } else if (!group2Country1Checkbox.isChecked() && !group2Country2Checkbox.isChecked() && !group2EmpateCheckbox.isChecked()) {
                             Toast.makeText(NewPortApplication.getAppContext(), "Seleccione alguna casilla, por favor.", Toast.LENGTH_SHORT).show();
-                        } else if (!group3Country1Checkbox.isChecked() && !group3Country2Checkbox.isChecked() /*&& !group3EmpateCheckbox.isChecked()*/) {
+                        } else if (!group3Country1Checkbox.isChecked() && !group3Country2Checkbox.isChecked() && !group3EmpateCheckbox.isChecked()) {
                             Toast.makeText(NewPortApplication.getAppContext(), "Seleccione alguna casilla, por favor.", Toast.LENGTH_SHORT).show();
                         } else {
                             onClickButtonSave();
                         }
                     } else {
-                        if (!group1Country1Checkbox.isChecked() && !group1Country2Checkbox.isChecked() /*&& !group1EmpateCheckbox.isChecked()*/) {
+                        if (!group1Country1Checkbox.isChecked() && !group1Country2Checkbox.isChecked() && !group1EmpateCheckbox.isChecked()) {
                             Toast.makeText(NewPortApplication.getAppContext(), "Seleccione alguna casilla, por favor.", Toast.LENGTH_SHORT).show();
-                        } else if (!group2Country1Checkbox.isChecked() && !group2Country2Checkbox.isChecked() /*&& !group2EmpateCheckbox.isChecked()*/) {
+                        } else if (!group2Country1Checkbox.isChecked() && !group2Country2Checkbox.isChecked() && !group2EmpateCheckbox.isChecked()) {
                             Toast.makeText(NewPortApplication.getAppContext(), "Seleccione alguna casilla, por favor.", Toast.LENGTH_SHORT).show();
-                        } else if (!group3Country1Checkbox.isChecked() && !group3Country2Checkbox.isChecked() /*&& !group3EmpateCheckbox.isChecked()*/) {
+                        } else if (!group3Country1Checkbox.isChecked() && !group3Country2Checkbox.isChecked() && !group3EmpateCheckbox.isChecked()) {
                             Toast.makeText(NewPortApplication.getAppContext(), "Seleccione alguna casilla, por favor.", Toast.LENGTH_SHORT).show();
-                        } else if (!group4Country1Checkbox.isChecked() && !group4Country2Checkbox.isChecked() /*&& !group4EmpateCheckbox.isChecked()*/) {
+                        } else if (!group4Country1Checkbox.isChecked() && !group4Country2Checkbox.isChecked() && !group4EmpateCheckbox.isChecked()) {
                             Toast.makeText(NewPortApplication.getAppContext(), "Seleccione alguna casilla, por favor.", Toast.LENGTH_SHORT).show();
                         } else {
                             onClickButtonSave();

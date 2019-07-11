@@ -145,7 +145,7 @@ public class NewDetailFragment extends Fragment implements NewDetailContract.Vie
         mTracker.send(new HitBuilders.EventBuilder()
                 .setCategory("Noticias")
                 .setAction(newResponse.getTitle())
-                .setLabel("Clicked")
+                .setLabel("Clicked by: " + PreferencesHeper.getSapCodeUser(NewPortApplication.getAppContext()))
                 .build()
         );
 
